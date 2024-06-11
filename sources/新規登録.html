@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規会員登録</title>
+    <link rel="stylesheet" href="shinkitouroku.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">GarbaGe</div>
+            <ul class="nav-links">
+                <li><a href="#login">ログイン</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="register-box">
+            <h1>新規会員登録</h1>
+            <form action="/register" method="POST">
+                <div class="input-group">
+                    <input type="text" id="name" name="name" placeholder="ユーザー名" required>
+                    <p class="note">※記号不可</p>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" name="email" placeholder="メールアドレス" required>
+                    <p class="note">※登録済みのメールアドレスは利用できません。</p>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="パスワード" required>
+                    <p class="note">※半角英数8~16文字</p>
+                </div>
+                <button type="submit">登録</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; Wiz株式会社 team-G .2024</p>
+    </footer>
+</body>
+</html>
