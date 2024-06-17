@@ -1,7 +1,7 @@
 <?php
 /*!
-@file index.php
-@brief メインメニュー
+@file mail_thanks.php
+@brief メール送信終了
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
@@ -43,25 +43,8 @@ class cmain_node extends cnode {
 ?>
 <!-- コンテンツ　-->
 <div class="contents">
-<h5><strong>メインメニュー</strong></h5>
-ようこそ<?= get_admin_name(); ?>さん
-<table class="table table-bordered">
-<thead>
-<tr>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="member_list.php" class="nav-link link-success">メンバー管理</a></td>
-</tr>
-<tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></td>
-</tr>
-<tr>
-<td><a href="mail_chk.php" class="nav-link link-success">メール送信テスト</a></td>
-</tr>
-</tbody>
-</table>
+<h5><strong>メール送信終了</strong></h5>
+メール送信しました
 </div>
 <!-- /コンテンツ　-->
 <?php 

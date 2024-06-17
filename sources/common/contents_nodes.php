@@ -45,7 +45,7 @@ class cheader extends cnode {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PHPBase2サンプル</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <!-- 全体コンテナ　-->
@@ -53,10 +53,10 @@ class cheader extends cnode {
 <header class="d-flex justify-content-center py-3 border-dark border-bottom">
 <ul class="nav nav-pills">
 <li class="nav-item"><a href="index.php" class="nav-link link-success">メインメニュー</a></li>
-<li class="nav-item"><a href="prefecture_list.php" class="nav-link link-success">都道府県管理</a></li>
 <li class="nav-item"><a href="member_list.php" class="nav-link link-success">メンバー管理</a></li>
-<li class="nav-item"><a href="member_list_custom.php" class="nav-link link-success">メンバー管理（カスタムノード）</a></li>
-<li class="nav-item"><a href="hinagata.php" class="nav-link link-success">雛形ファイル</a></li>
+<li class="nav-item"><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></li>
+<li class="nav-item"><a href="mail_chk.php" class="nav-link link-success">メール送信テスト</a></li>
+<li class="nav-item"><a href="admin_login.php" class="nav-link link-success">ログアウト</a></li>
 </ul>
 </header>
 END_BLOCK;
@@ -73,10 +73,250 @@ END_BLOCK;
 	}
 }
 
+
+//--------------------------------------------------------------------------------------
+///	メンバーヘッダノード
+//--------------------------------------------------------------------------------------
+class cmember_header extends cnode {
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	コンストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __construct() {
+		//親クラスのコンストラクタを呼ぶ
+		parent::__construct();
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	構築時の処理(継承して使用)
+	@return	なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function create(){
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief  表示(継承して使用)
+	@return なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function display(){
+		$echo_str = <<< END_BLOCK
+
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHPBase2サンプル</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<!-- 全体コンテナ　-->
+<div class="container">
+<header class="d-flex justify-content-center py-3 border-dark border-bottom">
+<ul class="nav nav-pills">
+<li class="nav-item"><a href="index.php" class="nav-link link-success">メインメニュー</a></li>
+<li class="nav-item"><a href="login.php" class="nav-link link-success">ログアウト</a></li>
+</ul>
+</header>
+END_BLOCK;
+		echo $echo_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	デストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __destruct(){
+		//親クラスのデストラクタを呼ぶ
+		parent::__destruct();
+	}
+}
+
+
+
+//--------------------------------------------------------------------------------------
+///	ログインヘッダノード
+//--------------------------------------------------------------------------------------
+class clogin_header extends cnode {
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	コンストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __construct() {
+		//親クラスのコンストラクタを呼ぶ
+		parent::__construct();
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	構築時の処理(継承して使用)
+	@return	なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function create(){
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief  表示(継承して使用)
+	@return なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function display(){
+		$echo_str = <<< END_BLOCK
+
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHPBase2サンプル</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<!-- 全体コンテナ　-->
+<div class="container">
+<header class="d-flex justify-content-center py-3 border-dark border-bottom">
+</header>
+END_BLOCK;
+		echo $echo_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	デストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __destruct(){
+		//親クラスのデストラクタを呼ぶ
+		parent::__destruct();
+	}
+}
+
+
+//--------------------------------------------------------------------------------------
+///	メンバーログインヘッダノード
+//--------------------------------------------------------------------------------------
+class cmember_login_header extends cnode {
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	コンストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __construct() {
+		//親クラスのコンストラクタを呼ぶ
+		parent::__construct();
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	構築時の処理(継承して使用)
+	@return	なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function create(){
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief  表示(継承して使用)
+	@return なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function display(){
+		$echo_str = <<< END_BLOCK
+
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHPBase2サンプル</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<!-- 全体コンテナ　-->
+<div class="container">
+<header class="d-flex justify-content-center py-3 border-dark border-bottom">
+</header>
+END_BLOCK;
+		echo $echo_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	デストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __destruct(){
+		//親クラスのデストラクタを呼ぶ
+		parent::__destruct();
+	}
+}
+
+
 //--------------------------------------------------------------------------------------
 ///	フッターノード
 //--------------------------------------------------------------------------------------
 class cfooter extends cnode {
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	コンストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __construct() {
+		//親クラスのコンストラクタを呼ぶ
+		parent::__construct();
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	構築時の処理(継承して使用)
+	@return	なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function create(){
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief  表示(継承して使用)
+	@return なし
+	*/
+	//--------------------------------------------------------------------------------------
+	public function display(){
+		$echo_str = <<< END_BLOCK
+
+<footer class="py-3 my-4 border-dark border-top">
+<p class="text-center text-body-secondary">&copy; 2024 PHPBase2</p>
+</footer>
+</div>
+<!-- /全体コンテナ　-->
+<div class="b-divider"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+<script src="../js/scripts.js"></script>
+</body>
+</html>
+END_BLOCK;
+		echo $echo_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	デストラクタ
+	*/
+	//--------------------------------------------------------------------------------------
+	public function __destruct(){
+		//親クラスのデストラクタを呼ぶ
+		parent::__destruct();
+	}
+}
+
+
+//--------------------------------------------------------------------------------------
+///	メンバーフッターノード
+//--------------------------------------------------------------------------------------
+class cmember_footer extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
@@ -128,6 +368,8 @@ END_BLOCK;
 		parent::__destruct();
 	}
 }
+
+
 
 
 //--------------------------------------------------------------------------------------
