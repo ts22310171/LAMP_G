@@ -94,6 +94,7 @@ nav {
     font-size: 1rem;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    margin: 5px;
 }
 
 .button:hover {
