@@ -11,11 +11,11 @@
   <!-- Script -->
   <link rel="stylesheet" href="../../css/app.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="../../common/tailwind.config.js"></script>
+  <script src="../common/tailwind.config.js"></script>
 </head>
 
 <body class="bg-main">
-  <?php include('common//header.php'); ?>
+  <?php include ($_SERVER['DOCUMENT_ROOT'] . "/sources/common/header.php"); ?>
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
