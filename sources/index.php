@@ -13,7 +13,7 @@
         }
 
         .container {
-            
+
             background-color: #f9f9f9;
             text-align: center;
         }
@@ -50,7 +50,7 @@
 </head>
 
 <body>
-    <?php include($_SERVER['DOCUMENT_ROOT'] . "/sources/common/header.php"); ?>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="container">
         <p>チャット相談でお部屋を片付けませんか？</p>
         <button>ログイン</button>
@@ -62,7 +62,7 @@
         <img src="images/plan_detail3.png" alt="画像3">
         <img src="images/plan_detail4.png" alt="画像4">
     </div>
-
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 
 </html>

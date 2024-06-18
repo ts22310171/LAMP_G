@@ -13,22 +13,22 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="tailwind.config.js"></script>
+  <script src="common/tailwind.config.js"></script>
 </head>
 
 <body class="bg-main">
   <header>
     <div class="bg-main border border-blackcolor h-20 flex justify-between items-center">
       <div class="flex items-center">
-        <a href="http://localhost:3000/sources/index.php" class="flex items-center">
-          <img src="images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">
+          <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
           <div class="-ml-2 text-2xl text-blackcolor font-bold">
             Garba<span class="text-sub">Ge</span>
           </div>
         </a>
       </div>
       <div>
-        <a href="http://localhost:3000/sources/user/login.php" class="text-base text-blackcolor font-bold mr-5">
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class="text-base text-blackcolor font-bold mr-5">
           ログイン
         </a>
       </div>

@@ -1,3 +1,41 @@
+<?php
+//フォームからの値をそれぞれ変数に代入
+$name = $_POST['name'];
+$email = $_POST['email'];
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$dsn = "mysql:host=localhost; dbname=xxx; charset=utf8";
+$username = "xxx";
+$password = "xxx";
+try {
+    $dbh = new PDO($dsn, $username, $password);
+} catch (PDOException $e) {
+    $msg = $e->getMessage();
+}
+
+//フォームに入力されたemailがすでに登録されていないかチェック
+$sql = "SELECT * FROM users WHERE email = :email";
+$stmt = $dbh->prepare($sql);
+$stmt->bindValue(':email', $email);
+$stmt->execute();
+$member = $stmt->fetch();
+if ($member['email'] === $email) {
+    $msg = '同じメールアドレスが存在します。';
+    $link = '<a href="signup.php">戻る</a>';
+} else {
+    //登録されていなければinsert 
+    $sql = "INSERT INTO users(name, email, password) VALUES (:name, :email, :password)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':name', $name);
+    $stmt->bindValue(':email', $email);
+    $stmt->bindValue(':password', $password);
+    $stmt->execute();
+    $msg = '会員登録が完了しました';
+    $link = '<a href="login.php">ログインページ</a>';
+}
+?>
+
+<h1><?php echo $msg; ?></h1><!--メッセージの出力-->
+<?php echo $link; ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -19,7 +57,7 @@
     <div class="container">
         <div class="register-box">
             <h1>新規会員登録</h1>
-            <form action="/register" method="POST">
+            <form action="" method="POST">
                 <div class="input-group">
                     <input type="text" id="name" name="name" placeholder="ユーザー名" required>
                     <p class="note">※記号不可</p>

@@ -23,16 +23,11 @@
   </head>
 
   <body class="bg-main">
-    <footer>
+    <footer class="fixed bottom-0 w-full">
       <div class="bg-thingreen">
         <div class="flex items-center">
-          <a href="/index.php" class="flex items-center">
-            <img
-              src="../images/GarbaGe favicon3.png"
-              width="60"
-              height="60"
-              class="ml-4"
-            />
+          <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">
+            <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon3.png" width="60" height="60" class="ml-4" />
             <h1 class="-ml-2 text-2xl font-bold text-blackcolor font-bold">
               Garba<span class="text-sub">Ge</span>
             </h1>
