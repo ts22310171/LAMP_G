@@ -62,43 +62,57 @@ nav {
     width: 100%;
     max-width: 600px;
     padding: 5rem;
-    margin-top: 3rem; /* コンテンツがヘッダーの下に隠れないように調整 */
-    text-align: center;
+    margin-top: 4rem; /* コンテンツがヘッダーの下に隠れないように調整 */
 }
 
-.complete-box {
-    background-color: #fff;
-    padding: 2rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
+.image-container img {
+    max-width: auto;
+    height: 400px;
+    display: block;
+    margin-right: auto;
 }
 
-.complete-box h1 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+.content-container {
+    padding: 20px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.complete-box p {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    color: #666;
-}
-
-.button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
+button {
+    width: 300px;
+    padding: 0.75rem;
+    margin: 15px;
+    border: none;
+    border-radius: 4px;
     background-color: #333;
     color: #fff;
-    border-radius: 4px;
-    text-decoration: none;
     font-size: 1rem;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 5px;
 }
 
-.button:hover {
+button:hover {
     background-color: #555;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+ul {
+    margin-bottom: 20px;
+}
+
+ul li {
+    margin-left: 20px;
+    list-style-type: disc;
 }
 
 footer {
