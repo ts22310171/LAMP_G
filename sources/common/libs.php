@@ -22,4 +22,19 @@ require_once("contents_func.php");
 require_once("contents_db.php");
 require_once("contents_nodes.php");
 
+/* htmlspecialcharsを短くする */
+function h($value)
+{
+    return htmlspecialchars($value, ENT_QUOTES);
+}
 
+/* DBへの接続 */
+function dbconnect(){
+    $db = new mysqli('localhost', 'd202425db', 'NRPiH7UKpNBsxjXB', 'd202425db');
+
+    if (!$db) {
+		die($db->error);
+	}
+
+    return $db;
+}
