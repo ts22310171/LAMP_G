@@ -1,0 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+
+body {
+    /* このコードだけでフォントが指定される */
+    font-family: "Noto Sans JP";
+}

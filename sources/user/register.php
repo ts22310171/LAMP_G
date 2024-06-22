@@ -1,81 +1,52 @@
-<?php
-//フォームからの値をそれぞれ変数に代入
-$name = $_POST['name'];
-$email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-$dsn = "mysql:host=localhost; dbname=xxx; charset=utf8";
-$username = "xxx";
-$password = "xxx";
-try {
-    $dbh = new PDO($dsn, $username, $password);
-} catch (PDOException $e) {
-    $msg = $e->getMessage();
-}
-
-//フォームに入力されたemailがすでに登録されていないかチェック
-$sql = "SELECT * FROM users WHERE email = :email";
-$stmt = $dbh->prepare($sql);
-$stmt->bindValue(':email', $email);
-$stmt->execute();
-$member = $stmt->fetch();
-if ($member['email'] === $email) {
-    $msg = '同じメールアドレスが存在します。';
-    $link = '<a href="signup.php">戻る</a>';
-} else {
-    //登録されていなければinsert 
-    $sql = "INSERT INTO users(name, email, password) VALUES (:name, :email, :password)";
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':name', $name);
-    $stmt->bindValue(':email', $email);
-    $stmt->bindValue(':password', $password);
-    $stmt->execute();
-    $msg = '会員登録が完了しました';
-    $link = '<a href="login.php">ログインページ</a>';
-}
-?>
-
-<h1><?php echo $msg; ?></h1><!--メッセージの出力-->
-<?php echo $link; ?>
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規会員登録</title>
-    <link rel="stylesheet" href="css/shinkitouroku.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>会員登録</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Script -->
+    <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../common/tailwind.config.js"></script>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">GarbaGe</div>
-            <ul class="nav-links">
-                <li><a href="#login">ログイン</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container">
-        <div class="register-box">
-            <h1>新規会員登録</h1>
-            <form action="" method="POST">
-                <div class="input-group">
-                    <input type="text" id="name" name="name" placeholder="ユーザー名" required>
-                    <p class="note">※記号不可</p>
-                </div>
-                <div class="input-group">
-                    <input type="email" id="email" name="email" placeholder="メールアドレス" required>
-                    <p class="note">※登録済みのメールアドレスは利用できません。</p>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="password" name="password" placeholder="パスワード" required>
-                    <p class="note">※半角英数8~16文字</p>
-                </div>
-                <button type="submit">登録</button>
-            </form>
+
+<body class="bg-main">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="w-full bg-white rounded-lg border border-graycolor md:mt-0 sm:max-w-md xl:p-0">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="flex justify-center text-xl font-bold text-blackcolor md:text-2xl">
+                    会員登録
+                </h1>
+                <form class="space-y-4 md:space-y-6" action="" method="post">
+                    <div class="px-6">
+                        <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
+                        <input type="text" name="user_name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-sub focus:outline-none  focus:border-sub block w-full p-2" placeholder="garbageさん" required>
+                    </div>
+                    <div class="px-6">
+                        <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
+                        <input type="email" name="email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-sub focus:outline-none  focus:border-sub block w-full p-2" placeholder="mail@example.com" required>
+                    </div>
+                    <div class="px-6">
+                        <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
+                        <label class="block mb-2 text-xs text-explain">8文字以上の半角英数記号</label>
+                        <input type="password" name="password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-sub focus:outline-none  focus:border-sub block w-full p-2" required>
+                    </div>
+                    <div class="px-6">
+                        <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">登録</button>
+                    </div>
+                    <div class="border-t border-graycolor my-4"></div>
+                    <p class="flex justify-center text-sm font-light text-gray-500 ">
+                        <a href="register.php" class="font-medium text-primary-600 underline hover:text-explain">ログイン</a>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
-    <footer>
-        <p>&copy; Wiz株式会社 team-G .2024</p>
-    </footer>
 </body>
+
 </html>

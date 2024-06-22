@@ -30,7 +30,7 @@ function h($value)
 
 /* DBへの接続 */
 function dbconnect(){
-    $db = new mysqli('localhost', 'root', 'root', 'min_bbs');
+    $db = new mysqli('localhost', 'd202425db', 'NRPiH7UKpNBsxjXB', 'd202425db');
 
     if (!$db) {
 		die($db->error);
