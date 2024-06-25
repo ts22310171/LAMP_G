@@ -25,11 +25,11 @@
         <form class="space-y-4 md:space-y-6" action="" method="post">
           <div class="px-6">
             <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
-            <input type="email" name="email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-sub focus:outline-none  focus:border-sub block w-full p-2" placeholder="mail@example.com" required>
+            <input type="email" name="email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
           </div>
           <div class="px-6">
             <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
-            <input type="password" name="password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-sub focus:outline-none  focus:border-sub block w-full p-2" required>
+            <input type="password" name="password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
           </div>
           <div class="flex items-center justify-center ">
             <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover ">パスワードをお忘れですか？</a>
