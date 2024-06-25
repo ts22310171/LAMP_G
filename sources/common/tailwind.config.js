@@ -11,6 +11,7 @@ tailwind.config = {
         alarmhover: "#970404",
         blackcolor: "#333333",
         graycolor: "#ADADAD",
+        grayhover: "#919191",
         whitecolor: "#FDFDFD",
         whitehover: "#F2F2F2",
         thingreen: "#E3ECE9",
