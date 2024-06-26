@@ -4,8 +4,8 @@ const toggleArrow = document.getElementById("arrow");
 
 // Toggle dropdown function
 const toggleDropdown = function () {
-  dropdownMenu.classList.toggle("show");
-  toggleArrow.classList.toggle("arrow");
+  dropdownMenu.classList.toggle("hidden");
+  toggleArrow.classList.toggle("rotate-180");
 };
 
 // Toggle dropdown open/close when dropdown button is clicked
@@ -16,7 +16,7 @@ dropdownBtn.addEventListener("click", function (e) {
 
 // Close dropdown when dom element is clicked
 document.documentElement.addEventListener("click", function () {
-  if (dropdownMenu.classList.contains("show")) {
+  if (!dropdownMenu.classList.contains("hidden")) {
     toggleDropdown();
   }
 });
