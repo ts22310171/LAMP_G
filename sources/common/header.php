@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+require('libs.php');
+
+$user_name = $_SESSION['user_name'];
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -22,75 +32,35 @@
       <div class="flex items-center">
         <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">
           <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
-          <div class="-ml-2 text-2xl text-blackcolor font-bold">
+          <div class="-ml-2 text-2xl text-black font-bold">
             Garba<span class="text-sub">Ge</span>
           </div>
         </a>
       </div>
-      <div>
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class="text-base text-blackcolor font-bold mr-5">
+
+      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) : ?>
+        <div class="relative">
+          <div class="rounded shadow bg-whitecolor p-2">
+            <button class="text-blackcolor" id="btn">
+              <?php echo h($user_name); ?>
+              <i class="fa-solid fa-chevron-down text-explain" id="arrow"></i>
+            </button>
+          </div>
+          <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
+            <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
+            <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>アカウント設定</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
+          </div>
+        </div>
+      <?php else : ?>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class="text-base text-black font-bold mr-5">
           ログイン
         </a>
-      </div>
-      <div class="container">
-        <button class="btn" id="btn">
-          Dropdown
-          <i class="bx bx-chevron-down" id="arrow"></i>
-        </button>
-
-        <div class="dropdown" id="dropdown">
-          <a href="#create">
-            <i class="bx bx-plus-circle"></i>
-            Create New
-          </a>
-          <a href="#draft">
-            <i class="bx bx-book"></i>
-            All Drafts
-          </a>
-          <a href="#move">
-            <i class="bx bx-folder"></i>
-            Move To
-          </a>
-          <a href="#profile">
-            <i class="bx bx-user"></i>
-            Profile Settings
-          </a>
-          <a href="#notification">
-            <i class="bx bx-bell"></i>
-            Notification
-          </a>
-          <a href="#settings">
-            <i class="bx bx-cog"></i>
-            Settings
-          </a>
-        </div>
-      </div>
+      <?php endif; ?>
     </div>
   </header>
-  <script>
-    const dropdownBtn = document.getElementById("btn");
-    const dropdownMenu = document.getElementById("dropdown");
-    const toggleArrow = document.getElementById("arrow");
-
-    // Toggle dropdown function
-    const toggleDropdown = function() {
-      dropdownMenu.classList.toggle("show");
-      toggleArrow.classList.toggle("arrow");
-    };
-
-    // Toggle dropdown open/close when dropdown button is clicked
-    dropdownBtn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      toggleDropdown();
-    });
-
-    // Close dropdown when dom element is clicked
-    document.documentElement.addEventListener("click", function() {
-      if (dropdownMenu.classList.contains("show")) {
-        toggleDropdown();
-      }
-    });
-  </script>
+  <script src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/js/header.js"></script>
 </body>
 
 </html>
