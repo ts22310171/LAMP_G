@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+require('../common/libs.php');
+
+/* 既にログインしている場合、ダッシュボードへリダイレクト */
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header('Location: ../index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 

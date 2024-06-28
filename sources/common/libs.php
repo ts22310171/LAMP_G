@@ -32,9 +32,9 @@ function h($value)
 function dbconnect(){
     $db = new mysqli('localhost', 'd202425db', 'NRPiH7UKpNBsxjXB', 'd202425db');
 
-    if (!$db) {
+    if (!$db) :
 		die($db->error);
-	}
-
+	endif;
+    $db->set_charset("utf8");
     return $db;
 }
