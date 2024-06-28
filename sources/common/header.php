@@ -1,11 +1,7 @@
 <?php
-
 session_start();
 
 require('libs.php');
-
-$user_name = $_SESSION['user_name'];
-
 
 ?>
 <!DOCTYPE html>
@@ -37,27 +33,31 @@ $user_name = $_SESSION['user_name'];
           </div>
         </a>
       </div>
-
+      <div class="flex">
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="">よくある質問</a>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="">お問い合わせ</a>
       <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) : ?>
         <div class="relative">
           <div class="rounded shadow bg-whitecolor p-2">
             <button class="text-blackcolor" id="btn">
-              <?php echo h($user_name); ?>
+              <?php echo $_SESSION['user_name']; ?>
               <i class="fa-solid fa-chevron-down text-explain" id="arrow"></i>
             </button>
           </div>
           <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
             <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
             <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>アカウント設定</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
             <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
           </div>
         </div>
       <?php else : ?>
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class="text-base text-black font-bold mr-5">
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class=" text-black mr-5">
           ログイン
         </a>
       <?php endif; ?>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/"><i class="fa-solid fa-cart-shopping"></i></a> 
+      </div>
     </div>
   </header>
   <script src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/js/header.js"></script>
