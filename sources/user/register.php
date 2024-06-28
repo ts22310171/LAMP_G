@@ -22,7 +22,7 @@
                 <h1 class="flex justify-center text-xl font-bold text-blackcolor md:text-2xl">
                     会員登録
                 </h1>
-                <form class="space-y-4 md:space-y-6" action="" method="post">
+                <form class="space-y-4 md:space-y-6" action="registersetuzoku.php" method="post">
                     <div class="px-6">
                         <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
                         <input type="text" name="user_name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
