@@ -2,7 +2,7 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        main: "#F1F2F4",
+        main: "#e4e6e7",
         sub: "#005748",
         subhover: "#004434",
         accent: "#726B34",

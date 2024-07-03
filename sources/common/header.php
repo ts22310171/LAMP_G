@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 require('libs.php');
 
@@ -26,37 +28,37 @@ require('libs.php');
   <header>
     <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-10 h-16">
       <div class="flex items-center">
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center mr-10">
           <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
           <div class="-ml-2 text-2xl text-black font-bold">
             Garba<span class="text-sub">Ge</span>
           </div>
         </a>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="pt-1 px-2">よくある質問</a>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="pt-1 px-2">お問い合わせ</a>
       </div>
       <div class="flex">
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="">よくある質問</a>
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="">お問い合わせ</a>
-      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) : ?>
-        <div class="relative">
-          <div class="rounded shadow bg-whitecolor p-2">
-            <button class="text-blackcolor" id="btn">
-              <?php echo $_SESSION['user_name']; ?>
-              <i class="fa-solid fa-chevron-down text-explain" id="arrow"></i>
-            </button>
+        <?php if (isset($_SESSION['name'])) : ?>
+          <div class="relative">
+            <div class="rounded shadow bg-whitecolor p-2">
+              <button class="text-blackcolor" id="btn">
+                <?php echo $_SESSION['name']; ?>
+                <i class="fa-solid fa-chevron-down text-explain" id="arrow"></i>
+              </button>
+            </div>
+            <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
+              <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
+              <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
+              <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
+              <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
+            </div>
           </div>
-          <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
-            <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
-            <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
-          </div>
-        </div>
-      <?php else : ?>
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class=" text-black mr-5">
-          ログイン
-        </a>
-      <?php endif; ?>
-        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/"><i class="fa-solid fa-cart-shopping"></i></a> 
+        <?php else : ?>
+          <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php" class=" text-black mr-5">
+            ログイン
+          </a>
+        <?php endif; ?>
+        <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/"><i class="fa-solid fa-cart-shopping mx-5"></i></a>
       </div>
     </div>
   </header>
