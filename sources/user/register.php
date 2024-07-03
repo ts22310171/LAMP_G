@@ -1,14 +1,7 @@
 <?php
-session_start();
 
-require('../common/libs.php');
-
-/* 既にログインしている場合、ダッシュボードへリダイレクト */
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header('Location: ../index.php');
-    exit();
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -26,17 +19,18 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     <script src="../common/tailwind.config.js"></script>
 </head>
 
-<body class="bg-main">
+<body>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div class="w-full bg-white rounded-lg border border-graycolor md:mt-0 sm:max-w-md xl:p-0">
+        <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="flex justify-center text-xl font-bold text-blackcolor md:text-2xl">
                     会員登録
                 </h1>
-                <form class="space-y-4 md:space-y-6" action="registersetuzoku.php" method="post">
+                <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="px-6">
                         <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
-                        <input type="text" name="user_name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
+                        <input type="text" name="name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
                     </div>
                     <div class="px-6">
                         <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
@@ -58,6 +52,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             </div>
         </div>
     </div>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 
 </html>
