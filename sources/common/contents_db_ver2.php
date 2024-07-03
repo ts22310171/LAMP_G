@@ -1,5 +1,5 @@
 <?php
-class cclient_master extends crecord {
+class cmember extends crecord {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
@@ -22,9 +22,9 @@ class cclient_master extends crecord {
 select
 count(*)
 from
-client_master
+member,prefecture
 where
-1
+member.prefecture_id = prefecture.prefecture_id
 END_BLOCK;
 		//空のデータ
 		$prep_arr = array();
@@ -44,26 +44,30 @@ END_BLOCK;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	すべての配列を得る
+	@brief	指定された範囲の配列を得る
 	@param[in]	$debug	デバッグ出力をするかどうか
+	@param[in]	$from	抽出開始行
+	@param[in]	$limit	抽出数
 	@return	配列（2次元配列になる）
 	*/
 	//--------------------------------------------------------------------------------------
-	public function get_all($debug){
+	public function get_all($debug,$from,$limit){
 		$arr = array();
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-client_master.*
+member.*,prefecture.*
 from
-client_master
+member,prefecture
 where
-1
+member.prefecture_id = prefecture.prefecture_id
 order by
-client_master.client_master_id asc
+member.member_id asc
+limit :from, :limit
 END_BLOCK;
-		//空のデータ
-		$prep_arr = array();
+		$prep_arr = array(
+				':from' => (int)$from,
+				':limit' => (int)$limit);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(
 			$debug,			//デバッグ表示するかどうか
@@ -94,14 +98,16 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-client_master.*
+member.*,prefecture.*
 from
-client_master
+member,prefecture
 where
-client_master.client_master_id = :client_master_id
+member.prefecture_id = prefecture.prefecture_id
+and
+member.member_id = :member_id
 END_BLOCK;
 		$prep_arr = array(
-				':client_master_id' => (int)$id
+				':member_id' => (int)$id
 		);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(
@@ -127,14 +133,14 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-client_master.*
+member.*
 from
-client_master
+member
 where
-client_login = :client_login
+member_login = :member_login
 END_BLOCK;
 		$prep_arr = array(
-				':client_login' => (string)$loginid
+				':member_login' => (string)$loginid
 		);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(
@@ -144,7 +150,6 @@ END_BLOCK;
 		);
 		return $this->fetch_assoc();
 	}
-
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
