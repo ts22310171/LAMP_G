@@ -1,5 +1,5 @@
 <?php
-class cadmin_master extends crecord {
+class cclient_master extends crecord {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
@@ -22,7 +22,7 @@ class cadmin_master extends crecord {
 select
 count(*)
 from
-admin_master
+client_master
 where
 1
 END_BLOCK;
@@ -54,13 +54,13 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-admin_master.*
+client_master.*
 from
-admin_master
+client_master
 where
 1
 order by
-admin_master.admin_master_id asc
+client_master.client_master_id asc
 END_BLOCK;
 		//空のデータ
 		$prep_arr = array();
@@ -94,14 +94,14 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-admin_master.*
+client_master.*
 from
-admin_master
+client_master
 where
-admin_master.admin_master_id = :admin_master_id
+client_master.client_master_id = :client_master_id
 END_BLOCK;
 		$prep_arr = array(
-				':admin_master_id' => (int)$id
+				':client_master_id' => (int)$id
 		);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(
@@ -127,14 +127,14 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-admin_master.*
+client_master.*
 from
-admin_master
+client_master
 where
-admin_login = :admin_login
+client_login = :client_login
 END_BLOCK;
 		$prep_arr = array(
-				':admin_login' => (string)$loginid
+				':client_login' => (string)$loginid
 		);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(

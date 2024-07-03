@@ -143,6 +143,7 @@ class cmain_node extends cnode {
 //以下デバッグ用
 //メール送信は危険なので、十分デバッグしてから実行してください。
 ///////////////////////////////////////////////
+
 		$chk_str = <<< END_BLOCK
 From: {$_POST['mail_from']}<br>
 To: {$_POST['mail_to']}<br>
@@ -152,10 +153,14 @@ Option: -f {$_POST['mail_from']}<br>
 END_BLOCK;
 		echo $chk_str;
 		exit();
+
 ///////////////////////////////////////////////
 		//メール送信
-		mb_send_mail($To, $Subject, $Message, $Headers,$Option);
-		cutil::redirect_exit('mail_thanks.php');
+		if(mb_send_mail($To, $Subject, $Message, $Headers,$Option)){
+			cutil::redirect_exit('mail_thanks.php');
+		}else{
+			echo "メールの送信に失敗しました。";
+		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
