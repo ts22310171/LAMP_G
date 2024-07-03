@@ -8,17 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">GarbaGe</div>
-            <ul class="nav-links">
-                <li><a href="#home">ホーム</a></li>
-                <li><a href="#about">アバウト</a></li>
-                <li><a href="#services">サービス</a></li>
-                <li><a href="#contact">コンタクト</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="container">
         <div class="delete-box">
             <form action="/delete-account" method="POST" class="delete-form">
@@ -38,8 +28,6 @@
             </form>
         </div>
     </div>
-    <footer>
-        <p>&copy; Wiz株式会社 team-G .2024</p>
-    </footer>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 </html>
