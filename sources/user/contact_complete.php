@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/otoiwasekanryou.css" />
   </head>
   <body>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="container">
       <h1>お問い合わせありがとうございます</h1>
       <p>
@@ -16,5 +17,6 @@
       </p>
       <a href="/" class="button">ホームへ戻る</a>
     </div>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
   </body>
 </html>
