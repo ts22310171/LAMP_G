@@ -31,7 +31,7 @@
       <div class="mx-auto w-full max-w-screen-xl flex-col p-4 md:flex md:items-center md:justify-between">
         <ul class="mt-3 flex flex-wrap items-center text-base sm:mb-10 text-explain">
           <li>
-            <a href="#" class="hover:underline"> プライバシーポリシー</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/privacy.html" class="hover:underline"> プライバシーポリシー</a>
           </li>
           <li>
           <li>
@@ -57,7 +57,7 @@
       </div>
     </div>
   </footer>
-  
+
 </body>
 
 </html>
