@@ -14,6 +14,7 @@
   <script src="../common/tailwind.config.js"></script>
 </head>
   <body>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="container">
       <div class="complete-box">
         <h1>注文が完了しました</h1>
@@ -22,5 +23,6 @@
         <a href="/chat" class="button">チャット画面に進む</a>
       </div>
     </div>
+    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
   </body>
 </html>

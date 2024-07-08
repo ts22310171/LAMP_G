@@ -1,15 +1,128 @@
 <?php
+/*!
+@file login.php
+@brief メンバーログイン
+@copyright Copyright (c) 2024 Yamanoi Yasushi.
+*/
+
+//ライブラリをインクルード
+require_once("../common/libs.php");
+
 session_start();
 
-require('../common/libs.php');
-
 /* 既にログインしている場合、ダッシュボードへリダイレクト */
-if (isset($_SESSION['name'])) {
+if (isset($_SESSION['user']['name'])) {
   header('Location: ../index.php');
   exit();
 }
 
+$err_array = array();
+$err_flag = 0;
+$page_obj = null;
+
+$ERR_STR = "";
+$member_id = "";
+$member_name = "";
+
+
+//--------------------------------------------------------------------------------------
+///	本体ノード
+//--------------------------------------------------------------------------------------
+class cmain_node extends cnode
+{
+  //--------------------------------------------------------------------------------------
+  /*!
+	@brief	コンストラクタ
+	*/
+  //--------------------------------------------------------------------------------------
+  public function __construct()
+  {
+    //親クラスのコンストラクタを呼ぶ
+    parent::__construct();
+  }
+  //--------------------------------------------------------------------------------------
+  /*!
+	@brief  本体実行（表示前処理）
+	@return なし
+	*/
+  //--------------------------------------------------------------------------------------
+  public function execute()
+  {
+    global $ERR_STR;
+    global $member_id;
+    global $member_name;
+    if (isset($_SESSION['tmY2024_mem']['err']) && $_SESSION['tmY2024_mem']['err'] != "") {
+      $ERR_STR = $_SESSION['tmY2024_mem']['err'];
+    }
+    //このセッションをクリア
+    $_SESSION['tmY2024_mem'] = array();
+
+    if (isset($_POST['member_login']) && isset($_POST['member_password'])) {
+      if ($this->chk_member_login(
+        strip_tags($_POST['member_login']),
+        strip_tags($_POST['member_password'])
+      )) {
+        $_SESSION['tmY2024_mem']['member_login'] = strip_tags($_POST['member_login']);
+        $_SESSION['tmY2024_mem']['member_id'] = $member_id;
+        $_SESSION['tmY2024_mem']['member_name'] = $member_name;
+        cutil::redirect_exit("index.php");
+      }
+    }
+  }
+  //--------------------------------------------------------------------------------------
+  /*!
+	@brief	構築時の処理(継承して使用)
+	@return	なし
+	*/
+  //--------------------------------------------------------------------------------------
+  public function create()
+  {
+  }
+  //--------------------------------------------------------------------------------------
+  /*!
+	@brief	ログインのチェック
+	@return	メンバーID
+	*/
+  //--------------------------------------------------------------------------------------
+  function chk_member_login($member_login, $member_password)
+  {
+    global $ERR_STR;
+    global $member_id;
+    global $member_name;
+    $user = new cuser();
+    $row = $user->get_tgt_login(false, $member_login);
+    if ($row === false || !isset($row['member_id'])) {
+      $ERR_STR .= "ログイン名が不定です。\n";
+      return false;
+    }
+    //暗号化によるパスワード認証
+    if (!cutil::pw_check($member_password, $row['enc_password'])) {
+      $ERR_STR .= "パスワードが違っています。\n";
+      return false;
+    }
+    $member_id = $row['member_id'];
+    $member_name = $row['member_name'];
+    return true;
+  }
+
+  //--------------------------------------------------------------------------------------
+  /*!
+	@brief  表示(継承して使用)
+	@return なし
+	*/
+  //--------------------------------------------------------------------------------------
+}
+//ページを作成
+$page_obj = new cnode();
+//本体追加
+$page_obj->add_child($main_obj = cutil::create('cmain_node'));
+//構築時処理
+$page_obj->create();
+//本体実行（表示前処理）
+$main_obj->execute();
+
 ?>
+<!-- コンテンツ -->
 <!doctype html>
 <html>
 
@@ -27,9 +140,9 @@ if (isset($_SESSION['name'])) {
   <script src="../common/tailwind.config.js"></script>
 </head>
 
-<body class="bg-main">
+<body class="bg-main flex flex-col min-h-screen">
   <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+  <div class="flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
     <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 class="flex justify-center text-xl font-bold leading-tight tracking-tight text-blackcolor md:text-2xl">
@@ -39,11 +152,11 @@ if (isset($_SESSION['name'])) {
         <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
           <div class="px-6">
             <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>
-            <input type="email" name="email" value="<?php echo h($email) ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
+            <input type="email" name="email" value="<?php echo $email ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
           </div>
           <div class="px-6">
             <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
-            <input type="password" name="password" value="<?php echo h($password) ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
+            <input type="password" name="password" value="<?php echo $password ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
           </div>
           <div class="flex items-center justify-center">
             <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover">パスワードを忘れた方</a>

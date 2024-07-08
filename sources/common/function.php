@@ -12,7 +12,8 @@
 //--------------------------------------------------------------------------------------
 ///	ユーティリティ関数群(スタティック呼出をする)
 //--------------------------------------------------------------------------------------
-class cutil {
+class cutil
+{
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	指定したURLにリダイレクトして終了
@@ -20,8 +21,9 @@ class cutil {
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function redirect_exit($url){
-		$str = "Location: ".  $url;
+	public static function redirect_exit($url)
+	{
+		$str = "Location: " .  $url;
 		header($str);
 		//リダイレクトしたのでexit
 		exit();
@@ -33,9 +35,10 @@ class cutil {
 	@return	true　数字　false数字以外が混じってる
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function is_number($value){
-		if($value == '')return false;
-		if(preg_match('/^[0-9]+$/',$value)){
+	public static function is_number($value)
+	{
+		if ($value == '') return false;
+		if (preg_match('/^[0-9]+$/', $value)) {
 			return true;
 		}
 		return false;
@@ -47,9 +50,10 @@ class cutil {
 	@return	true　数字かハイフン　false数字以外が混じってる
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function is_num_hyphen($value){
-		if($value == '')return false;
-		if(preg_match('/^[-0-9]+$/',$value)){
+	public static function is_num_hyphen($value)
+	{
+		if ($value == '') return false;
+		if (preg_match('/^[-0-9]+$/', $value)) {
 			return true;
 		}
 		return false;
@@ -61,10 +65,11 @@ class cutil {
 	@return	true　半角　false半角以外が混じってる
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function is_hankaku($value){
+	public static function is_hankaku($value)
+	{
 		$strlen = strlen($value);
-		$mbstrlen = mb_strlen($value,PHP_CHARSET);
-		if($strlen == $mbstrlen){
+		$mbstrlen = mb_strlen($value, PHP_CHARSET);
+		if ($strlen == $mbstrlen) {
 			return true;
 		}
 		return false;
@@ -78,9 +83,12 @@ class cutil {
 	@return	条件に合えばtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function number_range($value,$from,$to){
-		if(cutil::is_number($value) &&
-			$value >= $from && $value <= $to){
+	public static function number_range($value, $from, $to)
+	{
+		if (
+			cutil::is_number($value) &&
+			$value >= $from && $value <= $to
+		) {
 			return true;
 		}
 		return false;
@@ -94,9 +102,10 @@ class cutil {
 	@return	条件に合えばtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function chk_mb_strlen_size($str,$from,$to){
-		$len = mb_strlen($str,PHP_CHARSET);
-		if($len >= $from && $len <= $to){
+	public static function chk_mb_strlen_size($str, $from, $to)
+	{
+		$len = mb_strlen($str, PHP_CHARSET);
+		if ($len >= $from && $len <= $to) {
 			return true;
 		}
 		return false;
@@ -110,9 +119,10 @@ class cutil {
 	@return	条件に合えばtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function chk_strlen_size($str,$from,$to){
+	public static function chk_strlen_size($str, $from, $to)
+	{
 		$len = strlen($str);
-		if($len >= $from && $len <= $to){
+		if ($len >= $from && $len <= $to) {
 			return true;
 		}
 		return false;
@@ -124,8 +134,9 @@ class cutil {
 	@return	変換後の文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function escape($value){
-		return htmlspecialchars($value,ENT_QUOTES,PHP_CHARSET);
+	public static function escape($value)
+	{
+		return htmlspecialchars($value, ENT_QUOTES, PHP_CHARSET);
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -134,7 +145,8 @@ class cutil {
 	@return	変換後の文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function ret2br($str){
+	public static function ret2br($str)
+	{
 		$order = array("\r\n", "\n", "\r");
 		$replace = '<br>';
 		return str_replace($order, $replace, $str);
@@ -146,7 +158,8 @@ class cutil {
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function echo_ret2br($str){
+	public static function echo_ret2br($str)
+	{
 		echo cutil::ret2br($str);
 	}
 	//--------------------------------------------------------------------------------------
@@ -156,7 +169,8 @@ class cutil {
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function print_r2($str){
+	public static function print_r2($str)
+	{
 		echo '<pre>';
 		print_r($str);
 		echo  '</pre>';
@@ -168,12 +182,13 @@ class cutil {
 	@return	暗号化した文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function pw_encode($password){
+	public static function pw_encode($password)
+	{
 		$seed = null;
-		for ($i = 1; $i <= 8; $i++){
-			$seed .= substr('0123456789abcdef',rand(0,15),1);
+		for ($i = 1; $i <= 8; $i++) {
+			$seed .= substr('0123456789abcdef', rand(0, 15), 1);
 		}
-		return hash("md5",$seed . $password) . $seed;
+		return hash("md5", $seed . $password) . $seed;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -183,12 +198,12 @@ class cutil {
 	@return	成功すればtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function pw_check($password,$stored_value){
-		$stored_seed = substr($stored_value,32,8);
-		if(hash("md5",$stored_seed . $password) . $stored_seed == $stored_value){
+	public static function pw_check($password, $stored_value)
+	{
+		$stored_seed = substr($stored_value, 32, 8);
+		if (hash("md5", $stored_seed . $password) . $stored_seed == $stored_value) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
@@ -202,17 +217,17 @@ class cutil {
 	@return	openssl暗号化した文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function encrypt($plaintext,&$iv,&$tag){
+	public static function encrypt($plaintext, &$iv, &$tag)
+	{
 		$cipher = "aes-128-gcm";
-		if (in_array($cipher, openssl_get_cipher_methods())){
+		if (in_array($cipher, openssl_get_cipher_methods())) {
 			$ivlen = openssl_cipher_iv_length($cipher);
 			$iv = openssl_random_pseudo_bytes($ivlen);
-			$ciphertext = openssl_encrypt($plaintext, $cipher, MY_AES_KEY, $options=0, $iv,$tag);
+			$ciphertext = openssl_encrypt($plaintext, $cipher, MY_AES_KEY, $options = 0, $iv, $tag);
 			$iv = base64_encode($iv);
 			$tag = base64_encode($tag);
 			return $ciphertext;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -225,15 +240,20 @@ class cutil {
 	@return	複合化化した文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function decrypt($ciphertext,$iv,$tag){
+	public static function decrypt($ciphertext, $iv, $tag)
+	{
 		$cipher = "aes-128-gcm";
-		if (in_array($cipher, openssl_get_cipher_methods())){
-			$original_plaintext = openssl_decrypt($ciphertext, $cipher, MY_AES_KEY, $options=0, 
+		if (in_array($cipher, openssl_get_cipher_methods())) {
+			$original_plaintext = openssl_decrypt(
+				$ciphertext,
+				$cipher,
+				MY_AES_KEY,
+				$options = 0,
 				base64_decode($iv),
-				base64_decode($tag));
+				base64_decode($tag)
+			);
 			return $original_plaintext;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -245,11 +265,11 @@ class cutil {
 	@return	成功すればtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function chek_mail_format($mail){
-		if(preg_match('/^[-a-zA-Z0-9_\.]+@([-a-zA-Z0-9_\.]+\.[-a-zA-Z0-9_]+$)/',$mail)){
+	public static function chek_mail_format($mail)
+	{
+		if (preg_match('/^[-a-zA-Z0-9_\.]+@([-a-zA-Z0-9_\.]+\.[-a-zA-Z0-9_]+$)/', $mail)) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
@@ -264,12 +284,13 @@ class cutil {
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function mb_send_mail_chk($To, $Subject, $Message, $Headers,$brflg = false){
+	public static function mb_send_mail_chk($To, $Subject, $Message, $Headers, $brflg = false)
+	{
 		$retcode = '';
-		if($brflg){
+		if ($brflg) {
 			$retcode = '<br />';
 		}
-		$str =<<< END_BLOCK
+		$str = <<< END_BLOCK
 {$retcode}
 --start-----mb_send_mail_chk--------------{$retcode}
 To: {$To}{$retcode}
@@ -289,13 +310,13 @@ END_BLOCK;
 	@return	カレンダーの配列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function get_calender($year = '',$month = ''){
-		if($year == '' || $month == ''){
+	public static function get_calender($year = '', $month = '')
+	{
+		if ($year == '' || $month == '') {
 			$year = date('Y');
 			$month = date('n');
-		}
-		else{
-			if(!cutil::is_number((string)$year) || !cutil::is_number((string)$month)){
+		} else {
+			if (!cutil::is_number((string)$year) || !cutil::is_number((string)$month)) {
 				$year = date('Y');
 				$month = date('n');
 			}
@@ -307,7 +328,7 @@ END_BLOCK;
 		for ($i = 1; $i <= $last_day; $i++) {
 			$week_day = date('w', mktime(0, 0, 0, $month, $i, $year));
 			if ($i == 1) {
-			    for ($k = 1; $k <= $week_day; $k++) {
+				for ($k = 1; $k <= $week_day; $k++) {
 					$cal_arr[$j]['day'] = '';
 					$j++;
 				}
@@ -332,8 +353,9 @@ END_BLOCK;
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function post_default($name,$val){
-		if(!isset($_POST[$name])){
+	public static function post_default($name, $val)
+	{
+		if (!isset($_POST[$name])) {
 			$_POST[$name] = $val;
 		}
 	}
@@ -345,8 +367,9 @@ END_BLOCK;
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function get_default($name,$val){
-		if(!isset($_GET[$name])){
+	public static function get_default($name, $val)
+	{
+		if (!isset($_GET[$name])) {
 			$_GET[$name] = $val;
 		}
 	}
@@ -359,12 +382,12 @@ END_BLOCK;
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function create($class_name,$param = null){
+	public static function create($class_name, $param = null)
+	{
 		$obj = null;
-		if($param != null){
+		if ($param != null) {
 			$obj = new $class_name($param);
-		}
-		else{
+		} else {
 			$obj = new $class_name();
 		}
 		return $obj;
@@ -376,8 +399,9 @@ END_BLOCK;
 	@return 配列が有効で要素が1つ以上あればtrue
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function array_chk(&$arr){
-		if(is_array($arr) && count($arr) > 0){
+	public static function array_chk(&$arr)
+	{
+		if (is_array($arr) && count($arr) > 0) {
 			return true;
 		}
 		return false;
@@ -389,12 +413,12 @@ END_BLOCK;
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function array_escape(&$arr){
-		foreach($arr as $key => &$val){
-			if(is_array($val)){
+	public static function array_escape(&$arr)
+	{
+		foreach ($arr as $key => &$val) {
+			if (is_array($val)) {
 				cutil::array_escape($val);
-			}
-			else{
+			} else {
 				$val = cutil::escape($val);
 			}
 		}
@@ -406,7 +430,8 @@ END_BLOCK;
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function val_escape(&$val){
+	public static function val_escape(&$val)
+	{
 		$val = cutil::escape($val);
 	}
 	//--------------------------------------------------------------------------------------
@@ -416,18 +441,16 @@ END_BLOCK;
 	@return セットされた配列
 	*/
 	//--------------------------------------------------------------------------------------
-	public static function space_str2arr($str){
-		$str = mb_convert_kana($str,"s",'UTF-8');
-		$chk_arr = explode(' ',$str);
+	public static function space_str2arr($str)
+	{
+		$str = mb_convert_kana($str, "s", 'UTF-8');
+		$chk_arr = explode(' ', $str);
 		$ret_arr = array();
-		foreach($chk_arr as $key => $val){
-			if($val != ''){
+		foreach ($chk_arr as $key => $val) {
+			if ($val != '') {
 				$ret_arr[] = trim($val);
 			}
 		}
 		return $ret_arr;
 	}
-
-
 }
-
