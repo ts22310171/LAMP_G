@@ -22,13 +22,15 @@ $admin_name = "";
 //--------------------------------------------------------------------------------------
 ///	本体ノード
 //--------------------------------------------------------------------------------------
-class cmain_node extends cnode {
+class cmain_node extends cnode
+{
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct() {
+	public function __construct()
+	{
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -38,26 +40,28 @@ class cmain_node extends cnode {
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function execute(){
+	public function execute()
+	{
 		global $ERR_STR;
 		global $admin_master_id;
 		global $admin_name;
-		if(isset($_SESSION['tmY2024_adm']['err']) && $_SESSION['tmY2024_adm']['err'] != ""){
-		    $ERR_STR = $_SESSION['tmY2024_adm']['err'];
+		if (isset($_SESSION['tmY2024_adm']['err']) && $_SESSION['tmY2024_adm']['err'] != "") {
+			$ERR_STR = $_SESSION['tmY2024_adm']['err'];
 		}
 		//このセッションをクリア
 		$_SESSION['tmY2024_adm'] = array();
 
-		if(isset($_POST['admin_login']) && isset($_POST['admin_password'])){
-		    if($this->chk_admin_login(
-		        strip_tags($_POST['admin_login']),
-		        strip_tags($_POST['admin_password']))){
-		        session_start();
-		        $_SESSION['tmY2024_adm']['admin_login'] = strip_tags($_POST['admin_login']);
-		        $_SESSION['tmY2024_adm']['admin_master_id'] = $admin_master_id;
-		        $_SESSION['tmY2024_adm']['admin_name'] = $admin_name;
-		        cutil::redirect_exit("index.php");
-		    }
+		if (isset($_POST['admin_login']) && isset($_POST['admin_password'])) {
+			if ($this->chk_admin_login(
+				strip_tags($_POST['admin_login']),
+				strip_tags($_POST['admin_password'])
+			)) {
+				session_start();
+				$_SESSION['tmY2024_adm']['admin_login'] = strip_tags($_POST['admin_login']);
+				$_SESSION['tmY2024_adm']['admin_master_id'] = $admin_master_id;
+				$_SESSION['tmY2024_adm']['admin_name'] = $admin_name;
+				cutil::redirect_exit("index.php");
+			}
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -66,7 +70,8 @@ class cmain_node extends cnode {
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create(){
+	public function create()
+	{
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -74,20 +79,21 @@ class cmain_node extends cnode {
 	@return	メンバーID
 	*/
 	//--------------------------------------------------------------------------------------
-	function chk_admin_login($admin_login,$admin_password){
+	function chk_admin_login($admin_login, $admin_password)
+	{
 		global $ERR_STR;
 		global $admin_master_id;
 		global $admin_name;
 		$admin = new cadmin_master();
-		$row = $admin->get_tgt_login(false,$admin_login);
-		if($row === false || !isset($row['admin_master_id'])){
-		    $ERR_STR .= "ログイン名が不定です。\n";
-		    return false;
+		$row = $admin->get_tgt_login(false, $admin_login);
+		if ($row === false || !isset($row['admin_master_id'])) {
+			$ERR_STR .= "ログイン名が不定です。\n";
+			return false;
 		}
 		//暗号化によるパスワード認証
-		if(!cutil::pw_check($admin_password,$row['enc_password'])){
-		    $ERR_STR .= "パスワードが違っています。\n";
-		    return false;
+		if (!cutil::pw_check($admin_password, $row['enc_password'])) {
+			$ERR_STR .= "パスワードが違っています。\n";
+			return false;
 		}
 		$admin_master_id = $row['admin_master_id'];
 		$admin_name = $row['admin_name'];
@@ -100,36 +106,38 @@ class cmain_node extends cnode {
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display(){
+	public function display()
+	{
 		global $ERR_STR;
-//PHPブロック終了
+		//PHPブロック終了
 ?>
-<!-- コンテンツ　-->
-<div class="contents">
-<h5><strong>管理者ログイン</strong></h5>
-<p class="text-danger"><?= cutil::ret2br($ERR_STR); ?></p>
-<form action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
-<div class="mb-3">
-<label for="admin_login" class="form-label">ログインID</label>
-<input type="text" class="form-control" id="admin_login" name="admin_login">
-</div>
-<div class="mb-3">
-<label for="admin_password" class="form-label">パスワード</label>
-<input type="password" class="form-control" id="admin_password" name="admin_password">
-</div>
-<p class="text-center text-body-secondary"><input type="submit" value="ログイン" class="form-control" id="login_button"></p>
-</form>
-</div>
-<!-- /コンテンツ　-->
-<?php 
-//PHPブロック再開
+		<!-- コンテンツ　-->
+		<div class="contents">
+			<h5><strong>管理者ログイン</strong></h5>
+			<p class="text-danger"><?= cutil::ret2br($ERR_STR); ?></p>
+			<form action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
+				<div class="mb-3">
+					<label for="admin_login" class="form-label">ログインID</label>
+					<input type="text" class="form-control" id="admin_login" name="admin_login">
+				</div>
+				<div class="mb-3">
+					<label for="admin_password" class="form-label">パスワード</label>
+					<input type="password" class="form-control" id="admin_password" name="admin_password">
+				</div>
+				<p class="text-center text-body-secondary"><input type="submit" value="ログイン" class="form-control" id="login_button"></p>
+			</form>
+		</div>
+		<!-- /コンテンツ　-->
+<?php
+		//PHPブロック再開
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct(){
+	public function __destruct()
+	{
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
