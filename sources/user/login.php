@@ -21,8 +21,8 @@ $err_flag = 0;
 $page_obj = null;
 
 $ERR_STR = "";
-$member_id = "";
-$member_name = "";
+$user_id = "";
+$user_name = "";
 
 
 //--------------------------------------------------------------------------------------
@@ -49,22 +49,22 @@ class cmain_node extends cnode
   public function execute()
   {
     global $ERR_STR;
-    global $member_id;
-    global $member_name;
-    if (isset($_SESSION['tmY2024_mem']['err']) && $_SESSION['tmY2024_mem']['err'] != "") {
-      $ERR_STR = $_SESSION['tmY2024_mem']['err'];
+    global $user_id;
+    global $user_name;
+    if (isset($_SESSION['user']['err']) && $_SESSION['user']['err'] != "") {
+      $ERR_STR = $_SESSION['user']['err'];
     }
     //このセッションをクリア
-    $_SESSION['tmY2024_mem'] = array();
+    $_SESSION['user'] = array();
 
-    if (isset($_POST['member_login']) && isset($_POST['member_password'])) {
-      if ($this->chk_member_login(
-        strip_tags($_POST['member_login']),
-        strip_tags($_POST['member_password'])
+    if (isset($_POST['email']) && isset($_POST['password'])) {
+      if ($this->chk_email(
+        strip_tags($_POST['email']),
+        strip_tags($_POST['password'])
       )) {
-        $_SESSION['tmY2024_mem']['member_login'] = strip_tags($_POST['member_login']);
-        $_SESSION['tmY2024_mem']['member_id'] = $member_id;
-        $_SESSION['tmY2024_mem']['member_name'] = $member_name;
+        $_SESSION['user']['email'] = strip_tags($_POST['email']);
+        $_SESSION['user']['id'] = $user_id;
+        $_SESSION['user']['name'] = $user_name;
         cutil::redirect_exit("index.php");
       }
     }
@@ -84,24 +84,24 @@ class cmain_node extends cnode
 	@return	メンバーID
 	*/
   //--------------------------------------------------------------------------------------
-  function chk_member_login($member_login, $member_password)
+  function chk_email($email, $password)
   {
     global $ERR_STR;
-    global $member_id;
-    global $member_name;
+    global $user_id;
+    global $user_name;
     $user = new cuser();
-    $row = $user->get_tgt_login(false, $member_login);
-    if ($row === false || !isset($row['member_id'])) {
-      $ERR_STR .= "ログイン名が不定です。\n";
+    $row = $user->get_tgt_login(false, $email);
+    if ($row === false || !isset($row['email'])) {
+      $ERR_STR .= "メールアドレスが不定です。\n";
       return false;
     }
     //暗号化によるパスワード認証
-    if (!cutil::pw_check($member_password, $row['enc_password'])) {
+    if (!cutil::pw_check($password, $row['password'])) {
       $ERR_STR .= "パスワードが違っています。\n";
       return false;
     }
-    $member_id = $row['member_id'];
-    $member_name = $row['member_name'];
+    $user_id = $row['id'];
+    $user_name = $row['name'];
     return true;
   }
 
