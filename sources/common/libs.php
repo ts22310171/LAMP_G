@@ -22,4 +22,4 @@ require_once("contents_func.php");
 require_once("contents_db.php");
 require_once("contents_nodes.php");
 //追加で定義したもの
-require_once("contents_db_ver2.php");
+require_once("user_db.php");
