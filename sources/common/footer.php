@@ -17,8 +17,8 @@
   <script src="tailwind.config.js"></script>
 </head>
 
-<body class="bg-main">
-  <footer class="bottom-0 w-full  mt-auto">
+<body class="bg-main ">
+  <footer class="bottom-0 w-full mt-auto">
     <div class="bg-thingreen">
       <div class="flex items-center">
         <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">

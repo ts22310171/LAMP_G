@@ -1,56 +1,5 @@
 <?php
-session_start();
-$mode = 'input';
-$error = [];
 
-if (isset($_POST['back']) && $_POST['back']) {
-    // 何もしない
-} else if (isset($_POST['confirm']) && $_POST['confirm']) {
-    // 確認画面
-    if (!$_POST['name']) {
-        $error[] = "名前を入力してください";
-    } else if (mb_strlen($_POST['name']) > 100) {
-        $error[] = "名前は100文字以内にしてください";
-    }
-    $_SESSION['name'] = htmlspecialchars($_POST['name'], ENT_QUOTES);
-
-    if (!$_POST['email']) {
-        $error[] = "Eメールを入力してください";
-    } else if (mb_strlen($_POST['email']) > 200) {
-        $error[] = "Eメールは200文字以内にしてください";
-    } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $error[] = "メールアドレスが不正です";
-    }
-    $_SESSION['email']    = htmlspecialchars($_POST['email'], ENT_QUOTES);
-
-    if (!$_POST['message']) {
-        $error[] = "お問い合わせ内容を入力してください";
-    } else if (mb_strlen($_POST['message']) > 500) {
-        $error[] = "お問い合わせ内容は500文字以内にしてください";
-    }
-    $_SESSION['message'] = htmlspecialchars($_POST['message'], ENT_QUOTES);
-
-    if ($error) {
-        $mode = 'input';
-    } else {
-        $mode = 'confirm';
-    }
-} else if (isset($_POST['send']) && $_POST['send']) {
-    // 送信ボタンを押したとき
-    $message  = "お問い合わせを受け付けました \r\n"
-        . "名前: " . $_SESSION['name'] . "\r\n"
-        . "email: " . $_SESSION['email'] . "\r\n"
-        . "お問い合わせ内容:\r\n"
-        . preg_replace("/\r\n|\r|\n/", "\r\n", $_SESSION['message']);
-    mail($_SESSION['email'], 'お問い合わせありがとうございます', $message);
-    mail('fuga@hogehoge.com', 'お問い合わせありがとうございます', $message);
-    $_SESSION = array();
-    $mode = 'send';
-} else {
-    $_SESSION['name'] = "";
-    $_SESSION['email']    = "";
-    $_SESSION['message']  = "";
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -71,7 +20,7 @@ if (isset($_POST['back']) && $_POST['back']) {
 
 <body class="bg-main">
     <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
-    <div class="max-w-xl mx-auto mt-10 p-8">
+    <div class="p-6 max-w-3xl mx-auto mt-20 mb-20">
         <?php if ($mode == "input") : ?>
             <div>
                 <h1 class="mb-5 text-xl font-bold leading-tight tracking-tight text-blackcolor md:text-2xl">
@@ -81,19 +30,19 @@ if (isset($_POST['back']) && $_POST['back']) {
                 <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">お名前<span class="text-alarm">*</span></label>
-                        <input type="text" name="name" value="<?php echo h($name) ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="text" name="name" value="<?php echo $name ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">メールアドレス<span class="text-alarm">*</span></label>
-                        <input type="email" name="email" value="<?php echo h($email) ?>" required class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="email" name="email" value="<?php echo $email ?>" required class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">電話番号</label>
-                        <input type="tel" name="phone" value="<?php echo h($phone) ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="tel" name="phone" value="<?php echo $phone ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block mb-1 text-sm text-blackcolor font-bold">お問い合わせ内容<span class="text-alarm">*</span></label>
-                        <textarea name="message" value="<?php echo h($message) ?>" rows="12" required class="text-sm mt-1 block w-full p-4 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main"></textarea>
+                        <textarea name="message" value="<?php echo $message ?>" rows="12" required class="text-sm mt-1 block w-full p-4 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main"></textarea>
                     </div>
                     <div class="">
                         <button type="submit" class="px-20 text-whitecolor bg-sub hover:bg-subhover rounded py-2.5 text-center">
@@ -107,19 +56,19 @@ if (isset($_POST['back']) && $_POST['back']) {
                 <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">お名前<span class="text-alarm">*</span></label>
-                        <input type="text" name="name" value="<?php echo h($name) ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="text" name="name" value="<?php echo $name ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">メールアドレス<span class="text-alarm">*</span></label>
-                        <input type="email" name="email" value="<?php echo h($email) ?>" required class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="email" name="email" value="<?php echo $email ?>" required class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block  mb-1 text-sm text-blackcolor font-bold">電話番号</label>
-                        <input type="tel" name="phone" value="<?php echo h($phone) ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
+                        <input type="tel" name="phone" value="<?php echo $phone ?>" class="text-sm mt-1 block w-full p-2 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main">
                     </div>
                     <div>
                         <label class="block mb-1 text-sm text-blackcolor font-bold">お問い合わせ内容<span class="text-alarm">*</span></label>
-                        <textarea name="message" value="<?php echo h($message) ?>" rows="12" required class="text-sm mt-1 block w-full p-4 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main"></textarea>
+                        <textarea name="message" value="<?php echo $message ?>" rows="12" required class="text-sm mt-1 block w-full p-4 rounded bg-whitecolor text-blackcolor focus:outline-none focus:border-main"></textarea>
                     </div>
                     <div class="">
                         <button type="submit" class="px-20 text-whitecolor bg-sub hover:bg-subhover rounded py-2.5 text-center">

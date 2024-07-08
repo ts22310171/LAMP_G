@@ -24,7 +24,7 @@ require('libs.php');
   <script src="tailwind.config.js"></script>
 </head>
 
-<body class="bg-main">
+<body>
   <header>
     <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-10 h-16">
       <div class="flex items-center">
