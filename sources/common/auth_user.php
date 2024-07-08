@@ -13,18 +13,18 @@ $_SESSIONは多次元配列にする
              2024/5/20 Y.YAMANOI
  *********************************/
 session_start();
-if ((!isset($_SESSION['user']['user_name']))
-    || (!isset($_SESSION['user']['user_email']))
+if ((!isset($_SESSION['user']['name']))
+    || (!isset($_SESSION['user']['email']))
 ) {
     cutil::redirect_exit("login.php");
 }
 $user = new cuser();
-$row = $user->get_tgt_login(false, $_SESSION['user']['id']);
-if ($row === false || !isset($row['id'])) {
+$row = $user->get_tgt_login(false, $_SESSION['user']['email']);
+if ($row === false || !isset($row['email'])) {
     cutil::redirect_exit("login.php");
 }
 
-if ($row['id'] != $_SESSION['user']['id']) {
+if ($row['email'] != $_SESSION['user']['email']) {
     cutil::redirect_exit("login.php");
 }
 
