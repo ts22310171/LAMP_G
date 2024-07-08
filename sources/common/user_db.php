@@ -28,9 +28,7 @@ class cuser extends crecord
 select
 count(*)
 from
-member,prefecture
-where
-member.prefecture_id = prefecture.prefecture_id
+users
 END_BLOCK;
         //空のデータ
         $prep_arr = array();
@@ -62,13 +60,11 @@ END_BLOCK;
         //プレースホルダつき
         $query = <<< END_BLOCK
 select
-member.*,prefecture.*
+users.*
 from
-member,prefecture
-where
-member.prefecture_id = prefecture.prefecture_id
+users
 order by
-member.member_id asc
+users.id asc
 limit :from, :limit
 END_BLOCK;
         $prep_arr = array(
@@ -96,11 +92,11 @@ END_BLOCK;
 	@return	配列（1次元配列になる）空の場合はfalse
 	*/
     //--------------------------------------------------------------------------------------
-    public function get_tgt($debug, $id)
+    public function get_tgt($debug, $email)
     {
         if (
-            !cutil::is_number($id)
-            ||  $id < 1
+            !cutil::is_number($email)
+            ||  $email < 1
         ) {
             //falseを返す
             return false;
@@ -108,16 +104,14 @@ END_BLOCK;
         //プレースホルダつき
         $query = <<< END_BLOCK
 select
-member.*,prefecture.*
+users.*
 from
-member,prefecture
+users
 where
-member.prefecture_id = prefecture.prefecture_id
-and
-member.member_id = :member_id
+email = :email
 END_BLOCK;
         $prep_arr = array(
-            ':member_id' => (int)$id
+            ':email' => (int)$email
         );
         //親クラスのselect_query()メンバ関数を呼ぶ
         $this->select_query(
@@ -135,9 +129,9 @@ END_BLOCK;
 	@return	配列（1次元配列になる）空の場合はfalse
 	*/
     //--------------------------------------------------------------------------------------
-    public function get_tgt_login($debug, $loginid)
+    public function get_tgt_login($debug, $loginemail)
     {
-        if ($loginid == '') {
+        if ($loginemail == '') {
             //falseを返す
             return false;
         }
@@ -148,10 +142,10 @@ users.*
 from
 users
 where
-member_login = :member_login
+email = :email
 END_BLOCK;
         $prep_arr = array(
-            ':member_login' => (string)$loginid
+            ':email' => (string)$loginemail
         );
         //親クラスのselect_query()メンバ関数を呼ぶ
         $this->select_query(
