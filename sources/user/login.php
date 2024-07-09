@@ -59,7 +59,7 @@ class cmain_node extends cnode
         $_SESSION['user']['email'] = strip_tags($_POST['email']);
         $_SESSION['user']['id'] = $user_id;
         $_SESSION['user']['name'] = $user_name;
-        cutil::redirect_exit("index.php");
+        cutil::redirect_exit("../index.php");
       }
     }
   }
@@ -129,7 +129,7 @@ class cmain_node extends cnode
     </head>
 
     <body class="bg-main flex flex-col min-h-screen">
-      <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
+
       <div class="flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
         <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -140,11 +140,11 @@ class cmain_node extends cnode
             <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>
-                <input type="email" name="email" value="<?php echo $email ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
+                <input type="email" name="email" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
               </div>
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
-                <input type="password" name="password" value="<?php echo $password ?>" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
+                <input type="password" name="password" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
               </div>
               <div class="flex items-center justify-center">
                 <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover">パスワードを忘れた方</a>
@@ -166,7 +166,7 @@ class cmain_node extends cnode
           </div>
         </div>
       </div>
-      <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
+
     </body>
 
     </html>
@@ -189,11 +189,11 @@ class cmain_node extends cnode
 //ページを作成
 $page_obj = new cnode();
 //ヘッダ追加(ログイン用)
-$page_obj->add_child(cutil::create('cmember_login_header'));
+$page_obj->add_child(cutil::create('cmain_header'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
-$page_obj->add_child(cutil::create('cmember_footer'));
+$page_obj->add_child(cutil::create('cmain_footer'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）
