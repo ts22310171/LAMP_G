@@ -24,5 +24,7 @@ define('DB_CHARSET','utf8');
 define('PHP_CHARSET','UTF-8');
 //暗号化のキー
 define('MY_AES_KEY','phpbase_key');
+//絶対URLの共通部分
+define('ABSOLUTE_URL','http://wiz.developluna.jp/~d202425/LAMP_G');
 //絶対パスの共通部分
-define('ABSOLUTE_PATH','http://wiz.developluna.jp/~d202425/LAMP_G');
+define('ABSOLUTE_PATH','/home/d202425/public_html/LAMP_G');

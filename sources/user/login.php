@@ -7,7 +7,6 @@
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
-require_once("../common/auth_user.php");
 
 session_start();
 
