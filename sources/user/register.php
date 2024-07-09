@@ -1,6 +1,8 @@
 <?php
+
 //ライブラリをインクルード
 require_once("../common/libs.php");
+
 
 session_start();
 
