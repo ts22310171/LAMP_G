@@ -10,7 +10,6 @@ require_once("../common/libs.php");
 
 session_start();
 
-
 $err_array = array();
 $err_flag = 0;
 $page_obj = null;
@@ -60,7 +59,7 @@ class cmain_node extends cnode
         $_SESSION['user']['email'] = strip_tags($_POST['email']);
         $_SESSION['user']['id'] = $user_id;
         $_SESSION['user']['name'] = $user_name;
-        cutil::redirect_exit("../index.php");
+        cutil::redirect_exit("index.php");
       }
     }
   }

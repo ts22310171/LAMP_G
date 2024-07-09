@@ -16,16 +16,20 @@ session_start();
 if ((!isset($_SESSION['user']['name']))
     || (!isset($_SESSION['user']['email']))
 ) {
+
     cutil::redirect_exit(ABSOLUTE_URL . "/sources/user/login.php");
+
 }
 $user = new cuser();
 $row = $user->get_tgt_login(false, $_SESSION['user']['email']);
 if ($row === false || !isset($row['email'])) {
+
     cutil::redirect_exit(ABSOLUTE_URL . "/sources/user/login.php");
 }
 
 if ($row['email'] != $_SESSION['user']['email']) {
     cutil::redirect_exit(ABSOLUTE_URL . "/sources/user/login.php");
+
 }
 
 
