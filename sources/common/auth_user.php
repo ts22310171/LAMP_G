@@ -16,16 +16,16 @@ session_start();
 if ((!isset($_SESSION['user']['name']))
     || (!isset($_SESSION['user']['email']))
 ) {
-    cutil::redirect_exit("http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php");
+    cutil::redirect_exit("login.php");
 }
 $user = new cuser();
 $row = $user->get_tgt_login(false, $_SESSION['user']['email']);
 if ($row === false || !isset($row['email'])) {
-    cutil::redirect_exit("http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php");
+    cutil::redirect_exit("login.php");
 }
 
 if ($row['email'] != $_SESSION['user']['email']) {
-    cutil::redirect_exit("http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/login.php");
+    cutil::redirect_exit("login.php");
 }
 
 
