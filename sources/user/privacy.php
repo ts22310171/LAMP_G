@@ -30,28 +30,7 @@ class cmain_node extends cnode {
     */
     //--------------------------------------------------------------------------------------
     public function execute(){
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        if(is_null($page_obj)){
-            return;
-        }
-        if(isset($_POST['func'])){
-            switch($_POST['func']){
-                case "del":
-                    //削除操作
-                    $this->deljob();
-                    //再読み込みのためにリダイレクト
-                    cutil::redirect_exit($_SERVER['PHP_SELF']);
-                break;
-                default:
-                    echo 'エラー';
-                    exit();
-                break;
-            }
-        }
-        //データの読み込み
-        $this->readdata();
+        
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -92,7 +71,7 @@ class cmain_node extends cnode {
 </head>
 
 <body>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
+    
     <div class="container mx-auto px-4 py-8 mt-20 mb-20">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">プライバシーポリシー</h1>
         <p class="mb-6">このプライバシーポリシーは、当サイト（以下、「当サイト」といいます。）の利用に関して適用されるものです。当サイトを利用することで、お客様は以下のプライバシーポリシーに同意したものとみなされます。</p>
@@ -133,7 +112,7 @@ class cmain_node extends cnode {
             <p>Email: <a href="mailto:example@example.com" class="text-blue-600 hover:underline">example@example.com</a></p>
         </section>
     </div>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
+    
 </body>
 
 </html>

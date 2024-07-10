@@ -156,12 +156,6 @@ class cmain_node extends cnode
               <div class="flex items-center justify-center">
                 <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover">パスワードを忘れた方</a>
               </div>
-              <!-- エラーメッセージの表示 -->
-              <?php if (!empty($error['login']) && $error['login'] === 'blank') : ?>
-                <p class="text-red-500 text-center">メールアドレスとパスワードを入力してください。</p>
-              <?php elseif (!empty($error['login']) && $error['login'] === 'failed') : ?>
-                <p class="text-red-500 text-center">メールアドレスおよびパスワードをご確認ください</p>
-              <?php endif; ?>
               <div class="px-6">
                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">ログイン</button>
               </div>

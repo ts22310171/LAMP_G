@@ -30,28 +30,7 @@ class cmain_node extends cnode {
     */
     //--------------------------------------------------------------------------------------
     public function execute(){
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        if(is_null($page_obj)){
-            return;
-        }
-        if(isset($_POST['func'])){
-            switch($_POST['func']){
-                case "del":
-                    //削除操作
-                    $this->deljob();
-                    //再読み込みのためにリダイレクト
-                    cutil::redirect_exit($_SERVER['PHP_SELF']);
-                break;
-                default:
-                    echo 'エラー';
-                    exit();
-                break;
-            }
-        }
-        //データの読み込み
-        $this->readdata();
+       
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -90,7 +69,6 @@ class cmain_node extends cnode {
   <script src="../common/tailwind.config.js"></script>
 </head>
 <body>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="container">
         <div class="complete-box">
             <h1><br>パスワード再設定メールを</br>送信しました</h1>
@@ -98,7 +76,6 @@ class cmain_node extends cnode {
             <a href="/login" class="button">ログイン画面に戻る</a>
         </div>
     </div>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 </html>
 

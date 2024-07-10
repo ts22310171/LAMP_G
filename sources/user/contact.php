@@ -30,28 +30,7 @@ class cmain_node extends cnode {
     */
     //--------------------------------------------------------------------------------------
     public function execute(){
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        if(is_null($page_obj)){
-            return;
-        }
-        if(isset($_POST['func'])){
-            switch($_POST['func']){
-                case "del":
-                    //削除操作
-                    $this->deljob();
-                    //再読み込みのためにリダイレクト
-                    cutil::redirect_exit($_SERVER['PHP_SELF']);
-                break;
-                default:
-                    echo 'エラー';
-                    exit();
-                break;
-            }
-        }
-        //データの読み込み
-        $this->readdata();
+        
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -92,7 +71,6 @@ class cmain_node extends cnode {
 </head>
 
 <body class="bg-main">
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="p-6 max-w-3xl mx-auto mt-20 mb-20">
         <?php if ($mode == "input") : ?>
             <div>
@@ -162,7 +140,6 @@ class cmain_node extends cnode {
             </div>
         <?php endif; ?>
     </div>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 
 </html>

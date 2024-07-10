@@ -30,28 +30,6 @@ class cmain_node extends cnode {
     */
     //--------------------------------------------------------------------------------------
     public function execute(){
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        if(is_null($page_obj)){
-            return;
-        }
-        if(isset($_POST['func'])){
-            switch($_POST['func']){
-                case "del":
-                    //削除操作
-                    $this->deljob();
-                    //再読み込みのためにリダイレクト
-                    cutil::redirect_exit($_SERVER['PHP_SELF']);
-                break;
-                default:
-                    echo 'エラー';
-                    exit();
-                break;
-            }
-        }
-        //データの読み込み
-        $this->readdata();
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -92,7 +70,6 @@ class cmain_node extends cnode {
 </head>
 
 <body class="bg-main">
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
     <div class="p-6 max-w-3xl mx-auto mt-20 mb-20">
         <h1 class="text-3xl font-bold text-gray-900 mb-4">よくあるお問い合わせ（FAQ）</h1>
         <p class="mb-6">当ページでは、お客様からよく寄せられる質問とその回答を掲載しています。必要な情報が見つからない場合は、お気軽にお問い合わせください。</p>
@@ -179,7 +156,6 @@ class cmain_node extends cnode {
 
         <p>ご質問が解決しない場合は、<a href="#" class="text-blue-600 hover:underline">こちら</a>からお問い合わせください。</p>
     </div>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
 </body>
 
 </html>
