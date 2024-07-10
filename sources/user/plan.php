@@ -30,28 +30,7 @@ class cmain_node extends cnode {
     */
     //--------------------------------------------------------------------------------------
     public function execute(){
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        if(is_null($page_obj)){
-            return;
-        }
-        if(isset($_POST['func'])){
-            switch($_POST['func']){
-                case "del":
-                    //削除操作
-                    $this->deljob();
-                    //再読み込みのためにリダイレクト
-                    cutil::redirect_exit($_SERVER['PHP_SELF']);
-                break;
-                default:
-                    echo 'エラー';
-                    exit();
-                break;
-            }
-        }
-        //データの読み込み
-        $this->readdata();
+        
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -92,7 +71,7 @@ class cmain_node extends cnode {
 </head>
 
 <body class="bg-main">
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
+    
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8 text-center">プラン一覧</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -110,7 +89,7 @@ class cmain_node extends cnode {
             <?php endwhile; ?>
         </div>
     </div>
-    <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
+    
 </body>
 
 </html>
