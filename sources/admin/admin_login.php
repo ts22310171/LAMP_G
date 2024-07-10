@@ -8,7 +8,9 @@
 //ライブラリをインクルード
 require_once("../common/libs.php");
 
-session_start();
+if (!isset($_SESSION)) {
+	session_start();
+}
 
 $err_array = array();
 $err_flag = 0;
