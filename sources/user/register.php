@@ -43,12 +43,20 @@ class cmain_node extends cnode
     //--------------------------------------------------------------------------------------
     public function execute()
     {
-        global $err_array;
-        global $err_flag;
-        global $page_obj;
-        global $member_id;
+        global $ERR_STR, $SUCCESS_STR;
 
-        $this->display();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $user_obj = new cuser();
+            $debug = false;
+
+            if ($user_obj->duplicate_check($debug, $_POST['user_email'])) {
+                $ERR_STR = "このメールアドレスは既に登録されています。";
+            } else {
+                $SUCCESS_STR = "このメールアドレスは使用可能です。";
+                // メールアドレスが使用可能な場合、登録処理を行う
+                $this->register();
+            }
+        }
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -62,33 +70,26 @@ class cmain_node extends cnode
 
     public function register()
     {
-        global $member_id;
-        $change_obj = new crecord();
+        $register_obj = new crecord();
         $dataarr = array();
-        //パスワードが変更さえているかを確認する
-        if ($member_id > 0) {
-            if ($_POST['enc_password'] != '') {
-                //パスワードに入力があった（変更された）
-                $dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-            }
+
+        // フォームデータの取得と検証
+        $dataarr['name'] = $_POST['user_name'];
+        $dataarr['email'] = $_POST['user_email'];
+        $dataarr['password'] = cutil::pw_encode($_POST['user_password']);
+
+        // その他の必要なフィールドを追加（例：prefecture_id, member_address など）
+        // $dataarr['prefecture_id'] = 1; // デフォルト値または別のフォームフィールドから取得
+        // $dataarr['member_address'] = ''; // デフォルト値または別のフォームフィールドから取得
+
+        // 新規登録の実行
+        $mid = $register_obj->insert_core(false, 'users', $dataarr, false);
+
+        if ($mid) {
+            $_SESSION['user']['name'] = $dataarr['name']; // ユーザー名をセッションに保存
+            cutil::redirect_exit("ABSOLUTE_PATH../index.php");
         } else {
-            //新規（パスワード必須）
-            $dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-        }
-        $dataarr['member_name'] = (string)$_POST['member_name'];
-        $dataarr['member_login'] = (string)$_POST['member_login'];
-        $dataarr['main_image'] = (string)$_POST['main_image'];
-        $dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
-        $dataarr['member_address'] = (string)$_POST['member_address'];
-        $dataarr['member_comment'] = (string)$_POST['member_comment'];
-        if ($member_id > 0) {
-            $where = 'member_id = :member_id';
-            $wherearr[':member_id'] = (int)$member_id;
-            $change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
-            cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $member_id);
-        } else {
-            $mid = $change_obj->insert_core(false, 'member', $dataarr, false);
-            cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
+            $ERR_STR = "登録に失敗しました。もう一度お試しください。";
         }
     }
 
@@ -123,13 +124,23 @@ class cmain_node extends cnode
         </head>
 
         <body>
-            <?php include("/home/d202425/public_html/LAMP_G/sources/common/header.php"); ?>
+
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 class="flex justify-center text-xl font-bold text-blackcolor md:text-2xl">
                             会員登録
                         </h1>
+                        <?php if (!empty($ERR_STR)) : ?>
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline"><?php echo htmlspecialchars($ERR_STR); ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (!empty($SUCCESS_STR)) : ?>
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline"><?php echo htmlspecialchars($SUCCESS_STR); ?></span>
+                            </div>
+                        <?php endif; ?>
                         <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
@@ -155,7 +166,7 @@ class cmain_node extends cnode
                     </div>
                 </div>
             </div>
-            <?php include("/home/d202425/public_html/LAMP_G/sources/common/footer.php"); ?>
+
         </body>
 
         </html>

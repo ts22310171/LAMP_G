@@ -4,7 +4,9 @@
 @brief メンバーログイン
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
