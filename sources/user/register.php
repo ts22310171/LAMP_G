@@ -1,10 +1,9 @@
 <?php
+session_start();
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
 
-
-session_start();
 
 /* 既にログインしている場合、ダッシュボードへリダイレクト */
 if (isset($_SESSION['user']['name'])) {
@@ -44,26 +43,12 @@ class cmain_node extends cnode
     //--------------------------------------------------------------------------------------
     public function execute()
     {
-        global $ERR_STR;
-        global $user_id;
-        global $user_name;
-        if (isset($_SESSION['user']['err']) && $_SESSION['user']['err'] != "") {
-            $ERR_STR = $_SESSION['user']['err'];
-        }
-        //このセッションをクリア
-        $_SESSION['user'] = array();
+        global $err_array;
+        global $err_flag;
+        global $page_obj;
+        global $member_id;
 
-        if (isset($_POST['email']) && isset($_POST['password'])) {
-            if ($this->chk_email(
-                strip_tags($_POST['email']),
-                strip_tags($_POST['password'])
-            )) {
-                $_SESSION['user']['email'] = strip_tags($_POST['email']);
-                $_SESSION['user']['id'] = $user_id;
-                $_SESSION['user']['name'] = $user_name;
-                cutil::redirect_exit("index.php");
-            }
-        }
+        $this->display();
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -74,32 +59,39 @@ class cmain_node extends cnode
     public function create()
     {
     }
-    //--------------------------------------------------------------------------------------
-    /*!
-	@brief	ログインのチェック
-	@return	メンバーID
-	*/
-    //--------------------------------------------------------------------------------------
-    function chk_email($email, $password)
+
+    public function register()
     {
-        global $ERR_STR;
-        global $user_id;
-        global $user_name;
-        $user = new cuser();
-        $row = $user->get_tgt_login(false, $email);
-        if ($row === false || !isset($row['email'])) {
-            $ERR_STR .= "メールアドレスが不定です。\n";
-            return false;
+        global $member_id;
+        $change_obj = new crecord();
+        $dataarr = array();
+        //パスワードが変更さえているかを確認する
+        if ($member_id > 0) {
+            if ($_POST['enc_password'] != '') {
+                //パスワードに入力があった（変更された）
+                $dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
+            }
+        } else {
+            //新規（パスワード必須）
+            $dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
         }
-        //暗号化によるパスワード認証
-        if (!cutil::pw_check($password, $row['password'])) {
-            $ERR_STR .= "パスワードが違っています。\n";
-            return false;
+        $dataarr['member_name'] = (string)$_POST['member_name'];
+        $dataarr['member_login'] = (string)$_POST['member_login'];
+        $dataarr['main_image'] = (string)$_POST['main_image'];
+        $dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
+        $dataarr['member_address'] = (string)$_POST['member_address'];
+        $dataarr['member_comment'] = (string)$_POST['member_comment'];
+        if ($member_id > 0) {
+            $where = 'member_id = :member_id';
+            $wherearr[':member_id'] = (int)$member_id;
+            $change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
+            cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $member_id);
+        } else {
+            $mid = $change_obj->insert_core(false, 'member', $dataarr, false);
+            cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
         }
-        $user_id = $row['id'];
-        $user_name = $row['name'];
-        return true;
     }
+
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -141,16 +133,16 @@ class cmain_node extends cnode
                         <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
-                                <input type="text" name="name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
+                                <input type="text" name="user_name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
                             </div>
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
-                                <input type="email" name="email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
+                                <input type="email" name="user_email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
                             </div>
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
                                 <label class="block mb-2 text-xs text-explain">8文字以上の半角英数記号</label>
-                                <input type="password" name="password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
+                                <input type="password" name="user_password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
                             </div>
                             <div class="px-6">
                                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">登録</button>
@@ -186,11 +178,11 @@ class cmain_node extends cnode
 //ページを作成
 $page_obj = new cnode();
 //ヘッダ追加(ログイン用)
-$page_obj->add_child(cutil::create('cmember_login_header'));
+$page_obj->add_child(cutil::create('cmain_header'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
-$page_obj->add_child(cutil::create('cmember_footer'));
+$page_obj->add_child(cutil::create('cmain_footer'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）

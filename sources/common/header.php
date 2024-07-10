@@ -1,4 +1,9 @@
 <?php
+
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 //--------------------------------------------------------------------------------------
 ///	ヘッダーノード
 //--------------------------------------------------------------------------------------
@@ -67,11 +72,11 @@ class cmain_header extends cnode
             <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="pt-1 px-2">お問い合わせ</a>
           </div>
           <div class="flex">
-            <?php if (isset($_SESSION['name'])) : ?>
+            <?php if (isset($_SESSION['user']['name'])) : ?>
               <div class="relative">
                 <div class="rounded shadow bg-whitecolor p-2">
                   <button class="text-blackcolor" id="btn">
-                    <?php echo $_SESSION['name']; ?>
+                    <?php echo $_SESSION['user']['name']; ?>
                     <i class="fa-solid fa-chevron-down text-explain" id="arrow"></i>
                   </button>
                 </div>
