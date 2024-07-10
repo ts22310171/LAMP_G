@@ -156,6 +156,39 @@ END_BLOCK;
         return $this->fetch_assoc();
     }
 
+    public function duplicate_check($debug, $email)
+    {
+        if ($email == '') {
+            // falseを返す
+            return false;
+        }
+        // プレースホルダつき
+        $query = <<< END_BLOCK
+select
+COUNT(*) as count
+from
+users
+where
+email = :email
+END_BLOCK;
+
+        $prep_arr = array(
+            ':email' => (string)$email
+        );
+
+        // 親クラスのselect_query()メンバ関数を呼ぶ
+        $this->select_query(
+            $debug,     // デバッグ表示するかどうか
+            $query,     // プレースホルダつきSQL
+            $prep_arr   // データの配列
+        );
+
+        $result = $this->fetch_assoc();
+
+        // 結果が存在し、countが0より大きい場合はtrue、それ以外はfalseを返す
+        return ($result && $result['count'] > 0);
+    }
+
     //--------------------------------------------------------------------------------------
     /*!
 	@brief	デストラクタ
