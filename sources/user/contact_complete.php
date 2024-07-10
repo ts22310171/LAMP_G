@@ -122,11 +122,11 @@ class cmain_node extends cnode {
 //ページを作成
 $page_obj = new cnode();
 //ヘッダ追加
-$page_obj->add_child(cutil::create('cheader'));
+$page_obj->add_child(cutil::create('cmain_header'));
 //本体追加
 $page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
 //フッタ追加
-$page_obj->add_child(cutil::create('cfooter'));
+$page_obj->add_child(cutil::create('cmain_footer'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）
