@@ -125,7 +125,7 @@ class cmain_node extends cnode
 			}
 		} else {
 			if ($user_id > 0) {
-				$member_obj = new cmember();
+				$member_obj = new cuser();
 				//$_POSTにデータを読み込む
 				$_POST = $member_obj->get_tgt(false, $user_id);
 				if (cutil::array_chk($_POST)) {
@@ -399,15 +399,15 @@ END_BLOCK;
 	@return	メンバー名コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_member_name()
+	function get_user_name()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('member_name', $_POST['member_name'], 'size="70"');
+		$tgt = new ctextbox('user_name', $_POST['user_name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['member_name'])) {
+		if (isset($err_array['user_name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['member_name'])
+				. cutil::ret2br($err_array['user_name'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -607,8 +607,8 @@ END_BLOCK;
 						<td width="70%"><?= $this->get_user_id_txt(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">メンバー名</th>
-						<td width="70%"><?= $this->get_member_name(); ?></td>
+						<th class="text-center">ユーザー名</th>
+						<td width="70%"><?= $this->get_user_name(); ?></td>
 					</tr>
 					<tr>
 						<th class="text-center">メンバーログイン</th>
