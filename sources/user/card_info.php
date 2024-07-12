@@ -75,41 +75,61 @@ class cmain_node extends cnode
         </head>
 
         <body>
-            <div class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">クレジットカード情報</h2>
-                <form>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="card-number">
-                            カード番号
-                        </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="1234 5678 9012 3456">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="card-name">
-                            カード名義人
-                        </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-name" type="text" placeholder="TARO YAMADA">
-                    </div>
-                    <div class="flex mb-4">
-                        <div class="w-1/2 pr-2">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="expiry-date">
-                                有効期限
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry-date" type="text" placeholder="MM / YY">
-                        </div>
-                        <div class="w-1/2 pl-2">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="cvv">
-                                セキュリティコード
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123">
+            <div class="max-w-4xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div class="flex flex-wrap -mx-4">
+                    <!-- プラン詳細 -->
+                    <div class="w-full md:w-1/2 px-4 mb-6 md:mb-0">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">選択されたプラン</h2>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <h3 class="text-xl font-semibold mb-2">プレミアムプラン</h3>
+                            <ul class="list-disc list-inside mb-4">
+                                <li>全機能へのアクセス</li>
+                                <li>24時間サポート</li>
+                                <li>無制限のストレージ</li>
+                                <li>月次レポート</li>
+                            </ul>
+                            <p class="text-2xl font-bold text-blue-600">¥5,000 / 月</p>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                            支払う
-                        </button>
+
+                    <!-- クレジットカード情報 -->
+                    <div class="w-full md:w-1/2 px-4">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">クレジットカード情報</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="card-number">
+                                    カード番号
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="card-name">
+                                    カード名義人
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-name" type="text" placeholder="TARO YAMADA">
+                            </div>
+                            <div class="flex mb-4">
+                                <div class="w-1/2 pr-2">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="expiry-date">
+                                        有効期限
+                                    </label>
+                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry-date" type="text" placeholder="MM / YY">
+                                </div>
+                                <div class="w-1/2 pl-2">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="cvv">
+                                        セキュリティコード
+                                    </label>
+                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                    支払う
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </body>
 
