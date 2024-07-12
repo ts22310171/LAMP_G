@@ -1,117 +1,68 @@
 <?php
- 
-//ライブラリをインクルード
-require_once("../common/libs.php");
- 
- 
-$err_array = array();
-$err_flag = 0;
-$page_obj = null;
- 
- 
-//--------------------------------------------------------------------------------------
-/// 本体ノード
-//--------------------------------------------------------------------------------------
-class cmain_node extends cnode {
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  コンストラクタ
-    */
-    //--------------------------------------------------------------------------------------
-    public function __construct() {
-        //親クラスのコンストラクタを呼ぶ
+class cplan extends crecord
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-   
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  本体実行（表示前処理）
-    @return なし
-    */
-    //--------------------------------------------------------------------------------------
-    public function execute(){
-        
-    }
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  構築時の処理(継承して使用)
-    @return なし
-    */
-    //--------------------------------------------------------------------------------------
-    public function create(){
-    }
- 
- 
- 
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  表示(継承して使用)
-    @return なし
-    */
-    //--------------------------------------------------------------------------------------
-    public function display(){
-//PHPブロック終了
-?>
-<!-- コンテンツ　-->
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ログイン</title>
 
-  <!-- フォント -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    public function get_all_plans($debug)
+    {
+        $query = <<< END_BLOCK
+select
+plans.*
+from
+plans
+order by
+plans.id asc
+END_BLOCK;
 
-  <!-- スタイルシート -->
-  <link rel="stylesheet" href="../css/app.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="../common/tailwind.config.js"></script>
-</head>
-<body>
-    
-        <div class="image-container">
-            <img src="./images/plan_detail1.png" alt="プラン1週間">
-        </div>
-        <div class="content-container">
-            <h1>相談プラン1週間</h1>
-            <button>購入する</button>
-            <p>こちらのプランは、チャットにてアドバイザーに1週間相談ができるプランになります。
-            <br>
-            </p>
-        </div>
-    
-</body>
-</html>
+        $prep_arr = array();
 
-<!-- /コンテンツ　-->
-<?php
-//PHPブロック再開
+        $this->select_query(
+            $debug,
+            $query,
+            $prep_arr
+        );
+
+        $arr = array();
+        while ($row = $this->fetch_assoc()) {
+            $arr[] = $row;
+        }
+        return $arr;
     }
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  デストラクタ
-    */
-    //--------------------------------------------------------------------------------------
-    public function __destruct(){
-        //親クラスのデストラクタを呼ぶ
+
+    public function get_plan_by_id($debug, $id)
+    {
+        if (!cutil::is_number($id) || $id < 1) {
+            return false;
+        }
+
+        $query = <<< END_BLOCK
+select
+plans.*
+from
+plans
+where
+id = :id
+END_BLOCK;
+
+        $prep_arr = array(
+            ':id' => (int)$id
+        );
+
+        $this->select_query(
+            $debug,
+            $query,
+            $prep_arr
+        );
+
+        return $this->fetch_assoc();
+    }
+
+    public function __destruct()
+    {
         parent::__destruct();
     }
 }
- 
-//ページを作成
-$page_obj = new cnode();
-//ヘッダ追加
-$page_obj->add_child(cutil::create('cmain_header'));
-//本体追加
-$page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
-//フッタ追加
-$page_obj->add_child(cutil::create('cmain_footer'));
-//構築時処理
-$page_obj->create();
-//本体実行（表示前処理）
-$cmain_obj->execute();
-//ページ全体を表示
-$page_obj->display();
- 
 ?>
