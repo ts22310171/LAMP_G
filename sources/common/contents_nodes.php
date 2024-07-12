@@ -11,15 +11,13 @@
 //--------------------------------------------------------------------------------------
 ///	ヘッダノード
 //--------------------------------------------------------------------------------------
-class cheader extends cnode
-{
+class cheader extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -29,8 +27,7 @@ class cheader extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -38,8 +35,7 @@ class cheader extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <!doctype html>
@@ -49,7 +45,7 @@ class cheader extends cnode
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PHPBase2サンプル</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <!-- 全体コンテナ　-->
@@ -57,10 +53,10 @@ class cheader extends cnode
 <header class="d-flex justify-content-center py-3 border-dark border-bottom">
 <ul class="nav nav-pills">
 <li class="nav-item"><a href="index.php" class="nav-link link-success">メインメニュー</a></li>
-<li class="nav-item"><a href="prefecture_list.php" class="nav-link link-success">都道府県管理</a></li>
 <li class="nav-item"><a href="member_list.php" class="nav-link link-success">メンバー管理</a></li>
-<li class="nav-item"><a href="member_list_custom.php" class="nav-link link-success">メンバー管理（カスタムノード）</a></li>
-<li class="nav-item"><a href="hinagata.php" class="nav-link link-success">雛形ファイル</a></li>
+<li class="nav-item"><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></li>
+<li class="nav-item"><a href="mail_chk.php" class="nav-link link-success">メール送信テスト</a></li>
+<li class="nav-item"><a href="admin_login.php" class="nav-link link-success">ログアウト</a></li>
 </ul>
 </header>
 END_BLOCK;
@@ -71,28 +67,23 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
 }
 
 
-
-
 //--------------------------------------------------------------------------------------
 ///	メンバーヘッダノード
 //--------------------------------------------------------------------------------------
-class cmember_header extends cnode
-{
+class cmember_header extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -102,8 +93,7 @@ class cmember_header extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -111,8 +101,7 @@ class cmember_header extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <!doctype html>
@@ -141,8 +130,7 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
@@ -150,19 +138,16 @@ END_BLOCK;
 
 
 
-
 //--------------------------------------------------------------------------------------
 ///	ログインヘッダノード
 //--------------------------------------------------------------------------------------
-class clogin_header extends cnode
-{
+class clogin_header extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -172,8 +157,7 @@ class clogin_header extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -181,8 +165,7 @@ class clogin_header extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <!doctype html>
@@ -207,8 +190,7 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
@@ -218,15 +200,13 @@ END_BLOCK;
 //--------------------------------------------------------------------------------------
 ///	メンバーログインヘッダノード
 //--------------------------------------------------------------------------------------
-class cmember_login_header extends cnode
-{
+class cmember_login_header extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -236,8 +216,7 @@ class cmember_login_header extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -245,8 +224,7 @@ class cmember_login_header extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <!doctype html>
@@ -271,140 +249,23 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
 }
-
-
-
-
-//--------------------------------------------------------------------------------------
-///	サイドバー付きヘッダノード
-//--------------------------------------------------------------------------------------
-class cside_header extends cnode
-{
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	コンストラクタ
-	*/
-	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
-		//親クラスのコンストラクタを呼ぶ
-		parent::__construct();
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	構築時の処理(継承して使用)
-	@return	なし
-	*/
-	//--------------------------------------------------------------------------------------
-	public function create()
-	{
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief  表示(継承して使用)
-	@return なし
-	*/
-	//--------------------------------------------------------------------------------------
-	public function display()
-	{
-		$echo_str = <<< END_BLOCK
-
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>サンプルサイト</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body>
-<!-- 全体コンテナ　-->
-<div class="container-fluid">
-<header class="navbar sticky-top bg-secondary-subtle flex-md-nowrap p-0 shadow" >
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-dark" href="#">サイト名</a>
-</header>
-	<!-- 行　-->
-	<div class="row">
-		<div class="sidebar border col-md-3 col-lg-2 p-1 bg-body-tertiary">
-			<ul class="nav flex-column">
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="index.php">
-						<span class="bi"></span>
-						メインメニュー
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="prefecture_list.php">
-						<span class="bi"></span>
-						都道府県管理
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="member_list.php">
-						<span class="bi"></span>
-						メンバー管理
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="member_list_custom.php">
-						<span class="bi"></span>
-						メンバー管理（カスタムノード）
-					</a>
-				</li>
-			</ul>
-			<hr class="my-1">
-			<ul class="nav flex-column mb-auto">
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="hinagata.php">
-						<span class="bi"></span>
-						雛形ファイル
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="hinagata2.php">
-						<span class="bi"></span>
-						雛形ファイル（サイドバー付き）
-					</a>
-				</li>
-			</ul>
-		</div>
-END_BLOCK;
-		echo $echo_str;
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	デストラクタ
-	*/
-	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
-		//親クラスのデストラクタを呼ぶ
-		parent::__destruct();
-	}
-}
-
-
 
 
 //--------------------------------------------------------------------------------------
 ///	フッターノード
 //--------------------------------------------------------------------------------------
-class cfooter extends cnode
-{
+class cfooter extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -414,8 +275,7 @@ class cfooter extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -423,8 +283,7 @@ class cfooter extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <footer class="py-3 my-4 border-dark border-top">
@@ -436,7 +295,7 @@ class cfooter extends cnode
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
+<script src="../js/scripts.js"></script>
 </body>
 </html>
 END_BLOCK;
@@ -447,94 +306,23 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
 }
-
-
-
-
-//--------------------------------------------------------------------------------------
-///	サイドバー付きフッターノード
-//--------------------------------------------------------------------------------------
-class cside_footer extends cnode
-{
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	コンストラクタ
-	*/
-	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
-		//親クラスのコンストラクタを呼ぶ
-		parent::__construct();
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	構築時の処理(継承して使用)
-	@return	なし
-	*/
-	//--------------------------------------------------------------------------------------
-	public function create()
-	{
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief  表示(継承して使用)
-	@return なし
-	*/
-	//--------------------------------------------------------------------------------------
-	public function display()
-	{
-		$echo_str = <<< END_BLOCK
-
-		<footer class="py-3 my-4 border-dark border-top">
-			<p class="text-center text-body-secondary">&copy; 2024 サイト名</p>
-		</footer>
-	</div>
-	<!--/ 行　-->
-</div>
-<!-- /全体コンテナ　-->
-	<div class="b-divider"></div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-</body>
-</html>
-END_BLOCK;
-		echo $echo_str;
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	デストラクタ
-	*/
-	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
-		//親クラスのデストラクタを呼ぶ
-		parent::__destruct();
-	}
-}
-
-
 
 
 //--------------------------------------------------------------------------------------
 ///	メンバーフッターノード
 //--------------------------------------------------------------------------------------
-class cmember_footer extends cnode
-{
+class cmember_footer extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct()
-	{
+	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 	}
@@ -544,8 +332,7 @@ class cmember_footer extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -553,8 +340,7 @@ class cmember_footer extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$echo_str = <<< END_BLOCK
 
 <footer class="py-3 my-4 border-dark border-top">
@@ -577,8 +363,7 @@ END_BLOCK;
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
@@ -590,16 +375,14 @@ END_BLOCK;
 //--------------------------------------------------------------------------------------
 ///	住所ノード
 //--------------------------------------------------------------------------------------
-class caddress extends cnode
-{
+class caddress extends cnode {
 	public $param_arr;
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __construct($param_arr)
-	{
+	public function __construct($param_arr) {
 		$this->param_arr = $param_arr;
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
@@ -610,24 +393,23 @@ class caddress extends cnode
 	@return	なし（エラーの場合はエラーフラグを立てる）
 	*/
 	//--------------------------------------------------------------------------------------
-	public function paramchk()
-	{
+	public function paramchk(){
 		global $err_array;
 		global $err_flag;
-		if ($this->param_arr['cntl_header_name'] == 'par' && $_POST['member_minor'] == 0) {
+		if($this->param_arr['cntl_header_name'] == 'par' && $_POST['member_minor'] == 0 ){
 			//保護者は未成年の時だけ必須
 			return;
 		}
 		/// 名前の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, "{$this->param_arr['cntl_header_name']}_name", "{$this->param_arr['head']}名", 'isset_nl')) {
+		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_name","{$this->param_arr['head']}名",'isset_nl')){
 			$err_flag = 1;
 		}
 		/// 都道府県チェック
-		if (cutil_ex::chkset_err_field($err_array, "{$this->param_arr['cntl_header_name']}_prefecture_id", "{$this->param_arr['head']}都道府県", 'isset_num_range', 1, 47)) {
+		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_prefecture_id","{$this->param_arr['head']}都道府県",'isset_num_range',1,47)){
 			$err_flag = 1;
 		}
 		/// 住所の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, "{$this->param_arr['cntl_header_name']}_address", "{$this->param_arr['head']}市区郡町村以下", 'isset_nl')) {
+		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_address","{$this->param_arr['head']}市区郡町村以下",'isset_nl')){
 			$err_flag = 1;
 		}
 	}
@@ -637,8 +419,7 @@ class caddress extends cnode
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create()
-	{
+	public function create(){
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -646,11 +427,10 @@ class caddress extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function post_default()
-	{
-		cutil::post_default("{$this->param_arr['cntl_header_name']}_prefecture_id", 0);
-		cutil::post_default("{$this->param_arr['cntl_header_name']}_name", '');
-		cutil::post_default("{$this->param_arr['cntl_header_name']}_address", '');
+	public function post_default(){
+		cutil::post_default("{$this->param_arr['cntl_header_name']}_prefecture_id",0);
+		cutil::post_default("{$this->param_arr['cntl_header_name']}_name",'');
+		cutil::post_default("{$this->param_arr['cntl_header_name']}_address",'');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -658,20 +438,16 @@ class caddress extends cnode
 	@return	名前コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_name()
-	{
+	function get_name(){
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox(
-			"{$this->param_arr['cntl_header_name']}_name",
-			$_POST["{$this->param_arr['cntl_header_name']}_name"],
-			'size="70"'
-		);
+		$tgt = new ctextbox("{$this->param_arr['cntl_header_name']}_name",
+				$_POST["{$this->param_arr['cntl_header_name']}_name"],'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array["{$this->param_arr['cntl_header_name']}_name"])) {
-			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_name"])
-				. '</span>';
+		if(isset($err_array["{$this->param_arr['cntl_header_name']}_name"])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_name"]) 
+			. '</span>';
 		}
 		return $ret_str;
 	}
@@ -682,27 +458,23 @@ class caddress extends cnode
 	@return	都道府県プルダウン文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_prefecture_select()
-	{
+	function get_prefecture_select(){
 		global $err_array;
 		//都道府県の一覧を取得
 		$prefecture_obj = new cprefecture();
 		$allcount = $prefecture_obj->get_all_count(false);
-		$prefecture_rows = $prefecture_obj->get_all(false, 0, $allcount);
+		$prefecture_rows = $prefecture_obj->get_all(false,0,$allcount);
 		$tgt = new cselect("{$this->param_arr['cntl_header_name']}_prefecture_id");
-		$tgt->add(0, '選択してください', $_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"] == 0);
-		foreach ($prefecture_rows as $key => $val) {
-			$tgt->add(
-				$val['prefecture_id'],
-				$val['prefecture_name'],
-				$val['prefecture_id'] == $_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"]
-			);
+		$tgt->add(0,'選択してください',$_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"] == 0);
+		foreach($prefecture_rows as $key => $val){
+			$tgt->add($val['prefecture_id'],$val['prefecture_name'],
+			$val['prefecture_id'] == $_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"]);
 		}
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"])) {
-			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"])
-				. '</span>';
+		if(isset($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"]) 
+			. '</span>';
 		}
 		return $ret_str;
 	}
@@ -712,19 +484,15 @@ class caddress extends cnode
 	@return	住所文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_address()
-	{
+	function get_address(){
 		global $err_array;
-		$tgt = new ctextbox(
-			"{$this->param_arr['cntl_header_name']}_address",
-			$_POST["{$this->param_arr['cntl_header_name']}_address"],
-			'size="80"'
-		);
+		$tgt = new ctextbox("{$this->param_arr['cntl_header_name']}_address",
+				$_POST["{$this->param_arr['cntl_header_name']}_address"],'size="80"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array["{$this->param_arr['cntl_header_name']}_address"])) {
-			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_address"])
-				. '</span>';
+		if(isset($err_array["{$this->param_arr['cntl_header_name']}_address"])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_address"]) 
+			. '</span>';
 		}
 		return $ret_str;
 	}
@@ -734,36 +502,37 @@ class caddress extends cnode
 	@return なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function display()
-	{
+	public function display(){
 		$name_str = "{$this->param_arr['head']}名";
 		$prefec_str = "{$this->param_arr['head']}都道府県";
 		$address_str = "{$this->param_arr['head']}市区郡町村以下";
-		//PHPブロック終了
+//PHPブロック終了
 ?>
-		<tr>
-			<th class="text-center"><?= $name_str ?></th>
-			<td width="70%"><?= $this->get_name(); ?></td>
-		</tr>
-		<tr>
-			<th class="text-center"><?= $prefec_str ?></th>
-			<td width="70%"><?= $this->get_prefecture_select(); ?></td>
-		</tr>
-		<tr>
-			<th class="text-center"><?= $address_str ?></th>
-			<td width="70%"><?= $this->get_address(); ?></td>
-		</tr>
-<?php
-		//PHPブロック再開
+<tr>
+<th class="text-center"><?= $name_str ?></th>
+<td width="70%"><?= $this->get_name(); ?></td>
+</tr>
+<tr>
+<th class="text-center"><?= $prefec_str ?></th>
+<td width="70%"><?= $this->get_prefecture_select(); ?></td>
+</tr>
+<tr>
+<th class="text-center"><?= $address_str ?></th>
+<td width="70%"><?= $this->get_address(); ?></td>
+</tr>
+<?php 
+//PHPブロック再開
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
 	*/
 	//--------------------------------------------------------------------------------------
-	public function __destruct()
-	{
+	public function __destruct(){
 		//親クラスのデストラクタを呼ぶ
 		parent::__destruct();
 	}
 }
+
+
+
