@@ -58,12 +58,12 @@ class cmain_node extends cnode
     //このセッションをクリア
     $_SESSION['user'] = array();
 
-    if (isset($_POST['user_email']) && isset($_POST['user_password'])) {
+    if (isset($_POST['email']) && isset($_POST['password'])) {
       if ($this->chk_email(
-        strip_tags($_POST['user_email']),
+        strip_tags($_POST['email']),
         strip_tags($_POST['user_password'])
       )) {
-        $_SESSION['user']['email'] = strip_tags($_POST['user_email']);
+        $_SESSION['user']['email'] = strip_tags($_POST['email']);
         $_SESSION['user']['id'] = $user_id;
         $_SESSION['user']['name'] = $user_name;
         cutil::redirect_exit("../index.php");
@@ -147,11 +147,11 @@ class cmain_node extends cnode
             <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>
-                <input type="email" name="user_email" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
+                <input type="email" name="email" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
               </div>
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
-                <input type="password" name="user_password" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
+                <input type="password" name="password" value="" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
               </div>
               <div class="flex items-center justify-center">
                 <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover">パスワードを忘れた方</a>
