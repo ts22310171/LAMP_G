@@ -62,8 +62,8 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	public function post_default()
 	{
-		cutil::post_default("member_name", '');
-		cutil::post_default("member_login", '');
+		cutil::post_default("user_name", '');
+		cutil::post_default("email", '');
 		cutil::post_default("enc_password", '');
 		cutil::post_default("enc_password_chk", '');
 		cutil::post_default("main_image", '');
@@ -125,9 +125,9 @@ class cmain_node extends cnode
 			}
 		} else {
 			if ($user_id > 0) {
-				$member_obj = new cuser();
+				$user_obj = new cuser();
 				//$_POSTにデータを読み込む
-				$_POST = $member_obj->get_tgt(false, $user_id);
+				$_POST = $user_obj->get_tgt(false, $user_id);
 				if (cutil::array_chk($_POST)) {
 					//パスワードは表示しない
 					$_POST['enc_password'] = '';
@@ -157,28 +157,28 @@ class cmain_node extends cnode
 		global $user_id;
 
 		/// メンバー名の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'member_name', 'メンバー名', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'user_name', 'メンバー名', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		////////////////////////////////////////////////////////////
-		if (cutil_ex::chkset_err_field($err_array, 'member_login', 'ログイン', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'email', 'ログイン', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		//メンバーログインのユニークチェック
-		$member_obj = new cmember();
+		$user_obj = new cuser();
 		//chk_arrにデータを読み込む
-		$chk_arr = $member_obj->get_tgt_login(false, $_POST['member_login']);
+		$chk_arr = $user_obj->get_tgt_login(false, $_POST['email']);
 		if ($user_id == 0) {
 			//新規の時
 			if (cutil::array_chk($chk_arr)) {
 				//すでにそのログイン名がある
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
+				$err_array['email'] = "すでに、{$_POST['email']}、は使われています";
 				$err_flag = 1;
 			}
 		} else {
 			if ($chk_arr['user_id'] != $user_id) {
 				//自分以外のアカウントが使用している
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
+				$err_array['email'] = "すでに、{$_POST['email']}、は使われています";
 				$err_flag = 1;
 			}
 		}
@@ -335,8 +335,8 @@ class cmain_node extends cnode
 			//新規（パスワード必須）
 			$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
 		}
-		$dataarr['member_name'] = (string)$_POST['member_name'];
-		$dataarr['member_login'] = (string)$_POST['member_login'];
+		$dataarr['user_name'] = (string)$_POST['user_name'];
+		$dataarr['email'] = (string)$_POST['email'];
 		$dataarr['main_image'] = (string)$_POST['main_image'];
 		$dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
 		$dataarr['member_address'] = (string)$_POST['member_address'];
@@ -419,15 +419,15 @@ END_BLOCK;
 	@return	メンバーログインコントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_member_login()
+	function get_email()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('member_login', $_POST['member_login'], 'size="70"');
+		$tgt = new ctextbox('email', $_POST['email'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['member_login'])) {
+		if (isset($err_array['email'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['member_login'])
+				. cutil::ret2br($err_array['email'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -600,7 +600,7 @@ END_BLOCK;
 			<?= $this->get_err_flag(); ?>
 			<h5><strong>メンバー詳細</strong></h5>
 			<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-				<a href="member_list.php">一覧に戻る</a>
+				<a href="user_list.php">一覧に戻る</a>
 				<table class="table table-bordered">
 					<tr>
 						<th class="text-center">ID</th>
@@ -611,8 +611,8 @@ END_BLOCK;
 						<td width="70%"><?= $this->get_user_name(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">メンバーログイン</th>
-						<td width="70%"><?= $this->get_member_login(); ?></td>
+						<th class="text-center">email</th>
+						<td width="70%"><?= $this->get_email(); ?></td>
 					</tr>
 
 					<tr>
