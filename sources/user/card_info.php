@@ -75,7 +75,7 @@ class cmain_node extends cnode
         </head>
 
         <body>
-            <div class="max-w-4xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="max-w-4xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
                 <div class="flex flex-wrap -mx-4">
                     <!-- プラン詳細 -->
                     <div class="w-full md:w-1/2 px-4 mb-6 md:mb-0">

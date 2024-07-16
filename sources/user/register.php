@@ -43,16 +43,15 @@ class cmain_node extends cnode
     //--------------------------------------------------------------------------------------
     public function execute()
     {
-        global $ERR_STR, $SUCCESS_STR;
+        global $ERR_STR;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user_obj = new cuser();
             $debug = false;
 
-            if ($user_obj->duplicate_check($debug, $_POST['user_email'])) {
+            if ($user_obj->duplicate_check($debug, $_POST['email'])) {
                 $ERR_STR = "このメールアドレスは既に登録されています。";
             } else {
-                $SUCCESS_STR = "このメールアドレスは使用可能です。";
                 // メールアドレスが使用可能な場合、登録処理を行う
                 $this->register();
             }
@@ -74,9 +73,9 @@ class cmain_node extends cnode
         $dataarr = array();
 
         // フォームデータの取得と検証
-        $dataarr['name'] = $_POST['user_name'];
-        $dataarr['email'] = $_POST['user_email'];
-        $dataarr['password'] = cutil::pw_encode($_POST['user_password']);
+        $dataarr['name'] = $_POST['name'];
+        $dataarr['email'] = $_POST['email'];
+        $dataarr['password'] = cutil::pw_encode($_POST['password']);
 
         // その他の必要なフィールドを追加（例：prefecture_id, member_address など）
         // $dataarr['prefecture_id'] = 1; // デフォルト値または別のフォームフィールドから取得
@@ -136,24 +135,19 @@ class cmain_node extends cnode
                                 <span class="block sm:inline"><?php echo htmlspecialchars($ERR_STR); ?></span>
                             </div>
                         <?php endif; ?>
-                        <?php if (!empty($SUCCESS_STR)) : ?>
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                                <span class="block sm:inline"><?php echo htmlspecialchars($SUCCESS_STR); ?></span>
-                            </div>
-                        <?php endif; ?>
                         <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
-                                <input type="text" name="user_name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
+                                <input type="text" name="name" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
                             </div>
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
-                                <input type="email" name="user_email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
+                                <input type="email" name="email" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
                             </div>
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
                                 <label class="block mb-2 text-xs text-explain">8文字以上の半角英数記号</label>
-                                <input type="password" name="user_password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
+                                <input type="password" name="password" class="bg-thingreen border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
                             </div>
                             <div class="px-6">
                                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">登録</button>
