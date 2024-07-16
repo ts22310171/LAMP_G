@@ -41,7 +41,7 @@ class cmain_node extends cnode
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>会員登録</title>
+            <title>トップページ</title>
 
             <!-- Fonts -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -53,45 +53,45 @@ class cmain_node extends cnode
         </head>
 
         <body class="bg-gray-100 p-4">
-    <div class="container mx-auto">
-        <h1 class="text-2xl font-bold mb-4">プラン一覧</h1>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b border-gray-200">プラン名</th>
-                        <th class="py-2 px-4 border-b border-gray-200">説明</th>
-                        <th class="py-2 px-4 border-b border-gray-200">値段</th>
-                        <th class="py-2 px-4 border-b border-gray-200">有効期限</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    session_start();
-                    if (isset($_SESSION['planList'])) {
-                        $planList = $_SESSION['planList'];
+            <div class="container mx-auto">
+                <h1 class="text-2xl font-bold mb-4">プラン一覧</h1>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b border-gray-200">プラン名</th>
+                                <th class="py-2 px-4 border-b border-gray-200">説明</th>
+                                <th class="py-2 px-4 border-b border-gray-200">値段</th>
+                                <th class="py-2 px-4 border-b border-gray-200">有効期限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            session_start();
+                            if (isset($_SESSION['planList'])) {
+                                $planList = $_SESSION['planList'];
 
-                        // 取得したデータをテーブルに表示する
-                        foreach ($planList as $plan) {
-                            echo "<tr>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['name'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['description'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['price'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "</tr>";
-                        }
+                                // 取得したデータをテーブルに表示する
+                                foreach ($planList as $plan) {
+                                    echo "<tr>";
+                                    echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['name'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                    echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['description'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                    echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['price'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                    echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                    echo "</tr>";
+                                }
 
-                        // セッションデータを削除
-                        unset($_SESSION['planList']);
-                    } else {
-                        echo "<tr><td colspan='4' class='py-2 px-4 border-b border-gray-200'>データが見つかりません。</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</body>
+                                // セッションデータを削除
+                                unset($_SESSION['planList']);
+                            } else {
+                                echo "<tr><td colspan='4' class='py-2 px-4 border-b border-gray-200'>データが見つかりません。</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </body>
 
         </html>
         <!-- /コンテンツ　-->
