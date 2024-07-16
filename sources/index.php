@@ -26,6 +26,17 @@ class cmain_node extends cnode
 
     //--------------------------------------------------------------------------------------
     /*!
+    @brief  本体実行（表示前処理）
+    @return なし
+    */
+    //--------------------------------------------------------------------------------------
+    public function execute(){
+        $plan = new cplan();
+        $plan->get_all();
+    }
+
+    //--------------------------------------------------------------------------------------
+    /*!
     @brief  表示(継承して使用)
     @return なし
     */
@@ -68,21 +79,21 @@ class cmain_node extends cnode
                 <tbody>
                     <?php
                     session_start();
-                    if (isset($_SESSION['planList'])) {
-                        $planList = $_SESSION['planList'];
+                    if (isset($_SESSION['products'])) {
+                        $productList = $_SESSION['products'];
 
                         // 取得したデータをテーブルに表示する
-                        foreach ($planList as $plan) {
+                        foreach ($productList as $product) {
                             echo "<tr>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['name'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['description'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['price'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "</tr>";
                         }
 
                         // セッションデータを削除
-                        unset($_SESSION['planList']);
+                        unset($_SESSION['products']);
                     } else {
                         echo "<tr><td colspan='4' class='py-2 px-4 border-b border-gray-200'>データが見つかりません。</td></tr>";
                     }
@@ -118,6 +129,8 @@ $page_obj->add_child(cutil::create('cmain_header'));
 $page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
 //フッタ追加
 $page_obj->add_child(cutil::create('cmain_footer'));
+//本体実行（表示前処理）
+$main_obj->execute();
 //ページ全体を表示
 $page_obj->display();
 
