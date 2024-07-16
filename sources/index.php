@@ -52,20 +52,46 @@ class cmain_node extends cnode
             <script src="common/tailwind.config.js"></script>
         </head>
 
-        <body class="bg-main">
+        <body class="bg-gray-100 p-4">
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold mb-4">プラン一覧</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b border-gray-200">プラン名</th>
+                        <th class="py-2 px-4 border-b border-gray-200">説明</th>
+                        <th class="py-2 px-4 border-b border-gray-200">値段</th>
+                        <th class="py-2 px-4 border-b border-gray-200">有効期限</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['planList'])) {
+                        $planList = $_SESSION['planList'];
 
-            <div class="flex flex-col items-center justify-center min-h-screen py-8">
-                <p class="mb-4 text-center">チャット相談でお部屋を片付けませんか？</p>
-                <button class="px-4 py-2 mb-8 text-white bg-blue-500 rounded hover:bg-blue-600">ログイン</button>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <img class="w-48 h-48" src="images/plan_detail1.png" alt="画像1">
-                    <img class="w-48 h-48" src="images/plan_detail2.png" alt="画像2">
-                    <img class="w-48 h-48" src="images/plan_detail3.png" alt="画像3">
-                    <img class="w-48 h-48" src="images/plan_detail4.png" alt="画像4">
-                </div>
-            </div>
+                        // 取得したデータをテーブルに表示する
+                        foreach ($planList as $plan) {
+                            echo "<tr>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['name'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['description'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['price'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($plan['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "</tr>";
+                        }
 
-        </body>
+                        // セッションデータを削除
+                        unset($_SESSION['planList']);
+                    } else {
+                        echo "<tr><td colspan='4' class='py-2 px-4 border-b border-gray-200'>データが見つかりません。</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 
         </html>
         <!-- /コンテンツ　-->
