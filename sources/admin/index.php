@@ -64,7 +64,7 @@ class cmain_node extends cnode {
 <td><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></td>
 </tr>
 <tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">プラン管理</a></td>
+<td><a href="product_list.php" class="nav-link link-success">プラン管理</a></td>
 </tr>
 <tr>
 <td><a href="admin_master_list.php" class="nav-link link-success">購入管理</a></td>

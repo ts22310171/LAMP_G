@@ -29,7 +29,7 @@ if(isset($_GET['page'])
 
 //1ページのリミット
 $limit = 20;
-$member_rows = array();
+$user_rows = array();
 
 
 //--------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ END_BLOCK;
 		}
 		else{
 			$retstr =<<<END_BLOCK
-<tr><td colspan="3" class="nobottom">メユーザーが見つかりません</td></tr>
+<tr><td colspan="3" class="nobottom">ユーザーが見つかりません</td></tr>
 END_BLOCK;
 		}
 		return $retstr;
