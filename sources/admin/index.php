@@ -58,19 +58,7 @@ class cmain_node extends cnode {
 <td><a href="user_list.php" class="nav-link link-success">ユーザー管理</a></td>
 </tr>
 <tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">クライアント管理</a></td>
-</tr>
-<tr>
 <td><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></td>
-</tr>
-<tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">プラン管理</a></td>
-</tr>
-<tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">購入管理</a></td>
-</tr>
-<tr>
-<td><a href="admin_master_list.php" class="nav-link link-success">お問い合わせ</a></td>
 </tr>
 <tr>
 <td><a href="mail_chk.php" class="nav-link link-success">メール送信テスト</a></td>
