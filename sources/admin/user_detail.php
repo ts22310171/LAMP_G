@@ -403,7 +403,7 @@ END_BLOCK;
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('user_name', $_POST['user_name'], 'size="70"');
+		$tgt = new ctextbox('user_name', $_POST['name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
 		if (isset($err_array['user_name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
@@ -622,24 +622,6 @@ END_BLOCK;
 					<tr>
 						<th class="text-center">パスワード確認（変更するとき入力）</th>
 						<td width="70%"><?= $this->get_enc_password_chk(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバーイメージ</th>
-						<td width="70%">
-							<?= $this->get_upload_main_image(); ?>
-						</td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバー都道府県</th>
-						<td width="70%"><?= $this->get_prefecture_select(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバー市区郡町村以下</th>
-						<td width="70%"><?= $this->get_member_address(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">コメント</th>
-						<td width="70%"><?= $this->get_member_comment(); ?></td>
 					</tr>
 				</table>
 				<input type="hidden" name="func" value="" />

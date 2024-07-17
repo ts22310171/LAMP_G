@@ -92,11 +92,11 @@ END_BLOCK;
 	@return	配列（1次元配列になる）空の場合はfalse
 	*/
     //--------------------------------------------------------------------------------------
-    public function get_tgt($debug, $email)
+    public function get_tgt($debug, $user_id)
     {
         if (
-            !cutil::is_number($email)
-            ||  $email < 1
+            !cutil::is_number($user_id)
+            ||  $user_id < 1
         ) {
             //falseを返す
             return false;
@@ -108,10 +108,10 @@ users.*
 from
 users
 where
-email = :email
+id = :user_id
 END_BLOCK;
         $prep_arr = array(
-            ':email' => (int)$email
+            ':user_id' => (int)$user_id
         );
         //親クラスのselect_query()メンバ関数を呼ぶ
         $this->select_query(
