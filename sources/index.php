@@ -1,5 +1,7 @@
 <?php
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 //ライブラリをインクルード
 require_once("common/libs.php");
 
@@ -30,9 +32,10 @@ class cmain_node extends cnode
     @return なし
     */
     //--------------------------------------------------------------------------------------
-    public function execute(){
+    public function execute()
+    {
         $plan = new cplan();
-        $plan->get_all();
+        $_SESSION['products'] = $plan->get_all(false, 0, 10);  // パラメータは適宜変更
     }
 
     //--------------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ class cmain_node extends cnode
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>トップページ</title>
+            <title>プラン一覧</title>
 
             <!-- Fonts -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -64,45 +67,44 @@ class cmain_node extends cnode
         </head>
 
         <body class="bg-gray-100 p-4">
-    <div class="container mx-auto">
-        <h1 class="text-2xl font-bold mb-4">プラン一覧</h1>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b border-gray-200">プラン名</th>
-                        <th class="py-2 px-4 border-b border-gray-200">説明</th>
-                        <th class="py-2 px-4 border-b border-gray-200">値段</th>
-                        <th class="py-2 px-4 border-b border-gray-200">有効期限</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="container mx-auto">
+                <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">プラン一覧</h1>
+                <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <?php
-                    session_start();
                     if (isset($_SESSION['products'])) {
                         $productList = $_SESSION['products'];
 
-                        // 取得したデータをテーブルに表示する
                         foreach ($productList as $product) {
-                            echo "<tr>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td class='py-2 px-4 border-b border-gray-200'>" . htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "</tr>";
+                    ?>
+                            <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                                <h3 class="mb-4 text-2xl font-semibold"><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                                <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400"><?php echo htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <div class="flex justify-center items-baseline my-8">
+                                    <span class="mr-2 text-5xl font-extrabold">￥<?php echo htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                </div>
+                                <!-- List -->
+                                <ul role="list" class="mb-8 space-y-4 text-left">
+                                    <li class="flex items-center space-x-3">
+                                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>期間: <span class="font-semibold"><?php echo htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8'); ?></span><span class="ml-1">日</span></span>
+                                    </li>
+                                </ul>
+                                <a href="user/card_info.php?plan_id=<?php echo urlencode($product['id']); ?>" class="text-white bg-sub hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">購入する</a>
+                            </div>
+                    <?php
                         }
 
-                        // セッションデータを削除
                         unset($_SESSION['products']);
                     } else {
-                        echo "<tr><td colspan='4' class='py-2 px-4 border-b border-gray-200'>データが見つかりません。</td></tr>";
+                        echo "<p class='text-center text-gray-600'>データが見つかりません。</p>";
                     }
                     ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</body>
+                </div>
+            </div>
+        </body>
+
         </html>
         <!-- /コンテンツ　-->
 <?php
@@ -125,7 +127,7 @@ $page_obj = new cnode();
 //ヘッダ追加
 $page_obj->add_child(cutil::create('cmain_header'));
 //本体追加
-$page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
+$page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
 $page_obj->add_child(cutil::create('cmain_footer'));
 //本体実行（表示前処理）
