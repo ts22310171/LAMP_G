@@ -86,7 +86,7 @@ class cmain_node extends cnode
 
         if ($mid) {
             $_SESSION['user']['name'] = $dataarr['name']; // ユーザー名をセッションに保存
-            cutil::redirect_exit("ABSOLUTE_PATH../index.php");
+            cutil::redirect_exit(ABSOLUTE_PATH . "/sources/index.php");
         } else {
             $ERR_STR = "登録に失敗しました。もう一度お試しください。";
         }

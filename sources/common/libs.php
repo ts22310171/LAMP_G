@@ -23,7 +23,7 @@ require_once("contents_db.php");
 require_once("contents_nodes.php");
 //追加で定義したもの
 require_once("user_db.php");
-require_once("plan_db.php");
+require_once("product_db.php");
 
 require_once("header.php");
 require_once("footer.php");

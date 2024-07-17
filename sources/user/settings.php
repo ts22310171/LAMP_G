@@ -75,7 +75,6 @@ class cmain_node extends cnode
         </head>
 
         <body>
-
             <div class="container mx-auto p-6">
                 <h1 class="text-2xl font-bold mb-6">アカウント設定</h1>
 
