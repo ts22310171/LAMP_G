@@ -14,7 +14,7 @@ $err_array = array();
 $err_flag = 0;
 $page_obj = null;
 //プライマリキー
-$user_id = 0;
+$member_id = 0;
 
 $CMS_FILEUP_DIR = "../upimages/";
 
@@ -35,23 +35,23 @@ class cmain_node extends cnode
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 		//プライマリキー
-		global $user_id;
+		global $member_id;
 		if (
 			isset($_GET['mid'])
 			//cutilクラスのメンバ関数をスタティック呼出
 			&& cutil::is_number($_GET['mid'])
 			&& $_GET['mid'] > 0
 		) {
-			$user_id = $_GET['mid'];
+			$member_id = $_GET['mid'];
 		}
 		//$_POST優先
 		if (
-			isset($_POST['user_id'])
+			isset($_POST['member_id'])
 			//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_POST['user_id'])
-			&& $_POST['user_id'] > 0
+			&& cutil::is_number($_POST['member_id'])
+			&& $_POST['member_id'] > 0
 		) {
-			$user_id = $_POST['user_id'];
+			$member_id = $_POST['member_id'];
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -62,8 +62,8 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	public function post_default()
 	{
-		cutil::post_default("user_name", '');
-		cutil::post_default("email", '');
+		cutil::post_default("member_name", '');
+		cutil::post_default("member_login", '');
 		cutil::post_default("enc_password", '');
 		cutil::post_default("enc_password_chk", '');
 		cutil::post_default("main_image", '');
@@ -92,7 +92,7 @@ class cmain_node extends cnode
 		global $err_flag;
 		global $page_obj;
 		//プライマリキー
-		global $user_id;
+		global $member_id;
 		if (is_null($page_obj)) {
 			echo 'ページが無効です';
 			exit();
@@ -124,10 +124,10 @@ class cmain_node extends cnode
 					break;
 			}
 		} else {
-			if ($user_id > 0) {
-				$user_obj = new cuser();
+			if ($member_id > 0) {
+				$member_obj = new cmember();
 				//$_POSTにデータを読み込む
-				$_POST = $user_obj->get_tgt(false, $user_id);
+				$_POST = $member_obj->get_tgt(false, $member_id);
 				if (cutil::array_chk($_POST)) {
 					//パスワードは表示しない
 					$_POST['enc_password'] = '';
@@ -154,37 +154,37 @@ class cmain_node extends cnode
 	{
 		global $err_array;
 		global $err_flag;
-		global $user_id;
+		global $member_id;
 
 		/// メンバー名の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'user_name', 'メンバー名', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'member_name', 'メンバー名', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		////////////////////////////////////////////////////////////
-		if (cutil_ex::chkset_err_field($err_array, 'email', 'ログイン', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'member_login', 'ログイン', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		//メンバーログインのユニークチェック
-		$user_obj = new cuser();
+		$member_obj = new cmember();
 		//chk_arrにデータを読み込む
-		$chk_arr = $user_obj->get_tgt_login(false, $_POST['email']);
-		if ($user_id == 0) {
+		$chk_arr = $member_obj->get_tgt_login(false, $_POST['member_login']);
+		if ($member_id == 0) {
 			//新規の時
 			if (cutil::array_chk($chk_arr)) {
 				//すでにそのログイン名がある
-				$err_array['email'] = "すでに、{$_POST['email']}、は使われています";
+				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
 				$err_flag = 1;
 			}
 		} else {
-			if ($chk_arr['user_id'] != $user_id) {
+			if ($chk_arr['member_id'] != $member_id) {
 				//自分以外のアカウントが使用している
-				$err_array['email'] = "すでに、{$_POST['email']}、は使われています";
+				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
 				$err_flag = 1;
 			}
 		}
 		////////////////////////////////////////////////////////////
 		//新規の時
-		if ($user_id == 0) {
+		if ($member_id == 0) {
 			if (cutil_ex::chkset_err_field($err_array, 'enc_password', 'パスワード', 'isset_pass')) {
 				$err_flag = 1;
 			}
@@ -322,11 +322,11 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	function regist()
 	{
-		global $user_id;
+		global $member_id;
 		$change_obj = new crecord();
 		$dataarr = array();
 		//パスワードが変更さえているかを確認する
-		if ($user_id > 0) {
+		if ($member_id > 0) {
 			if ($_POST['enc_password'] != '') {
 				//パスワードに入力があった（変更された）
 				$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
@@ -335,17 +335,17 @@ class cmain_node extends cnode
 			//新規（パスワード必須）
 			$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
 		}
-		$dataarr['user_name'] = (string)$_POST['user_name'];
-		$dataarr['email'] = (string)$_POST['email'];
+		$dataarr['member_name'] = (string)$_POST['member_name'];
+		$dataarr['member_login'] = (string)$_POST['member_login'];
 		$dataarr['main_image'] = (string)$_POST['main_image'];
 		$dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
 		$dataarr['member_address'] = (string)$_POST['member_address'];
 		$dataarr['member_comment'] = (string)$_POST['member_comment'];
-		if ($user_id > 0) {
-			$where = 'user_id = :user_id';
-			$wherearr[':user_id'] = (int)$user_id;
+		if ($member_id > 0) {
+			$where = 'member_id = :member_id';
+			$wherearr[':member_id'] = (int)$member_id;
 			$change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
-			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $user_id);
+			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $member_id);
 		} else {
 			$mid = $change_obj->insert_core(false, 'member', $dataarr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
@@ -384,13 +384,13 @@ END_BLOCK;
 	@return	メンバーID
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_user_id_txt()
+	function get_member_id_txt()
 	{
-		global $user_id;
-		if ($user_id <= 0) {
+		global $member_id;
+		if ($member_id <= 0) {
 			return '新規';
 		} else {
-			return $user_id;
+			return $member_id;
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -399,15 +399,15 @@ END_BLOCK;
 	@return	メンバー名コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_user_name()
+	function get_member_name()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('user_name', $_POST['name'], 'size="70"');
+		$tgt = new ctextbox('member_name', $_POST['member_name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['user_name'])) {
+		if (isset($err_array['member_name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['user_name'])
+				. cutil::ret2br($err_array['member_name'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -419,15 +419,15 @@ END_BLOCK;
 	@return	メンバーログインコントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_email()
+	function get_member_login()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('email', $_POST['email'], 'size="70"');
+		$tgt = new ctextbox('member_login', $_POST['member_login'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['email'])) {
+		if (isset($err_array['member_login'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['email'])
+				. cutil::ret2br($err_array['member_login'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -564,11 +564,11 @@ END_BLOCK;
 	//--------------------------------------------------------------------------------------
 	function get_switch()
 	{
-		global $user_id;
+		global $member_id;
 		$ret_str = '';
 		if ($_POST['func'] == 'conf') {
 			$button = '更新';
-			if ($user_id <= 0) {
+			if ($member_id <= 0) {
 				$button = '追加';
 			}
 			$ret_str = <<<END_BLOCK
@@ -592,27 +592,27 @@ END_BLOCK;
 	//--------------------------------------------------------------------------------------
 	public function display()
 	{
-		global $user_id;
+		global $member_id;
 		//PHPブロック終了
 ?>
 		<!-- コンテンツ　-->
 		<div class="contents">
 			<?= $this->get_err_flag(); ?>
-			<h5><strong>ユーザー詳細</strong></h5>
+			<h5><strong>メンバー詳細</strong></h5>
 			<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-				<a href="user_list.php">一覧に戻る</a>
+				<a href="member_list.php">一覧に戻る</a>
 				<table class="table table-bordered">
 					<tr>
 						<th class="text-center">ID</th>
-						<td width="70%"><?= $this->get_user_id_txt(); ?></td>
+						<td width="70%"><?= $this->get_member_id_txt(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">ユーザー名</th>
-						<td width="70%"><?= $this->get_user_name(); ?></td>
+						<th class="text-center">メンバー名</th>
+						<td width="70%"><?= $this->get_member_name(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">email</th>
-						<td width="70%"><?= $this->get_email(); ?></td>
+						<th class="text-center">メンバーログイン</th>
+						<td width="70%"><?= $this->get_member_login(); ?></td>
 					</tr>
 
 					<tr>
@@ -623,10 +623,28 @@ END_BLOCK;
 						<th class="text-center">パスワード確認（変更するとき入力）</th>
 						<td width="70%"><?= $this->get_enc_password_chk(); ?></td>
 					</tr>
+					<tr>
+						<th class="text-center">メンバーイメージ</th>
+						<td width="70%">
+							<?= $this->get_upload_main_image(); ?>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center">メンバー都道府県</th>
+						<td width="70%"><?= $this->get_prefecture_select(); ?></td>
+					</tr>
+					<tr>
+						<th class="text-center">メンバー市区郡町村以下</th>
+						<td width="70%"><?= $this->get_member_address(); ?></td>
+					</tr>
+					<tr>
+						<th class="text-center">コメント</th>
+						<td width="70%"><?= $this->get_member_comment(); ?></td>
+					</tr>
 				</table>
 				<input type="hidden" name="func" value="" />
 				<input type="hidden" name="param" value="" />
-				<input type="hidden" name="user_id" value="<?= $user_id; ?>" />
+				<input type="hidden" name="member_id" value="<?= $member_id; ?>" />
 				<p class="text-center"><?= $this->get_switch(); ?></p>
 			</form>
 		</div>

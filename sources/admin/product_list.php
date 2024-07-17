@@ -1,7 +1,7 @@
 <?php
 /*!
-@file member_list.php
-@brief ユーザー一覧
+@file plan_list.php
+@brief プラン一覧
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
@@ -29,7 +29,7 @@ if(isset($_GET['page'])
 
 //1ページのリミット
 $limit = 20;
-$user_rows = array();
+$plan_rows = array();
 
 
 //--------------------------------------------------------------------------------------
@@ -53,11 +53,11 @@ class cmain_node extends cnode {
 	//--------------------------------------------------------------------------------------
 	function readdata(){
 		global $limit;
-		global $user_rows;
+		global $plan_rows;
 		global $page;
-		$obj = new cuser();
+		$obj = new cplan();
 		$from = ($page - 1) * $limit;
-		$user_rows = $obj->get_all(false,$from,$limit);
+		$plan_rows = $obj->get_all(false,$from,$limit);
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -70,7 +70,7 @@ class cmain_node extends cnode {
 			$where = 'id = :id';
 			$wherearr[':id'] = (int)$_POST['param'];
 			$change_obj = new crecord();
-			$change_obj->delete_core(false,'users',$where,$wherearr,false);
+			$change_obj->delete_core(false,'products',$where,$wherearr,false);
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -113,18 +113,18 @@ class cmain_node extends cnode {
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	ユーザーのリストを得る
-	@return	ユーザーリストの文字列
+	@brief	プランのリストを得る
+	@return	プランリストの文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public function get_user_rows(){
-		global $user_rows;
+	public function get_plan_rows(){
+		global $plan_rows;
 		global $page;
 		$retstr = '';
 		$urlparam = '&page=' . $page;
 		$rowscount = 1;
-		if(count($user_rows) > 0){
-			foreach($user_rows as $key => $value){
+		if(count($plan_rows) > 0){
+			foreach($plan_rows as $key => $value){
 				$javamsg =  '【' . $value['name'] . '】';
 				$str =<<<END_BLOCK
 <tr>
@@ -132,7 +132,7 @@ class cmain_node extends cnode {
 {$value['id']}
 </td>
 <td width="65%" class="text-center">
-<a href="user_detail.php?mid={$value['id']}{$urlparam}">{$value['name']}</a>
+<a href="product_detail.php?mid={$value['id']}{$urlparam}">{$value['name']}</a>
 </td>
 <td width="15%" class="text-center">
 <input type="button" value="削除確認" onClick="del_func_form({$value['id']},'{$javamsg}');" />
@@ -145,7 +145,7 @@ END_BLOCK;
 		}
 		else{
 			$retstr =<<<END_BLOCK
-<tr><td colspan="3" class="nobottom">ユーザーが見つかりません</td></tr>
+<tr><td colspan="3" class="nobottom">プランが見つかりません</td></tr>
 END_BLOCK;
 		}
 		return $retstr;
@@ -159,7 +159,7 @@ END_BLOCK;
 	function get_page_block(){
 		global $limit;
 		global $page;
-		$obj = new cuser();
+		$obj = new cplan();
 		$allcount = $obj->get_all_count(false);
 		$ctl = new cpager($_SERVER['PHP_SELF'],$allcount,$limit);
 		return $ctl->get('page',$page);
@@ -186,17 +186,17 @@ END_BLOCK;
 ?>
 <!-- コンテンツ　-->
 <div class="contents">
-<h5><strong>ユーザー一覧</strong></h5>
+<h5><strong>プラン一覧</strong></h5>
 <form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
-<p><a href="user_detail.php">新規</a></p>
+<p><a href="product_detail.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <table class="table table-bordered">
 <tr>
-<th class="text-center">ユーザーID</th>
-<th class="text-center">ユーザー名</th>
+<th class="text-center">プランID</th>
+<th class="text-center">プラン名</th>
 <th class="text-center">操作</th>
 </tr>
-<?= $this->get_user_rows(); ?>
+<?= $this->get_plan_rows(); ?>
 </table>
 <input type="hidden" name="func" value="" >
 <input type="hidden" name="param" value="" >

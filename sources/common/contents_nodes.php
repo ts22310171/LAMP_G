@@ -53,8 +53,12 @@ class cheader extends cnode {
 <header class="d-flex justify-content-center py-3 border-dark border-bottom">
 <ul class="nav nav-pills">
 <li class="nav-item"><a href="index.php" class="nav-link link-success">メインメニュー</a></li>
-<li class="nav-item"><a href="member_list.php" class="nav-link link-success">メンバー管理</a></li>
+<li class="nav-item"><a href="user_list.php" class="nav-link link-success">ユーザー管理</a></li>
+<li class="nav-item"><a href="user_list.php" class="nav-link link-success">クライアント管理</a></li>
 <li class="nav-item"><a href="admin_master_list.php" class="nav-link link-success">管理者管理</a></li>
+<li class="nav-item"><a href="product_list.php" class="nav-link link-success">プラン管理</a></li>
+<li class="nav-item"><a href="admin_master_list.php" class="nav-link link-success">購入管理</a></li>
+<li class="nav-item"><a href="admin_master_list.php" class="nav-link link-success">お問い合わせ</a></li>
 <li class="nav-item"><a href="mail_chk.php" class="nav-link link-success">メール送信テスト</a></li>
 <li class="nav-item"><a href="admin_login.php" class="nav-link link-success">ログアウト</a></li>
 </ul>
