@@ -593,7 +593,7 @@ END_BLOCK;
 			<?= $this->get_err_flag(); ?>
 			<h5><strong>プラン詳細</strong></h5>
 			<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-				<a href="member_list.php">一覧に戻る</a>
+				<a href="product_list.php">一覧に戻る</a>
 				<table class="table table-bordered">
 					<tr>
 						<th class="text-center">ID</th>
