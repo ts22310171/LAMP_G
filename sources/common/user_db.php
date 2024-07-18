@@ -188,6 +188,25 @@ END_BLOCK;
         // 結果が存在し、countが0より大きい場合はtrue、それ以外はfalseを返す
         return ($result && $result['count'] > 0);
     }
+/*!
+@file user_db.php
+@brief ユーザー関連のデータベース操作
+*/
+
+function get_message_history($user_id) {
+    $db = get_db_connection();
+    $stmt = $db->prepare("SELECT advisor, message, created_at FROM messages WHERE user_id = ? ORDER BY created_at DESC");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchAll();
+}
+
+function get_purchase_history($user_id) {
+    $db = get_db_connection();
+    $stmt = $db->prepare("SELECT plan_name, duration, purchase_date FROM purchases WHERE user_id = ? ORDER BY purchase_date DESC");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchAll();
+}
+
 
     //--------------------------------------------------------------------------------------
     /*!
