@@ -104,7 +104,7 @@ where
 id = :id
 END_BLOCK;
         $prep_arr = array(
-            ':id' => (int)id
+            ':id' => (int)$id
         );
         //親クラスのselect_query()メンバ関数を呼ぶ
         $this->select_query(
