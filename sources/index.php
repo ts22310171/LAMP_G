@@ -8,6 +8,7 @@ require_once("common/libs.php");
 $err_array = array();
 $err_flag = 0;
 $page_obj = null;
+$products = array();
 
 
 //--------------------------------------------------------------------------------------
@@ -34,8 +35,8 @@ class cmain_node extends cnode
     //--------------------------------------------------------------------------------------
     public function execute()
     {
-        $plan = new cplan();
-        $_SESSION['products'] = $plan->get_all(false, 0, 10);  // パラメータは適宜変更
+        $plan = new cproduct();
+        $products = $plan->get_all(false, 0, 10);  // パラメータは適宜変更
     }
 
     //--------------------------------------------------------------------------------------
@@ -66,17 +67,15 @@ class cmain_node extends cnode
             <script src="common/tailwind.config.js"></script>
         </head>
 
-        <body class="bg-gray-100 p-4">
-            <div class="container mx-auto">
+        <body class="bg-main flex flex-col min-h-screen">
+            <div class="mt-20 mx-auto">
                 <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">プラン一覧</h1>
                 <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
                     <?php
-                    if (isset($_SESSION['products'])) {
-                        $productList = $_SESSION['products'];
-
-                        foreach ($productList as $product) {
+                    if (!empty($products)) {
+                        foreach ($products as $product) {
                     ?>
-                            <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                            <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-whitecolor rounded-lg border border-gray-100 shadow">
                                 <h3 class="mb-4 text-2xl font-semibold"><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
                                 <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400"><?php echo htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                                 <div class="flex justify-center items-baseline my-8">
@@ -88,15 +87,13 @@ class cmain_node extends cnode
                                         <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>
-                                        <span>期間: <span class="font-semibold"><?php echo htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8'); ?></span><span class="ml-1">日</span></span>
+                                        <span>期間: <span class=""><?php echo htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8'); ?>日</span></span></span>
                                     </li>
                                 </ul>
                                 <a href="user/card_info.php?plan_id=<?php echo urlencode($product['id']); ?>" class="text-white bg-sub hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">購入する</a>
                             </div>
                     <?php
                         }
-
-                        unset($_SESSION['products']);
                     } else {
                         echo "<p class='text-center text-gray-600'>データが見つかりません。</p>";
                     }

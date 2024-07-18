@@ -55,9 +55,9 @@ class cmain_footer extends cnode
       <script src="tailwind.config.js"></script>
     </head>
 
-    <body class="bg-main ">
+    <body class="bg-main">
       <footer class="bottom-0 w-full mt-auto">
-        <div class="bg-thingreen">
+        <div class="bg-lightsub">
           <div class="flex items-center">
             <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center">
               <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon3.png" width="60" height="60" class="ml-4" />

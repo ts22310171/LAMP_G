@@ -26,8 +26,10 @@ class cmain_node extends cnode
     public function execute()
     {
         $user_id = 1; // ログインしているユーザーIDを取得する方法に応じて変更
+
         $this->message_history = get_message_history($user_id);
         $this->purchase_history = get_purchase_history($user_id);
+
     }
 
     public function display()
@@ -36,6 +38,7 @@ class cmain_node extends cnode
         <!-- コンテンツ -->
         <!doctype html>
         <html>
+
 
         <head>
             <meta charset="UTF-8">
@@ -64,6 +67,7 @@ class cmain_node extends cnode
                             <p class="font-medium">ユーザー名</p>
                             <p class="text-gray-600">メールアドレス</p>
                         </div>
+
                     </div>
                 </div>
 
@@ -90,10 +94,12 @@ class cmain_node extends cnode
                     </ul>
                 </div>
             </div>
+
         </body>
 
         </html>
 <?php
+
     }
 
     public function create()
@@ -110,7 +116,9 @@ class cmain_node extends cnode
 $page_obj = new cnode();
 // ヘッダ追加
 $page_obj->add_child(cutil::create('cmain_header'));
+
 // 本体追加
+
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 // フッタ追加
 $page_obj->add_child(cutil::create('cmain_footer'));
@@ -121,4 +129,6 @@ $main_obj->execute();
 // ページ全体を表示
 $page_obj->display();
 
+
 ?>
+
