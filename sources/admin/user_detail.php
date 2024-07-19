@@ -325,7 +325,6 @@ class cmain_node extends cnode
 		}
 		$dataarr['name'] = (string)$_POST['name'];
 		$dataarr['email'] = (string)$_POST['email'];
-		//$dataarr['main_image'] = (string)$_POST['main_image'];
 		if ($user_id > 0) {
 			$where = 'id = :user_id';
 			$wherearr[':user_id'] = (int)$user_id;

@@ -62,14 +62,10 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	public function post_default()
 	{
-		cutil::post_default("plan_name", '');
+		cutil::post_default("name", '');
 		cutil::post_default("description", '');
-		cutil::post_default("enc_password", '');
-		cutil::post_default("enc_password_chk", '');
-		cutil::post_default("main_image", '');
-		cutil::post_default("prefecture_id", 0);
-		cutil::post_default("member_address", '');
-		cutil::post_default("member_comment", '');
+		cutil::post_default("price", '');
+		cutil::post_default("duration", '');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -125,13 +121,10 @@ class cmain_node extends cnode
 			}
 		} else {
 			if ($plan_id > 0) {
-				$member_obj = new cplan();
+				$plan_obj = new cplan();
 				//$_POSTにデータを読み込む
-				$_POST = $member_obj->get_tgt(false, $plan_id);
+				$_POST = $plan_obj->get_tgt(false, $plan_id);
 				if (cutil::array_chk($_POST)) {
-					//パスワードは表示しない
-					$_POST['enc_password'] = '';
-					$_POST['enc_password_chk'] = '';
 					//データ取得成功
 					$_POST['func'] = 'edit';
 				} else {
@@ -157,69 +150,13 @@ class cmain_node extends cnode
 		global $plan_id;
 
 		/// プラン名の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'plan_name', 'プラン名', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'name', 'プラン名', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		////////////////////////////////////////////////////////////
-		if (cutil_ex::chkset_err_field($err_array, 'description', 'ログイン', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'description', '説明', 'isset_nl')) {
 			$err_flag = 1;
 		}
-		//プランログインのユニークチェック
-		$member_obj = new cplan();
-		//chk_arrにデータを読み込む
-		$chk_arr = $member_obj->get_tgt_login(false, $_POST['member_login']);
-		if ($plan_id == 0) {
-			//新規の時
-			if (cutil::array_chk($chk_arr)) {
-				//すでにそのログイン名がある
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
-				$err_flag = 1;
-			}
-		} else {
-			if ($chk_arr['plan_id'] != $plan_id) {
-				//自分以外のアカウントが使用している
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
-				$err_flag = 1;
-			}
-		}
-		////////////////////////////////////////////////////////////
-		//新規の時
-		if ($plan_id == 0) {
-			if (cutil_ex::chkset_err_field($err_array, 'enc_password', 'パスワード', 'isset_pass')) {
-				$err_flag = 1;
-			}
-			if (cutil_ex::chkset_err_field($err_array, 'enc_password_chk', 'パスワード確認', 'isset_pass')) {
-				$err_flag = 1;
-			} else if ($_POST['enc_password'] != $_POST['enc_password_chk']) {
-				$err_array['enc_password_chk'] = "「パスワード確認」が「パスワード」と違っています。";
-				$err_flag = 1;
-			}
-		}
-		//更新の時
-		else {
-			//パスワードに入力があった
-			if ($_POST['enc_password'] != '') {
-				if (cutil_ex::chkset_err_field($err_array, 'enc_password', 'パスワード', 'isset_pass')) {
-					$err_flag = 1;
-				}
-				if (cutil_ex::chkset_err_field($err_array, 'enc_password_chk', 'パスワード確認', 'isset_pass')) {
-					$err_flag = 1;
-				} else if ($_POST['enc_password'] != $_POST['enc_password_chk']) {
-					$err_array['enc_password_chk'] = "「パスワード確認」が「パスワード」と違っています。";
-					$err_flag = 1;
-				}
-			}
-		}
-		////////////////////////////////////////////////////////////
-		/// プランの都道府県チェック
-		if (cutil_ex::chkset_err_field($err_array, 'prefecture_id', 'プラン都道府県', 'isset_num_range', 1, 47)) {
-			$err_flag = 1;
-		}
-		/// プラン住所の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'member_address', 'プラン市区郡町村以下', 'isset_nl')) {
-			$err_flag = 1;
-		}
-
 		//ファイルのアップロード
 		//添付されてなくてもエラーは出さない
 		$ext_arr = array();
@@ -325,29 +262,17 @@ class cmain_node extends cnode
 		global $plan_id;
 		$change_obj = new crecord();
 		$dataarr = array();
-		//パスワードが変更さえているかを確認する
+		$dataarr['name'] = (string)$_POST['name'];
+		$dataarr['description'] = (string)$_POST['description'];
+		$dataarr['price'] = (int)$_POST['price'];
+		$dataarr['duration'] = (int)$_POST['duration'];
 		if ($plan_id > 0) {
-			if ($_POST['enc_password'] != '') {
-				//パスワードに入力があった（変更された）
-				$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-			}
-		} else {
-			//新規（パスワード必須）
-			$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-		}
-		$dataarr['plan_name'] = (string)$_POST['plan_name'];
-		$dataarr['member_login'] = (string)$_POST['member_login'];
-		$dataarr['main_image'] = (string)$_POST['main_image'];
-		$dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
-		$dataarr['member_address'] = (string)$_POST['member_address'];
-		$dataarr['member_comment'] = (string)$_POST['member_comment'];
-		if ($plan_id > 0) {
-			$where = 'plan_id = :plan_id';
+			$where = 'id = :plan_id';
 			$wherearr[':plan_id'] = (int)$plan_id;
-			$change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
+			$change_obj->update_core(false, 'products', $dataarr, $where, $wherearr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $plan_id);
 		} else {
-			$mid = $change_obj->insert_core(false, 'member', $dataarr, false);
+			$mid = $change_obj->insert_core(false, 'products', $dataarr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
 		}
 	}
@@ -403,12 +328,13 @@ END_BLOCK;
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('plan_name', $_POST['name'], 'size="70"');
+		$tgt = new ctextbox('name', $_POST['name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['plan_name'])) {
+		if (isset($err_array['name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['plan_name'])
+				. cutil::ret2br($err_array['name'])
 				. '</span>';
+				
 		}
 		return $ret_str;
 	}
@@ -437,11 +363,11 @@ END_BLOCK;
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('plan_price', $_POST['price'], 'size="70"');
+		$tgt = new ctextbox('price', $_POST['price'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['plan_price'])) {
+		if (isset($err_array['price'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['plan_price'])
+				. cutil::ret2br($err_array['price'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -457,11 +383,11 @@ END_BLOCK;
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('plan_duration', $_POST['duration'], 'size="70"');
+		$tgt = new ctextbox('duration', $_POST['duration'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['plan_price'])) {
+		if (isset($err_array['price'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['plan_price'])
+				. cutil::ret2br($err_array['price'])
 				. '</span>';
 		}
 		return $ret_str;
