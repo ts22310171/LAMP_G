@@ -62,14 +62,10 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	public function post_default()
 	{
-		cutil::post_default("user_name", '');
+		cutil::post_default("name", '');
 		cutil::post_default("email", '');
 		cutil::post_default("enc_password", '');
 		cutil::post_default("enc_password_chk", '');
-		cutil::post_default("main_image", '');
-		cutil::post_default("prefecture_id", 0);
-		cutil::post_default("member_address", '');
-		cutil::post_default("member_comment", '');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -157,7 +153,7 @@ class cmain_node extends cnode
 		global $user_id;
 
 		/// メンバー名の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'user_name', 'メンバー名', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'name', 'メンバー名', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		////////////////////////////////////////////////////////////
@@ -176,7 +172,7 @@ class cmain_node extends cnode
 				$err_flag = 1;
 			}
 		} else {
-			if ($chk_arr['user_id'] != $user_id) {
+			if ($chk_arr['email'] != $_POST['email']) {
 				//自分以外のアカウントが使用している
 				$err_array['email'] = "すでに、{$_POST['email']}、は使われています";
 				$err_flag = 1;
@@ -210,15 +206,7 @@ class cmain_node extends cnode
 				}
 			}
 		}
-		////////////////////////////////////////////////////////////
-		/// メンバーの都道府県チェック
-		if (cutil_ex::chkset_err_field($err_array, 'prefecture_id', 'メンバー都道府県', 'isset_num_range', 1, 47)) {
-			$err_flag = 1;
-		}
-		/// メンバー住所の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'member_address', 'メンバー市区郡町村以下', 'isset_nl')) {
-			$err_flag = 1;
-		}
+		
 
 		//ファイルのアップロード
 		//添付されてなくてもエラーは出さない
@@ -329,25 +317,21 @@ class cmain_node extends cnode
 		if ($user_id > 0) {
 			if ($_POST['enc_password'] != '') {
 				//パスワードに入力があった（変更された）
-				$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
+				$dataarr['password'] = cutil::pw_encode($_POST['enc_password']);
 			}
 		} else {
 			//新規（パスワード必須）
-			$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
+			$dataarr['password'] = cutil::pw_encode($_POST['enc_password']);
 		}
-		$dataarr['user_name'] = (string)$_POST['user_name'];
+		$dataarr['name'] = (string)$_POST['name'];
 		$dataarr['email'] = (string)$_POST['email'];
-		$dataarr['main_image'] = (string)$_POST['main_image'];
-		$dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
-		$dataarr['member_address'] = (string)$_POST['member_address'];
-		$dataarr['member_comment'] = (string)$_POST['member_comment'];
 		if ($user_id > 0) {
-			$where = 'user_id = :user_id';
+			$where = 'id = :user_id';
 			$wherearr[':user_id'] = (int)$user_id;
-			$change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
+			$change_obj->update_core(false, 'users', $dataarr, $where, $wherearr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $user_id);
 		} else {
-			$mid = $change_obj->insert_core(false, 'member', $dataarr, false);
+			$mid = $change_obj->insert_core(false, 'users', $dataarr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
 		}
 	}
@@ -403,11 +387,11 @@ END_BLOCK;
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('user_name', $_POST['name'], 'size="70"');
+		$tgt = new ctextbox('name', $_POST['name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['user_name'])) {
+		if (isset($err_array['name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['user_name'])
+				. cutil::ret2br($err_array['name'])
 				. '</span>';
 		}
 		return $ret_str;

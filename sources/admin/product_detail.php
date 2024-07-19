@@ -1,7 +1,7 @@
 <?php
 /*!
 @file member_detail.php
-@brief メンバー詳細
+@brief プラン詳細
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
@@ -14,7 +14,7 @@ $err_array = array();
 $err_flag = 0;
 $page_obj = null;
 //プライマリキー
-$member_id = 0;
+$plan_id = 0;
 
 $CMS_FILEUP_DIR = "../upimages/";
 
@@ -35,23 +35,23 @@ class cmain_node extends cnode
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 		//プライマリキー
-		global $member_id;
+		global $plan_id;
 		if (
 			isset($_GET['mid'])
 			//cutilクラスのメンバ関数をスタティック呼出
 			&& cutil::is_number($_GET['mid'])
 			&& $_GET['mid'] > 0
 		) {
-			$member_id = $_GET['mid'];
+			$plan_id = $_GET['mid'];
 		}
 		//$_POST優先
 		if (
-			isset($_POST['member_id'])
+			isset($_POST['plan_id'])
 			//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_POST['member_id'])
-			&& $_POST['member_id'] > 0
+			&& cutil::is_number($_POST['plan_id'])
+			&& $_POST['plan_id'] > 0
 		) {
-			$member_id = $_POST['member_id'];
+			$plan_id = $_POST['plan_id'];
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -62,14 +62,10 @@ class cmain_node extends cnode
 	//--------------------------------------------------------------------------------------
 	public function post_default()
 	{
-		cutil::post_default("member_name", '');
-		cutil::post_default("member_login", '');
-		cutil::post_default("enc_password", '');
-		cutil::post_default("enc_password_chk", '');
-		cutil::post_default("main_image", '');
-		cutil::post_default("prefecture_id", 0);
-		cutil::post_default("member_address", '');
-		cutil::post_default("member_comment", '');
+		cutil::post_default("name", '');
+		cutil::post_default("description", '');
+		cutil::post_default("price", '');
+		cutil::post_default("duration", '');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -92,7 +88,7 @@ class cmain_node extends cnode
 		global $err_flag;
 		global $page_obj;
 		//プライマリキー
-		global $member_id;
+		global $plan_id;
 		if (is_null($page_obj)) {
 			echo 'ページが無効です';
 			exit();
@@ -124,14 +120,11 @@ class cmain_node extends cnode
 					break;
 			}
 		} else {
-			if ($member_id > 0) {
-				$member_obj = new cmember();
+			if ($plan_id > 0) {
+				$plan_obj = new cplan();
 				//$_POSTにデータを読み込む
-				$_POST = $member_obj->get_tgt(false, $member_id);
+				$_POST = $plan_obj->get_tgt(false, $plan_id);
 				if (cutil::array_chk($_POST)) {
-					//パスワードは表示しない
-					$_POST['enc_password'] = '';
-					$_POST['enc_password_chk'] = '';
 					//データ取得成功
 					$_POST['func'] = 'edit';
 				} else {
@@ -154,72 +147,16 @@ class cmain_node extends cnode
 	{
 		global $err_array;
 		global $err_flag;
-		global $member_id;
+		global $plan_id;
 
-		/// メンバー名の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'member_name', 'メンバー名', 'isset_nl')) {
+		/// プラン名の存在と空白チェック
+		if (cutil_ex::chkset_err_field($err_array, 'name', 'プラン名', 'isset_nl')) {
 			$err_flag = 1;
 		}
 		////////////////////////////////////////////////////////////
-		if (cutil_ex::chkset_err_field($err_array, 'member_login', 'ログイン', 'isset_nl')) {
+		if (cutil_ex::chkset_err_field($err_array, 'description', '説明', 'isset_nl')) {
 			$err_flag = 1;
 		}
-		//メンバーログインのユニークチェック
-		$member_obj = new cmember();
-		//chk_arrにデータを読み込む
-		$chk_arr = $member_obj->get_tgt_login(false, $_POST['member_login']);
-		if ($member_id == 0) {
-			//新規の時
-			if (cutil::array_chk($chk_arr)) {
-				//すでにそのログイン名がある
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
-				$err_flag = 1;
-			}
-		} else {
-			if ($chk_arr['member_id'] != $member_id) {
-				//自分以外のアカウントが使用している
-				$err_array['member_login'] = "すでに、{$_POST['member_login']}、は使われています";
-				$err_flag = 1;
-			}
-		}
-		////////////////////////////////////////////////////////////
-		//新規の時
-		if ($member_id == 0) {
-			if (cutil_ex::chkset_err_field($err_array, 'enc_password', 'パスワード', 'isset_pass')) {
-				$err_flag = 1;
-			}
-			if (cutil_ex::chkset_err_field($err_array, 'enc_password_chk', 'パスワード確認', 'isset_pass')) {
-				$err_flag = 1;
-			} else if ($_POST['enc_password'] != $_POST['enc_password_chk']) {
-				$err_array['enc_password_chk'] = "「パスワード確認」が「パスワード」と違っています。";
-				$err_flag = 1;
-			}
-		}
-		//更新の時
-		else {
-			//パスワードに入力があった
-			if ($_POST['enc_password'] != '') {
-				if (cutil_ex::chkset_err_field($err_array, 'enc_password', 'パスワード', 'isset_pass')) {
-					$err_flag = 1;
-				}
-				if (cutil_ex::chkset_err_field($err_array, 'enc_password_chk', 'パスワード確認', 'isset_pass')) {
-					$err_flag = 1;
-				} else if ($_POST['enc_password'] != $_POST['enc_password_chk']) {
-					$err_array['enc_password_chk'] = "「パスワード確認」が「パスワード」と違っています。";
-					$err_flag = 1;
-				}
-			}
-		}
-		////////////////////////////////////////////////////////////
-		/// メンバーの都道府県チェック
-		if (cutil_ex::chkset_err_field($err_array, 'prefecture_id', 'メンバー都道府県', 'isset_num_range', 1, 47)) {
-			$err_flag = 1;
-		}
-		/// メンバー住所の存在と空白チェック
-		if (cutil_ex::chkset_err_field($err_array, 'member_address', 'メンバー市区郡町村以下', 'isset_nl')) {
-			$err_flag = 1;
-		}
-
 		//ファイルのアップロード
 		//添付されてなくてもエラーは出さない
 		$ext_arr = array();
@@ -316,38 +253,26 @@ class cmain_node extends cnode
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバーの追加／更新。保存後自分自身を再読み込みする。
+	@brief	プランの追加／更新。保存後自分自身を再読み込みする。
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
 	function regist()
 	{
-		global $member_id;
+		global $plan_id;
 		$change_obj = new crecord();
 		$dataarr = array();
-		//パスワードが変更さえているかを確認する
-		if ($member_id > 0) {
-			if ($_POST['enc_password'] != '') {
-				//パスワードに入力があった（変更された）
-				$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-			}
+		$dataarr['name'] = (string)$_POST['name'];
+		$dataarr['description'] = (string)$_POST['description'];
+		$dataarr['price'] = (int)$_POST['price'];
+		$dataarr['duration'] = (int)$_POST['duration'];
+		if ($plan_id > 0) {
+			$where = 'id = :plan_id';
+			$wherearr[':plan_id'] = (int)$plan_id;
+			$change_obj->update_core(false, 'products', $dataarr, $where, $wherearr, false);
+			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $plan_id);
 		} else {
-			//新規（パスワード必須）
-			$dataarr['enc_password'] = cutil::pw_encode($_POST['enc_password']);
-		}
-		$dataarr['member_name'] = (string)$_POST['member_name'];
-		$dataarr['member_login'] = (string)$_POST['member_login'];
-		$dataarr['main_image'] = (string)$_POST['main_image'];
-		$dataarr['prefecture_id'] = (int)$_POST['prefecture_id'];
-		$dataarr['member_address'] = (string)$_POST['member_address'];
-		$dataarr['member_comment'] = (string)$_POST['member_comment'];
-		if ($member_id > 0) {
-			$where = 'member_id = :member_id';
-			$wherearr[':member_id'] = (int)$member_id;
-			$change_obj->update_core(false, 'member', $dataarr, $where, $wherearr, false);
-			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $member_id);
-		} else {
-			$mid = $change_obj->insert_core(false, 'member', $dataarr, false);
+			$mid = $change_obj->insert_core(false, 'products', $dataarr, false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?mid=' . $mid);
 		}
 	}
@@ -380,74 +305,69 @@ END_BLOCK;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバーIDの取得(新規の場合は「新規」)
-	@return	メンバーID
+	@brief	プランIDの取得(新規の場合は「新規」)
+	@return	プランID
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_member_id_txt()
+	function get_plan_id_txt()
 	{
-		global $member_id;
-		if ($member_id <= 0) {
+		global $plan_id;
+		if ($plan_id <= 0) {
 			return '新規';
 		} else {
-			return $member_id;
+			return $plan_id;
 		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバー名コントロールの取得
-	@return	メンバー名コントロール
+	@brief	プラン名コントロールの取得
+	@return	プラン名コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_member_name()
+	function get_plan_name()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('member_name', $_POST['member_name'], 'size="70"');
+		$tgt = new ctextbox('name', $_POST['name'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['member_name'])) {
+		if (isset($err_array['name'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['member_name'])
+				. cutil::ret2br($err_array['name'])
 				. '</span>';
+				
 		}
 		return $ret_str;
 	}
 
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバーログインコントロールの取得
-	@return	メンバーログインコントロール
+	@brief	説明文字列の取得
+	@return	説明文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_member_login()
+	function get_plan_description()
 	{
 		global $err_array;
-		$ret_str = '';
-		$tgt = new ctextbox('member_login', $_POST['member_login'], 'size="70"');
+		$tgt = new ctextarea('description', $_POST['description'], 'cols="70" rows="5"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['member_login'])) {
-			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['member_login'])
-				. '</span>';
-		}
 		return $ret_str;
 	}
 
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	パスワードコントロールの取得
-	@return	メパスワードコントロール
+	@return	パスワードコントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_enc_password()
+	function get_plan_price()
 	{
 		global $err_array;
 		$ret_str = '';
-		$tgt = new cpasswordtextbox('enc_password', $_POST['enc_password'], '*', 'size="70"');
+		$tgt = new ctextbox('price', $_POST['price'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['enc_password'])) {
+		if (isset($err_array['price'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['enc_password'])
+				. cutil::ret2br($err_array['price'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -456,19 +376,18 @@ END_BLOCK;
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	パスワードチェックコントロールの取得
-	@return	メパスワードチェックコントロール
+	@return	パスワードチェックコントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_enc_password_chk()
+	function get_plan_duration()
 	{
-
 		global $err_array;
 		$ret_str = '';
-		$tgt = new cpasswordtextbox('enc_password_chk', $_POST['enc_password_chk'], '*', 'size="70"');
+		$tgt = new ctextbox('duration', $_POST['duration'], 'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if (isset($err_array['enc_password_chk'])) {
+		if (isset($err_array['price'])) {
 			$ret_str .=  '<br /><span class="text-danger">'
-				. cutil::ret2br($err_array['enc_password_chk'])
+				. cutil::ret2br($err_array['price'])
 				. '</span>';
 		}
 		return $ret_str;
@@ -500,7 +419,7 @@ END_BLOCK;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバー都道府県プルダウンの取得
+	@brief	プラン都道府県プルダウンの取得
 	@return	都道府県プルダウン文字列
 	*/
 	//--------------------------------------------------------------------------------------
@@ -526,8 +445,8 @@ END_BLOCK;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバー住所の取得
-	@return	メンバー住所文字列
+	@brief	プラン住所の取得
+	@return	プラン住所文字列
 	*/
 	//--------------------------------------------------------------------------------------
 	function get_member_address()
@@ -545,8 +464,8 @@ END_BLOCK;
 
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	メンバーコメントの取得
-	@return	メンバーコメント文字列
+	@brief	プランコメントの取得
+	@return	プランコメント文字列
 	*/
 	//--------------------------------------------------------------------------------------
 	function get_member_comment()
@@ -564,11 +483,11 @@ END_BLOCK;
 	//--------------------------------------------------------------------------------------
 	function get_switch()
 	{
-		global $member_id;
+		global $plan_id;
 		$ret_str = '';
 		if ($_POST['func'] == 'conf') {
 			$button = '更新';
-			if ($member_id <= 0) {
+			if ($plan_id <= 0) {
 				$button = '追加';
 			}
 			$ret_str = <<<END_BLOCK
@@ -592,59 +511,41 @@ END_BLOCK;
 	//--------------------------------------------------------------------------------------
 	public function display()
 	{
-		global $member_id;
+		global $plan_id;
 		//PHPブロック終了
 ?>
 		<!-- コンテンツ　-->
 		<div class="contents">
 			<?= $this->get_err_flag(); ?>
-			<h5><strong>メンバー詳細</strong></h5>
+			<h5><strong>プラン詳細</strong></h5>
 			<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-				<a href="member_list.php">一覧に戻る</a>
+				<a href="product_list.php">一覧に戻る</a>
 				<table class="table table-bordered">
 					<tr>
 						<th class="text-center">ID</th>
-						<td width="70%"><?= $this->get_member_id_txt(); ?></td>
+						<td width="70%"><?= $this->get_plan_id_txt(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">メンバー名</th>
-						<td width="70%"><?= $this->get_member_name(); ?></td>
+						<th class="text-center">プラン名</th>
+						<td width="70%"><?= $this->get_plan_name(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">メンバーログイン</th>
-						<td width="70%"><?= $this->get_member_login(); ?></td>
+						<th class="text-center">説明</th>
+						<td width="70%"><?= $this->get_plan_description(); ?></td>
 					</tr>
 
 					<tr>
-						<th class="text-center">パスワード（変更するとき入力）</th>
-						<td width="70%"><?= $this->get_enc_password(); ?></td>
+						<th class="text-center">価格</th>
+						<td width="70%"><?= $this->get_plan_price(); ?></td>
 					</tr>
 					<tr>
-						<th class="text-center">パスワード確認（変更するとき入力）</th>
-						<td width="70%"><?= $this->get_enc_password_chk(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバーイメージ</th>
-						<td width="70%">
-							<?= $this->get_upload_main_image(); ?>
-						</td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバー都道府県</th>
-						<td width="70%"><?= $this->get_prefecture_select(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">メンバー市区郡町村以下</th>
-						<td width="70%"><?= $this->get_member_address(); ?></td>
-					</tr>
-					<tr>
-						<th class="text-center">コメント</th>
-						<td width="70%"><?= $this->get_member_comment(); ?></td>
+						<th class="text-center">サービス利用期間</th>
+						<td width="70%"><?= $this->get_plan_duration(); ?></td>
 					</tr>
 				</table>
 				<input type="hidden" name="func" value="" />
 				<input type="hidden" name="param" value="" />
-				<input type="hidden" name="member_id" value="<?= $member_id; ?>" />
+				<input type="hidden" name="plan_id" value="<?= $plan_id; ?>" />
 				<p class="text-center"><?= $this->get_switch(); ?></p>
 			</form>
 		</div>

@@ -85,11 +85,11 @@ END_BLOCK;
 	@return	配列（1次元配列になる）空の場合はfalse
 	*/
     //--------------------------------------------------------------------------------------
-    public function get_tgt($debug, $id)
+    public function get_tgt($debug, $plan_id)
     {
         if (
-            !cutil::is_number($id)
-            ||  $id < 1
+            !cutil::is_number($plan_id)
+            ||  $plan_id < 1
         ) {
             //falseを返す
             return false;
@@ -101,10 +101,10 @@ products.*
 from
 products
 where
-id = :id
+id = :plan_id
 END_BLOCK;
         $prep_arr = array(
-            ':id' => (int)id
+            ':plan_id' => (int)$plan_id
         );
         //親クラスのselect_query()メンバ関数を呼ぶ
         $this->select_query(
