@@ -18,19 +18,19 @@ if (!isset($_SESSION)) {
 if ((!isset($_SESSION['tmY2024_adm']['admin_login']))
     || (!isset($_SESSION['tmY2024_adm']['admin_master_id']))
 ) {
-    cutil::redirect_exit(ABSOLUTE_PATH . "/sources/admin/admin_login.php");
+    cutil::redirect_exit(ABSOLUTE_URL . "/sources/admin/admin_login.php");
 }
 $admin = new cadmin_master();
 $row = $admin->get_tgt_login(false, $_SESSION['tmY2024_adm']['admin_login']);
 if ($row === false || !isset($row['admin_master_id'])) {
-    cutil::redirect_exit(ABSOLUTE_PATH . "/sources/admin/admin_login.php");
+    cutil::redirect_exit(ABSOLUTE_URL . "/sources/admin/admin_login.php");
 }
 
 if ($row['admin_master_id'] != $_SESSION['tmY2024_adm']['admin_master_id']) {
-    cutil::redirect_exit(ABSOLUTE_PATH . "/sources/admin/admin_login.php");
+    cutil::redirect_exit(ABSOLUTE_URL . "/sources/admin/admin_login.php");
 }
 if ($row['admin_login'] != $_SESSION['tmY2024_adm']['admin_login']) {
-    cutil::redirect_exit(ABSOLUTE_PATH . "/sources/admin/admin_login.php");
+    cutil::redirect_exit(ABSOLUTE_URL . "/sources/admin/admin_login.php");
 }
 
 function get_admin_name()
