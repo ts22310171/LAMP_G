@@ -27,8 +27,8 @@ class cmain_node extends cnode
     {
         $user_id = 1; // ログインしているユーザーIDを取得する方法に応じて変更
 
-        $this->message_history = get_message_history($user_id);
-        $this->purchase_history = get_purchase_history($user_id);
+        // $this->message_history = get_message_history($user_id);
+        // $this->purchase_history = get_purchase_history($user_id);
 
     }
 
@@ -55,11 +55,10 @@ class cmain_node extends cnode
         </head>
 
         <body class="bg-main flex flex-col min-h-screen">
-            <div class="container mx-auto px-4 py-8">
-                <h1 class="text-3xl font-bold mb-8">マイページ</h1>
-
+            <div class="container mx-auto px-4 py-8 mt-20 ml-80 mx-30">
+                <h1 class="text-3xl font-bold mb-8">プロフィール</h1>
                 <!-- ユーザープロフィール -->
-                <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+                <div class="bg-white shadow-md rounded-lg p-6 mb-8 w-full">
                     <h2 class="text-xl font-semibold mb-4">プロフィール</h2>
                     <div class="flex items-center">
                         <img src="user-avatar.jpg" alt="User Avatar" class="w-16 h-16 rounded-full mr-4">
@@ -67,31 +66,7 @@ class cmain_node extends cnode
                             <p class="font-medium">ユーザー名</p>
                             <p class="text-gray-600">メールアドレス</p>
                         </div>
-
                     </div>
-                </div>
-
-                <!-- プラン購入履歴 -->
-                <div class="bg-white shadow-md rounded-lg p-6 mb-8">
-                    <h2 class="text-xl font-semibold mb-4">プラン購入履歴</h2>
-                    <ul class="divide-y divide-gray-200">
-                        <?php foreach ($this->purchase_history as $purchase) : ?>
-                            <li class="py-4"><?= htmlspecialchars($purchase['plan_name']) ?>（<?= htmlspecialchars($purchase['duration']) ?>）- <?= htmlspecialchars($purchase['purchase_date']) ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-
-                <!-- メッセージ履歴 -->
-                <div class="bg-white shadow-md rounded-lg p-6 mb-8">
-                    <h2 class="text-xl font-semibold mb-4">メッセージ履歴</h2>
-                    <ul class="divide-y divide-gray-200">
-                        <?php foreach ($this->message_history as $message) : ?>
-                            <li class="py-4">
-                                <p class="font-medium"><?= htmlspecialchars($message['advisor']) ?>：<?= htmlspecialchars($message['message']) ?></p>
-                                <p class="text-sm text-gray-600"><?= htmlspecialchars($message['created_at']) ?></p>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
                 </div>
             </div>
 
@@ -114,11 +89,9 @@ class cmain_node extends cnode
 
 // ページを作成
 $page_obj = new cnode();
-// ヘッダ追加
-$page_obj->add_child(cutil::create('cmain_header'));
-
+// サイドバー追加
+$page_obj->add_child(cutil::create('cmain_header_sidebar'));
 // 本体追加
-
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 // フッタ追加
 $page_obj->add_child(cutil::create('cmain_footer'));
@@ -131,4 +104,3 @@ $page_obj->display();
 
 
 ?>
-

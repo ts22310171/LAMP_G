@@ -60,7 +60,7 @@ class cmain_header extends cnode
 
     <body>
       <header>
-        <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-10 h-16">
+        <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-50 h-16">
           <div class="flex items-center">
             <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/index.php" class="flex items-center mr-10">
               <img src="http://wiz.developluna.jp/~d202425/LAMP_G/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
@@ -68,8 +68,8 @@ class cmain_header extends cnode
                 Garba<span class="text-sub">Ge</span>
               </div>
             </a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="pt-1 px-2">よくある質問</a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/" class="pt-1 px-2">お問い合わせ</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/faq.php" class="pt-1 px-2">よくある質問</a>
+            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/contact.php" class="pt-1 px-2">お問い合わせ</a>
           </div>
           <div class="flex">
             <?php if (isset($_SESSION['user']['name'])) : ?>
@@ -81,9 +81,9 @@ class cmain_header extends cnode
                   </button>
                 </div>
                 <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
-                  <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
-                  <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
+                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/mypage.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
+                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
+                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
                   <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
                 </div>
               </div>

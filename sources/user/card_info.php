@@ -16,6 +16,7 @@ $plan_id = isset($_GET['plan_id']) ? intval($_GET['plan_id']) : 0;
 class cmain_node extends cnode
 {
     private $plan;
+    private $plan_id;
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -26,6 +27,7 @@ class cmain_node extends cnode
     {
         //親クラスのコンストラクタを呼ぶ
         parent::__construct();
+        $this->plan_id = $plan_id;
     }
 
     //--------------------------------------------------------------------------------------
@@ -37,8 +39,8 @@ class cmain_node extends cnode
     public function execute()
     {
         // プラン情報を取得
-        $plan = new cproduct();
-        $this->plan = $plan->get_tgt(false, $plan_id);
+        $plan = new cplan();
+        $this->plan = $plan->get_tgt(false, $this->plan_id);
     }
 
     //--------------------------------------------------------------------------------------
@@ -77,10 +79,44 @@ class cmain_node extends cnode
                     </div>
 
                     <!-- クレジットカード情報 -->
-                    <div class="w-full md:w-1/2 px-4">
-                        <!-- ... (クレジットカード情報フォームは変更なし) ... -->
+                    <div class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
+                        <h2 class="text-2xl font-bold mb-6 text-gray-800">クレジットカード情報</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="card-number">
+                                    カード番号
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="card-name">
+                                    カード名義人
+                                </label>
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-name" type="text" placeholder="TARO YAMADA">
+                            </div>
+                            <div class="flex mb-4">
+                                <div class="w-1/2 pr-2">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="expiry-date">
+                                        有効期限
+                                    </label>
+                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry-date" type="text" placeholder="MM / YY">
+                                </div>
+                                <div class="w-1/2 pl-2">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="cvv">
+                                        セキュリティコード
+                                    </label>
+                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                    支払う
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
             </div>
         </body>
 

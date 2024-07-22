@@ -144,7 +144,7 @@ class cmain_node extends cnode
               ログイン
             </h1>
 
-            <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form class="space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>
                 <input type="email" name="email" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-3/4 p-2" placeholder="mail@example.com" required>
