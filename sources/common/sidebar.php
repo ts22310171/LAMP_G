@@ -51,7 +51,7 @@ class cmain_sidebar extends cnode
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
             <!-- Stylesheet -->
-            <link rel="stylesheet" href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/css/app.css" />
+            <link rel="stylesheet" href="<?php echo ABSOLUTE_URL; ?>/sources/css/app.css" />
 
             <!-- Tailwind CSS -->
             <script src="https://cdn.tailwindcss.com"></script>
