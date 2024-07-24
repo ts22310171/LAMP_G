@@ -68,13 +68,8 @@ class cmain_header extends cnode
                 Garba<span class="text-sub">Ge</span>
               </div>
             </a>
-<<<<<<< HEAD
             <a href="<?php echo ABSOLUTE_URL; ?>/sources/" class="pt-1 px-2">よくある質問</a>
             <a href="<?php echo ABSOLUTE_URL; ?>/sources/" class="pt-1 px-2">お問い合わせ</a>
-=======
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/faq.php" class="pt-1 px-2">よくある質問</a>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/contact.php" class="pt-1 px-2">お問い合わせ</a>
->>>>>>> develop
           </div>
           <div class="flex">
             <?php if (isset($_SESSION['user']['name'])) : ?>
@@ -86,17 +81,10 @@ class cmain_header extends cnode
                   </button>
                 </div>
                 <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
-<<<<<<< HEAD
                   <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
                   <a href="" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
                   <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/settigs.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
                   <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
-=======
-                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/mypage.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
-                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
-                  <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
->>>>>>> develop
                 </div>
               </div>
             <?php else : ?>
