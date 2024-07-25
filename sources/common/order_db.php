@@ -1,8 +1,8 @@
 <?php
 //--------------------------------------------------------------------------------------
-///	メンバークラス
+///	注文クラス
 //--------------------------------------------------------------------------------------
-class cuser extends crecord
+class corder extends crecord
 {
     //--------------------------------------------------------------------------------------
     /*!
@@ -28,7 +28,7 @@ class cuser extends crecord
 select
 count(*)
 from
-users
+orders
 END_BLOCK;
         //空のデータ
         $prep_arr = array();
@@ -60,11 +60,11 @@ END_BLOCK;
         //プレースホルダつき
         $query = <<< END_BLOCK
 select
-users.*
+orders.*
 from
-users
+orders
 order by
-users.id asc
+orders.id asc
 limit :from, :limit
 END_BLOCK;
         $prep_arr = array(
@@ -104,9 +104,9 @@ END_BLOCK;
         //プレースホルダつき
         $query = <<< END_BLOCK
 select
-users.*
+orders.*
 from
-users
+orders
 where
 id = :user_id
 END_BLOCK;
@@ -123,91 +123,60 @@ END_BLOCK;
     }
     //--------------------------------------------------------------------------------------
     /*!
-	@brief	指定されたログインIDの配列を得る
-	@param[in]	$debug	デバッグ出力をするかどうか
-	@param[in]	$loginid		ログインID
-	@return	配列（1次元配列になる）空の場合はfalse
-	*/
+    @brief 注文情報を追加する
+    @param[in] $debug デバッグ出力をするかどうか
+    @param[in] $user_id ユーザーID
+    @param[in] $product_id プロダクトID 
+    @return bool 成功時はtrue、失敗時はfalse
+    */
     //--------------------------------------------------------------------------------------
-    public function get_tgt_login($debug, $loginemail)
+    public function process_purchase($debug, $user_id, $product_id)
     {
-        if ($loginemail == '') {
-            //falseを返す
+        if (!cutil::is_number($user_id) || $user_id < 1 || !cutil::is_number($product_id) || $product_id < 1) {
             return false;
         }
-        //プレースホルダつき
-        $query = <<< END_BLOCK
-select
-users.*
-from
-users
-where
-email = :email
-END_BLOCK;
-        $prep_arr = array(
-            ':email' => (string)$loginemail
+
+        $product = $this->get_product($debug, $product_id);
+        if (!$product) {
+            return false;
+        }
+
+        $purchase_date = date('Y-m-d');
+        $expiry_date = date('Y-m-d', strtotime("+{$product['duration']} days"));
+
+        $dataarr = array(
+            'user_id' => (int)$user_id,
+            'product_id' => (int)$product_id,
+            'purchase_date' => $purchase_date,
+            'expiry_date' => $expiry_date,
+            'status' => 'active',
+            'created_at' => date('Y-m-d H:i:s'),
         );
-        //親クラスのselect_query()メンバ関数を呼ぶ
-        $this->select_query(
-            $debug,            //デバッグ表示するかどうか
-            $query,            //プレースホルダつきSQL
-            $prep_arr        //データの配列
-        );
+
+        $table = 'orders';
+
+        return $this->insert_core($debug, $table, $dataarr);
+    }
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief  商品情報を取得する
+    @param[in]  $debug      デバッグ出力をするかどうか
+    @param[in]  $product_id 商品ID
+    @return 商品情報の配列、存在しない場合はfalse
+    */
+    //--------------------------------------------------------------------------------------
+    public function get_product($debug, $product_id)
+    {
+        if (!cutil::is_number($product_id) || $product_id < 1) {
+            return false;
+        }
+
+        $query = "SELECT * FROM products WHERE id = :product_id";
+        $prep_arr = array(':product_id' => (int)$product_id);
+
+        $this->select_query($debug, $query, $prep_arr);
         return $this->fetch_assoc();
     }
-
-    public function duplicate_check($debug, $email)
-    {
-        if ($email == '') {
-            // falseを返す
-            return false;
-        }
-        // プレースホルダつき
-        $query = <<< END_BLOCK
-select
-COUNT(*) as count
-from
-users
-where
-email = :email
-END_BLOCK;
-
-        $prep_arr = array(
-            ':email' => (string)$email
-        );
-
-        // 親クラスのselect_query()メンバ関数を呼ぶ
-        $this->select_query(
-            $debug,     // デバッグ表示するかどうか
-            $query,     // プレースホルダつきSQL
-            $prep_arr   // データの配列
-        );
-
-        $result = $this->fetch_assoc();
-
-        // 結果が存在し、countが0より大きい場合はtrue、それ以外はfalseを返す
-        return ($result && $result['count'] > 0);
-    }
-    /*!
-@file user_db.php
-@brief ユーザー関連のデータベース操作
-*/
-
-    // function get_message_history($user_id) {
-    //     $db = get_db_connection();
-    //     $stmt = $db->prepare("SELECT advisor, message, created_at FROM messages WHERE user_id = ? ORDER BY created_at DESC");
-    //     $stmt->execute([$user_id]);
-    //     return $stmt->fetchAll();
-    // }
-
-    // function get_purchase_history($user_id) {
-    //     $db = get_db_connection();
-    //     $stmt = $db->prepare("SELECT plan_name, duration, purchase_date FROM purchases WHERE user_id = ? ORDER BY purchase_date DESC");
-    //     $stmt->execute([$user_id]);
-    //     return $stmt->fetchAll();
-    // }
-
-
     //--------------------------------------------------------------------------------------
     /*!
 	@brief	デストラクタ
