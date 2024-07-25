@@ -52,9 +52,6 @@ class cmain_node extends cnode {
 </thead>
 <tbody>
 <tr>
-<td><a href="member_list.php" class="nav-link link-success">メンバー管理</a></td>
-</tr>
-<tr>
 <td><a href="user_list.php" class="nav-link link-success">ユーザー管理</a></td>
 </tr>
 <tr>
