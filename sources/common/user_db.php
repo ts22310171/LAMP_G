@@ -188,24 +188,55 @@ END_BLOCK;
         // 結果が存在し、countが0より大きい場合はtrue、それ以外はfalseを返す
         return ($result && $result['count'] > 0);
     }
+    //--------------------------------------------------------------------------------------
     /*!
-@file user_db.php
-@brief ユーザー関連のデータベース操作
-*/
+    @brief	ユーザー情報を更新する
+    @param[in]	$debug	デバッグ出力をするかどうか
+    @param[in]	$user_id	ユーザーID
+    @param[in]	$dataarr	更新するデータの配列
+    @return	更新された行数
+    */
+    //--------------------------------------------------------------------------------------
+    public function update_user_info($debug, $user_id, &$dataarr)
+    {
+        if (!cutil::is_number($user_id) || $user_id < 1) {
+            return false;
+        }
+        $wherearr = array(
+            ':user_id' => (int)$user_id
+        );
+        return $this->update_core($debug, 'users', $dataarr, 'id = :user_id', $wherearr);
+    }
 
-    // function get_message_history($user_id) {
-    //     $db = get_db_connection();
-    //     $stmt = $db->prepare("SELECT advisor, message, created_at FROM messages WHERE user_id = ? ORDER BY created_at DESC");
-    //     $stmt->execute([$user_id]);
-    //     return $stmt->fetchAll();
-    // }
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief	パスワードを更新する
+    @param[in]	$debug	デバッグ出力をするかどうか
+    @param[in]	$user_id	ユーザーID
+    @param[in]	$new_password	新しいパスワード
+    @return	更新された行数
+    */
+    //--------------------------------------------------------------------------------------
+    public function update_password($debug, $user_id, $new_password)
+    {
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $dataarr = array('password' => $hashed_password);
+        return $this->update_user_info($debug, $user_id, $dataarr);
+    }
 
-    // function get_purchase_history($user_id) {
-    //     $db = get_db_connection();
-    //     $stmt = $db->prepare("SELECT plan_name, duration, purchase_date FROM purchases WHERE user_id = ? ORDER BY purchase_date DESC");
-    //     $stmt->execute([$user_id]);
-    //     return $stmt->fetchAll();
-    // }
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief	アカウントを削除する
+    @param[in]	$debug	デバッグ出力をするかどうか
+    @param[in]	$user_id	ユーザーID
+    @return	削除された行数
+    */
+    //--------------------------------------------------------------------------------------
+    public function delete_account($debug, $user_id)
+    {
+        $wherearr = array(':user_id' => $user_id);
+        return $this->delete_core($debug, 'users', 'id = :user_id', $wherearr);
+    }
 
 
     //--------------------------------------------------------------------------------------

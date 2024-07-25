@@ -122,7 +122,7 @@ class cmain_node extends cnode
             <script src="../common/tailwind.config.js"></script>
         </head>
 
-        <body>
+        <body class="bg-main flex flex-col min-h-screen">
 
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">

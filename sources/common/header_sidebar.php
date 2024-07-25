@@ -51,7 +51,7 @@ class cmain_header_sidebar extends cnode
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
             <!-- Stylesheet -->
-            <link rel="stylesheet" href="<?php echo ABSOLUTE_URL; ?> /sources/css/app.css" />
+            <link rel="stylesheet" href="<?php echo ABSOLUTE_URL; ?>/sources/css/app.css" />
 
             <!-- Script -->
             <script src="https://cdn.tailwindcss.com"></script>
@@ -62,14 +62,14 @@ class cmain_header_sidebar extends cnode
             <header>
                 <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-50 h-16">
                     <div class="flex items-center">
-                        <a href="<?php echo ABSOLUTE_URL; ?> /sources/index.php" class="flex items-center mr-10">
-                            <img src="<?php echo ABSOLUTE_URL; ?> /sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
+                        <a href="<?php echo ABSOLUTE_URL; ?>/sources/index.php" class="flex items-center mr-10">
+                            <img src="<?php echo ABSOLUTE_URL; ?>/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
                             <div class="-ml-2 text-2xl text-black font-bold">
                                 Garba<span class="text-sub">Ge</span>
                             </div>
                         </a>
-                        <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/faq.php" class="pt-1 px-2">よくある質問</a>
-                        <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/contact.php" class="pt-1 px-2">お問い合わせ</a>
+                        <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/faq.php" class="pt-1 px-2">よくある質問</a>
+                        <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/contact.php" class="pt-1 px-2">お問い合わせ</a>
                     </div>
                     <div class="flex">
                         <?php if (isset($_SESSION['user']['name'])) : ?>
@@ -81,14 +81,14 @@ class cmain_header_sidebar extends cnode
                                     </button>
                                 </div>
                                 <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
-                                    <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/mypage.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
-                                    <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-                                    <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
-                                    <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
+                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/mypage.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
+                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
+                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
+                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
                                 </div>
                             </div>
                         <?php else : ?>
-                            <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/login.php" class=" text-black mr-5">
+                            <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/login.php" class=" text-black mr-5">
                                 ログイン
                             </a>
                         <?php endif; ?>
@@ -99,24 +99,24 @@ class cmain_header_sidebar extends cnode
                 <div class="h-full px-3 py-4 overflow-y-auto bg-main">
                     <ul class="space-y-2 font-medium">
                         <li>
-                            <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/mypage.php" class="flex items-center p-2 text-explain rounded-lg ">
+                            <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/mypage.php" class="flex items-center p-2 text-explain rounded-lg ">
                                 <span class="ms-3">プロフィール</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/message_history.php" class="flex items-center p-2 text-explain rounded-lg ">
+                            <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/message_history.php" class="flex items-center p-2 text-explain rounded-lg ">
                                 <span class="ms-3">メッセージ履歴</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo ABSOLUTE_URL; ?> /sources/user/order_history.php" class="flex items-center p-2 text-explain rounded-lg ">
+                            <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/order_history.php" class="flex items-center p-2 text-explain rounded-lg ">
                                 <span class="ms-3">プラン購入履歴</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </aside>
-            <script src="<?php echo ABSOLUTE_URL; ?> /sources/js/header.js"></script>
+            <script src="<?php echo ABSOLUTE_URL; ?>/sources/js/header.js"></script>
         </body>
 
         </html>

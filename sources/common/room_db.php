@@ -1,3 +1,4 @@
+
 <?php
 //--------------------------------------------------------------------------------------
 ///	ルームクラス
@@ -44,14 +45,14 @@ class croom extends crecord
             'name' => $name,
             'status' => 'active',
             'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+            'updated_at' => date('Y-m-d H:i:s'),
         );
 
         $table = 'rooms';
 
         $result = $this->insert_core($debug, $table, $dataarr);
         if ($result) {
-            return $this->get_last_insert_id();
+            return true;
         } else {
             return false;
         }

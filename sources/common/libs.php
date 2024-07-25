@@ -25,6 +25,9 @@ require_once("contents_nodes.php");
 require_once("user_db.php");
 require_once("product_db.php");
 require_once("order_db.php");
+require_once("room_db.php");
+require_once("message_db.php");
+require_once("client_db.php");
 
 require_once("header.php");
 require_once("header_sidebar.php");
