@@ -146,7 +146,7 @@ class cmain_node extends cnode
                             </div>
                             <div class="px-6">
                                 <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
-                                <label class="block mb-2 text-xs text-explain">8文字以上の半角英数記号</label>
+                                <label class="block mb-2 text-xs text-explain"></label>
                                 <input type="password" name="password" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
                             </div>
                             <div class="px-6">

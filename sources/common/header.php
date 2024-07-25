@@ -92,7 +92,6 @@ class cmain_header extends cnode
                 ログイン
               </a>
             <?php endif; ?>
-            <a href="http://wiz.developluna.jp/~d202425/LAMP_G/sources/"><i class="fa-solid fa-cart-shopping mx-5"></i></a>
           </div>
         </div>
       </header>

@@ -77,18 +77,6 @@ class cmain_footer extends cnode
               </li>
               <a href="#" class="ml-1 hover:underline"> お問い合わせ</a>
               </li>
-              <li>
-                /
-              </li>
-              <li>
-                <a href="#" class="ml-1 hover:underline">利用規約</a>
-              <li>
-                /
-              </li>
-              </li>
-              <li>
-                <a href="#" class="ml-1 hover:underline"> ヘルプ</a>
-              </li>
             </ul>
             <span class="text-xs text-explain sm:text-center">© 2024 GarbaGe Inc.
             </span>

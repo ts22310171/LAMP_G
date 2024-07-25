@@ -12,9 +12,9 @@ $page_obj = null;
 //--------------------------------------------------------------------------------------
 class cmain_node extends cnode
 {
-    private $pageFlag = 0;
-    private $err_msg = "";
-    private $contact_data = [];
+    public $pageFlag = 0;
+    public $err_msg = "";
+    public $contact_data = [];
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -57,7 +57,7 @@ class cmain_node extends cnode
         }
     }
 
-    private function validate_input()
+    public function validate_input()
     {
         $this->contact_data = [
             'name' => $_POST['name'] ?? '',
@@ -81,7 +81,7 @@ class cmain_node extends cnode
         }
     }
 
-    private function process_submission()
+    public function process_submission()
     {
         if (empty($this->contact_data['name']) || empty($this->contact_data['email']) || empty($this->contact_data['message'])) {
             $this->err_msg = "必要な情報が不足しています。もう一度入力してください。";
@@ -95,7 +95,7 @@ class cmain_node extends cnode
             'email' => $this->contact_data['email'],
             'phone' => $this->contact_data['phone'],
             'message' => $this->contact_data['message'],
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
         );
 
         // データベースに挿入
@@ -111,7 +111,7 @@ class cmain_node extends cnode
         }
     }
 
-    private function send_confirmation_email()
+    public function send_confirmation_email()
     {
         // メール送信処理をここに実装
         // 例:
@@ -183,7 +183,7 @@ class cmain_node extends cnode
         //PHPブロック再開
     }
 
-    private function display_input_form()
+    public function display_input_form()
     {
     ?>
         <div>
@@ -223,7 +223,7 @@ class cmain_node extends cnode
     <?php
     }
 
-    private function display_confirm_form()
+    public function display_confirm_form()
     {
     ?>
         <div>
@@ -264,7 +264,7 @@ class cmain_node extends cnode
     <?php
     }
 
-    private function display_complete_page()
+    public function display_complete_page()
     {
     ?>
         <div>

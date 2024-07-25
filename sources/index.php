@@ -92,7 +92,7 @@ class cmain_node extends cnode
                                         <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>
-                                        <span>期間: <span class="font-semibold"><?php echo htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8'); ?></span><span class="ml-1">日</span></span>
+                                        <span>期間: <span class="font-semibold"><?php echo htmlspecialchars($product['duration'], ENT_QUOTES, 'UTF-8'); ?></span><span class="ml-1">日間</span></span>
                                     </li>
                                 </ul>
                                 <a href="user/card_info.php?plan_id=<?php echo urlencode($product['id']); ?>" class="text-white bg-sub hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">購入する</a>
