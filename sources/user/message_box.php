@@ -132,7 +132,7 @@ class cmain_node extends cnode
                     </div>
 
                     <!-- メッセージ入力フォーム -->
-                    <form action="send_message.php" method="post" enctype="multipart/form-data" class="mt-4">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="mt-4">
                         <input type="hidden" name="room_id" value="<?= htmlspecialchars($this->room['id']) ?>">
                         <div class="flex items-start space-x-4">
                             <div>
