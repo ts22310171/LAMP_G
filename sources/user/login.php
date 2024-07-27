@@ -153,9 +153,6 @@ class cmain_node extends cnode
                 <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
                 <input type="password" name="password" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
               </div>
-              <div class="flex items-center justify-center">
-                <a href="#" class="text-sm font-medium text-sub hover:underline hover:text-subhover">パスワードを忘れた方</a>
-              </div>
               <div class="px-6">
                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">ログイン</button>
               </div>

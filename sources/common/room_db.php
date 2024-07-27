@@ -66,17 +66,21 @@ class croom extends crecord
     @return ルーム情報の配列、存在しない場合はfalse
     */
     //--------------------------------------------------------------------------------------
-    public function get_room($debug, $id)
+    public function get_room($debug, $room_id)
     {
-        if (!cutil::is_number($id) || $id < 1) {
+        if (!cutil::is_number($room_id) || $room_id < 1) {
             return false;
         }
 
-        $query = "SELECT * FROM rooms WHERE id = :id";
-        $prep_arr = array(':id' => (int)$id);
+        $sql = 'SELECT * FROM rooms WHERE id = :room_id';
+        $params = array(':room_id' => $room_id);
+        $result = $this->select_query($debug, $sql, $params);
 
-        $this->select_query($debug, $query, $prep_arr);
-        return $this->fetch_assoc();
+        if ($result) {
+            return $result[0];
+        } else {
+            return false;
+        }
     }
 
     //--------------------------------------------------------------------------------------
@@ -130,6 +134,31 @@ class croom extends crecord
         $wherearr = array(':id' => (int)$id);
 
         return $this->update_core($debug, $table, $dataarr, $where, $wherearr);
+    }
+
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief  アクティブなルームを取得する
+    @param[in]  $debug      デバッグ出力をするかどうか
+    @param[in]  $user_id    ユーザーID
+    @return アクティブなルームの情報、失敗時はfalse
+    */
+    //--------------------------------------------------------------------------------------
+    public function get_active_room($debug, $user_id)
+    {
+        if (!cutil::is_number($user_id) || $user_id < 1) {
+            return false;
+        }
+
+        $sql = 'SELECT * FROM rooms WHERE user_id = :user_id AND status = "active"';
+        $params = array(':user_id' => $user_id);
+        $result = $this->select_query($debug, $sql, $params);
+
+        if ($result) {
+            return $result[0];
+        } else {
+            return false;
+        }
     }
 
     //--------------------------------------------------------------------------------------
