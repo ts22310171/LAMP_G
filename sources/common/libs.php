@@ -30,5 +30,6 @@ require_once("message_db.php");
 require_once("client_db.php");
 
 require_once("header.php");
+require_once("client_header.php");
 require_once("header_sidebar.php");
 require_once("footer.php");
