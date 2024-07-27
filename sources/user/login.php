@@ -143,7 +143,12 @@ class cmain_node extends cnode
             <h1 class="flex justify-center text-xl font-bold leading-tight tracking-tight text-blackcolor md:text-2xl">
               ログイン
             </h1>
-
+            <?php if (!empty($ERR_STR)) : ?>
+              <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">エラー:</strong>
+                <span class="block sm:inline"><?php echo nl2br(htmlspecialchars($ERR_STR)); ?></span>
+              </div>
+            <?php endif; ?>
             <form class="space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>

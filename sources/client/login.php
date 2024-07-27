@@ -1,17 +1,17 @@
 <?php
 /*!
 @file login.php
-@brief ÉÅÉìÉoÅ[ÉçÉOÉCÉì
+@brief „É°„É≥„Éê„Éº„É≠„Ç∞„Ç§„É≥
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 if (!isset($_SESSION)) {
   session_start();
 }
 
-//ÉâÉCÉuÉâÉäÇÉCÉìÉNÉãÅ[Éh
+//„É©„Ç§„Éñ„É©„É™„Çí„Ç§„É≥„ÇØ„É´„Éº„Éâ
 require_once("../common/libs.php");
 
-/* ä˘Ç…ÉçÉOÉCÉìÇµÇƒÇ¢ÇÈèÍçáÅAÉ_ÉbÉVÉÖÉ{Å[ÉhÇ÷ÉäÉ_ÉCÉåÉNÉg */
+/* Êó¢„Å´„É≠„Ç∞„Ç§„É≥„Åó„Å¶„ÅÑ„ÇãÂ†¥Âêà„ÄÅ„ÉÄ„ÉÉ„Ç∑„É•„Éú„Éº„Éâ„Å∏„É™„ÉÄ„Ç§„É¨„ÇØ„Éà */
 if (isset($_SESSION['client']['name'])) {
   header('Location: message_list.php');
   exit();
@@ -27,24 +27,24 @@ $client_name = "";
 
 
 //--------------------------------------------------------------------------------------
-///	ñ{ëÃÉmÅ[Éh
+///	Êú¨‰Ωì„Éé„Éº„Éâ
 //--------------------------------------------------------------------------------------
 class cmain_node extends cnode
 {
   //--------------------------------------------------------------------------------------
   /*!
-	@brief	ÉRÉìÉXÉgÉâÉNÉ^
+	@brief	„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	*/
   //--------------------------------------------------------------------------------------
   public function __construct()
   {
-    //êeÉNÉâÉXÇÃÉRÉìÉXÉgÉâÉNÉ^ÇåƒÇ‘
+    //Ë¶™„ÇØ„É©„Çπ„ÅÆ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø„ÇíÂëº„Å∂
     parent::__construct();
   }
   //--------------------------------------------------------------------------------------
   /*!
-	@brief  ñ{ëÃé¿çsÅiï\é¶ëOèàóùÅj
-	@return Ç»Çµ
+	@brief  Êú¨‰ΩìÂÆüË°åÔºàË°®Á§∫ÂâçÂá¶ÁêÜÔºâ
+	@return „Å™„Åó
 	*/
   //--------------------------------------------------------------------------------------
   public function execute()
@@ -55,7 +55,7 @@ class cmain_node extends cnode
     if (isset($_SESSION['client']['err']) && $_SESSION['client']['err'] != "") {
       $ERR_STR = $_SESSION['client']['err'];
     }
-    //Ç±ÇÃÉZÉbÉVÉáÉìÇÉNÉäÉA
+    //„Åì„ÅÆ„Çª„ÉÉ„Ç∑„Éß„É≥„Çí„ÇØ„É™„Ç¢
     $_SESSION['client'] = array();
 
     if (isset($_POST['login']) && isset($_POST['password'])) {
@@ -72,8 +72,8 @@ class cmain_node extends cnode
   }
   //--------------------------------------------------------------------------------------
   /*!
-	@brief	ç\ízéûÇÃèàóù(åpè≥ÇµÇƒégóp)
-	@return	Ç»Çµ
+	@brief	ÊßãÁØâÊôÇ„ÅÆÂá¶ÁêÜ(Á∂ôÊâø„Åó„Å¶‰ΩøÁî®)
+	@return	„Å™„Åó
 	*/
   //--------------------------------------------------------------------------------------
   public function create()
@@ -81,8 +81,8 @@ class cmain_node extends cnode
   }
   //--------------------------------------------------------------------------------------
   /*!
-	@brief	ÉçÉOÉCÉìÇÃÉ`ÉFÉbÉN
-	@return	ÉÅÉìÉoÅ[ID
+	@brief	„É≠„Ç∞„Ç§„É≥„ÅÆ„ÉÅ„Çß„ÉÉ„ÇØ
+	@return	„É°„É≥„Éê„ÉºID
 	*/
   //--------------------------------------------------------------------------------------
   function chk_login($login, $password)
@@ -93,12 +93,12 @@ class cmain_node extends cnode
     $client = new cclient();
     $row = $client->get_tgt_login(false, $login);
     if ($row === false || !isset($row['login'])) {
-      $ERR_STR .= "ÉÅÅ[ÉãÉAÉhÉåÉXÇ™ïsíËÇ≈Ç∑ÅB\n";
+      $ERR_STR .= "„É°„Éº„É´„Ç¢„Éâ„É¨„Çπ„Åå‰∏çÂÆö„Åß„Åô„ÄÇ\n";
       return false;
     }
-    //à√çÜâªÇ…ÇÊÇÈÉpÉXÉèÅ[ÉhîFèÿ
+    //ÊöóÂè∑Âåñ„Å´„Çà„Çã„Éë„Çπ„ÉØ„Éº„ÉâË™çË®º
     if (!cutil::pw_check($password, $row['password'])) {
-      $ERR_STR .= "ÉpÉXÉèÅ[ÉhÇ™à·Ç¡ÇƒÇ¢Ç‹Ç∑ÅB\n";
+      $ERR_STR .= "„Éë„Çπ„ÉØ„Éº„Éâ„ÅåÈÅï„Å£„Å¶„ÅÑ„Åæ„Åô„ÄÇ\n";
       return false;
     }
     $client_id = $row['id'];
@@ -108,28 +108,28 @@ class cmain_node extends cnode
 
   //--------------------------------------------------------------------------------------
   /*!
-	@brief  ï\é¶(åpè≥ÇµÇƒégóp)
-	@return Ç»Çµ
+	@brief  Ë°®Á§∫(Á∂ôÊâø„Åó„Å¶‰ΩøÁî®)
+	@return „Å™„Åó
 	*/
   //--------------------------------------------------------------------------------------
   public function display()
   {
     global $ERR_STR;
-    //PHPÉuÉçÉbÉNèIóπ
+    //PHP„Éñ„É≠„ÉÉ„ÇØÁµÇ‰∫Ü
 ?>
-    <!-- ÉRÉìÉeÉìÉc -->
+    <!-- „Ç≥„É≥„ÉÜ„É≥„ÉÑ -->
     <!doctype html>
     <html>
 
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>ÉçÉOÉCÉì</title>
+      <title>„É≠„Ç∞„Ç§„É≥</title>
 
-      <!-- ÉtÉHÉìÉg -->
+      <!-- „Éï„Ç©„É≥„Éà -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-      <!-- ÉXÉ^ÉCÉãÉVÅ[Ég -->
+      <!-- „Çπ„Çø„Ç§„É´„Ç∑„Éº„Éà -->
       <link rel="stylesheet" href="../css/app.css">
       <script src="https://cdn.tailwindcss.com"></script>
       <script src="../common/tailwind.config.js"></script>
@@ -141,20 +141,25 @@ class cmain_node extends cnode
         <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="flex justify-center text-xl font-bold leading-tight tracking-tight text-blackcolor md:text-2xl">
-              ÉçÉOÉCÉì
+              „É≠„Ç∞„Ç§„É≥
             </h1>
-
+            <?php if (!empty($ERR_STR)) : ?>
+              <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">„Ç®„É©„Éº:</strong>
+                <span class="block sm:inline"><?php echo nl2br(htmlspecialchars($ERR_STR)); ?></span>
+              </div>
+            <?php endif; ?>
             <form class="space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
-                <label class="block mb-2 text-sm font-bold text-blackcolor">ÉçÉOÉCÉìID</label>
+                <label class="block mb-2 text-sm font-bold text-blackcolor">„É≠„Ç∞„Ç§„É≥ID</label>
                 <input type="login" name="login" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
               </div>
               <div class="px-6">
-                <label class="block mb-2 text-sm font-bold text-blackcolor">ÉpÉXÉèÅ[Éh</label>
+                <label class="block mb-2 text-sm font-bold text-blackcolor">„Éë„Çπ„ÉØ„Éº„Éâ</label>
                 <input type="password" name="password" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
               </div>
               <div class="px-6">
-                <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">ÉçÉOÉCÉì</button>
+                <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">„É≠„Ç∞„Ç§„É≥</button>
             </form>
           </div>
         </div>
@@ -163,35 +168,35 @@ class cmain_node extends cnode
     </body>
 
     </html>
-    <!-- /ÉRÉìÉeÉìÉcÅ@-->
+    <!-- /„Ç≥„É≥„ÉÜ„É≥„ÉÑ„ÄÄ-->
 <?php
-    //PHPÉuÉçÉbÉNçƒäJ
+    //PHP„Éñ„É≠„ÉÉ„ÇØÂÜçÈñã
   }
   //--------------------------------------------------------------------------------------
   /*!
-	@brief	ÉfÉXÉgÉâÉNÉ^
+	@brief	„Éá„Çπ„Éà„É©„ÇØ„Çø
 	*/
   //--------------------------------------------------------------------------------------
   public function __destruct()
   {
-    //êeÉNÉâÉXÇÃÉfÉXÉgÉâÉNÉ^ÇåƒÇ‘
+    //Ë¶™„ÇØ„É©„Çπ„ÅÆ„Éá„Çπ„Éà„É©„ÇØ„Çø„ÇíÂëº„Å∂
     parent::__destruct();
   }
 }
 
-//ÉyÅ[ÉWÇçÏê¨
+//„Éö„Éº„Ç∏„Çí‰ΩúÊàê
 $page_obj = new cnode();
-//ÉwÉbÉ_í«â¡(ÉçÉOÉCÉìóp)
+//„Éò„ÉÉ„ÉÄËøΩÂä†(„É≠„Ç∞„Ç§„É≥Áî®)
 $page_obj->add_child(cutil::create('cmain_header'));
-//ñ{ëÃí«â¡
+//Êú¨‰ΩìËøΩÂä†
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
-//ÉtÉbÉ^í«â¡
+//„Éï„ÉÉ„ÇøËøΩÂä†
 $page_obj->add_child(cutil::create('cmain_footer'));
-//ç\ízéûèàóù
+//ÊßãÁØâÊôÇÂá¶ÁêÜ
 $page_obj->create();
-//ñ{ëÃé¿çsÅiï\é¶ëOèàóùÅj
+//Êú¨‰ΩìÂÆüË°åÔºàË°®Á§∫ÂâçÂá¶ÁêÜÔºâ
 $main_obj->execute();
-//ÉyÅ[ÉWëSëÃÇï\é¶
+//„Éö„Éº„Ç∏ÂÖ®‰Ωì„ÇíË°®Á§∫
 $page_obj->display();
 
 ?>
