@@ -36,6 +36,26 @@ class cmain_node extends cnode
     //--------------------------------------------------------------------------------------
     public function execute()
     {
+        global $user_id; // ユーザーIDを適切に取得してください
+
+        $room_obj = new croom();
+
+        // アクティブなルームを取得
+        $active_room = $room_obj->get_active_room(false, $user_id);
+
+        // ユーザーのすべてのルームを取得
+        $all_rooms = $room_obj->get_user_rooms(false, $user_id);
+
+        $active_rooms = array();
+        $expired_rooms = array();
+
+        foreach ($all_rooms as $room) {
+            if ($room['status'] === 'active') {
+                $active_rooms[] = $room;
+            } else {
+                $expired_rooms[] = $room;
+            }
+        }
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -88,30 +108,36 @@ class cmain_node extends cnode
                 <div class="bg-white rounded-lg shadow-md overflow-y-auto" style="height: 70vh;">
                     <!-- 有効なプランのメッセージ -->
                     <div id="activeMessages" class="divide-y divide-gray-200">
-                        <a href="message_detail.html?id=1" class="block p-4 hover:bg-gray-50">
-                            <p class="font-semibold">断捨離の始め方について</p>
-                            <p class="text-sm text-gray-500">2024-07-11 14:30</p>
-                            <p class="text-xs text-green-600">有効期限: 2024-08-11</p>
-                        </a>
-                        <!-- 他のアクティブなメッセージ -->
+                        <?php foreach ($active_rooms as $room) : ?>
+                            <a href="message_detail.php?room_id=<?php echo $room['id']; ?>" class="block p-4 hover:bg-gray-50">
+                                <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
+                                <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
+                                <p class="text-xs text-green-600">有効期限: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
 
                     <!-- 期限切れのプランのメッセージ (初期状態では非表示) -->
                     <div id="expiredMessages" class="hidden divide-y divide-gray-200">
-                        <a href="message_detail.html?id=2" class="block p-4 hover:bg-gray-50 opacity-50">
-                            <p class="font-semibold">過去の断捨離相談</p>
-                            <p class="text-sm text-gray-500">2024-06-01 10:00</p>
-                            <p class="text-xs text-red-600">期限切れ: 2024-07-01</p>
-                        </a>
-                        <!-- 他の期限切れメッセージ -->
+                        <?php foreach ($expired_rooms as $room) : ?>
+                            <a href="message_detail.php?room_id=<?php echo $room['id']; ?>" class="block p-4 hover:bg-gray-50 opacity-50">
+                                <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
+                                <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
+                                <p class="text-xs text-red-600">期限切れ: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
                 <!-- 新しい相談ボタン (アクティブなプランがある場合のみ表示) -->
-                <a href="message_detail.html?new=1" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">新しい相談を始める</a>
+                <?php if (!empty($active_rooms)) : ?>
+                    <a href="message_detail.php?new=1" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">新しい相談を始める</a>
+                <?php endif; ?>
 
                 <!-- プラン更新ボタン (期限切れの場合に表示) -->
-                <a href="renew_plan.html" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 hidden" id="renewPlanBtn">プランを更新する</a>
+                <?php if (empty($active_rooms)) : ?>
+                    <a href="renew_plan.php" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" id="renewPlanBtn">プランを更新する</a>
+                <?php endif; ?>
             </div>
             <script src="../js/message_list.js"></script>
         </body>
