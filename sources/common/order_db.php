@@ -142,7 +142,7 @@ END_BLOCK;
         }
 
         $purchase_date = date('Y-m-d');
-        $expiry_date = date('Y-m-d', strtotime("+{$product['duration']} days"));
+        $expiry_date = date('Y-m-d', strtotime("+{$product['duration']} days -1 day"));
 
         $dataarr = array(
             'user_id' => (int)$user_id,

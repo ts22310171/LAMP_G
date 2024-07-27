@@ -58,7 +58,7 @@ class cmain_node extends cnode
                 $room = new croom();
                 $room_name = isset($_POST['name']) ? $_POST['name'] : 'デフォルトルーム';
                 $client_id = isset($_SESSION['client']['id']) ? $_SESSION['client']['id'] : 1;
-                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name);
+                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name,$this->plan_id);
 
                 if (!$new_room) {
                     $this->error_message = "ルームの作成に失敗しました。";
@@ -137,7 +137,7 @@ class cmain_node extends cnode
                 <div>
                     <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" id="room" class="">
                         <label class="">ルーム名を入力してください</label>
-                        <input type="text" name="name" value="<?php echo $_POST['name'] ?>" class="">
+                        <input type="text" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" class="">
                     </form>
                 </div>
 
