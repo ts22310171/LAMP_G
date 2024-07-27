@@ -27,7 +27,7 @@ class croom extends crecord
     @return 作成されたルームのID、失敗時はfalse
     */
     //--------------------------------------------------------------------------------------
-    public function create_room($debug, $user_id, $client_id, $order_id, $name)
+    public function create_room($debug, $user_id, $client_id, $order_id, $name,$product_id)
     {
         if (
             !cutil::is_number($user_id) || $user_id < 1 ||
@@ -38,12 +38,20 @@ class croom extends crecord
             return false;
         }
 
+        $product = $this->get_product($debug, $product_id);
+        if (!$product) {
+            return false;
+        }
+
+        $expiry_date = date('Y-m-d', strtotime("+{$product['duration']} days -1 day"));
+
         $dataarr = array(
             'user_id' => (int)$user_id,
             'client_id' => (int)$client_id,
             'order_id' => (int)$order_id,
             'name' => $name,
             'status' => 'active',
+            'expiry_date' => $expiry_date,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
@@ -56,6 +64,26 @@ class croom extends crecord
         } else {
             return false;
         }
+    }
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief  商品情報を取得する
+    @param[in]  $debug      デバッグ出力をするかどうか
+    @param[in]  $product_id 商品ID
+    @return 商品情報の配列、存在しない場合はfalse
+    */
+    //--------------------------------------------------------------------------------------
+    public function get_product($debug, $product_id)
+    {
+        if (!cutil::is_number($product_id) || $product_id < 1) {
+            return false;
+        }
+
+        $query = "SELECT * FROM products WHERE id = :product_id";
+        $prep_arr = array(':product_id' => (int)$product_id);
+
+        $this->select_query($debug, $query, $prep_arr);
+        return $this->fetch_assoc();
     }
 
     //--------------------------------------------------------------------------------------
