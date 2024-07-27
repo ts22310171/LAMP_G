@@ -165,7 +165,7 @@ class cmain_node extends cnode
             <script src="../common/tailwind.config.js"></script>
         </head>
 
-        <body class="bg-main">
+        <body class="bg-main flex flex-col min-h-screen">
             <div class="p-6 max-w-3xl mx-auto mt-20 mb-20">
                 <?php if ($this->pageFlag === 0) : ?>
                     <?php $this->display_input_form(); ?>

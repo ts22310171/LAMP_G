@@ -74,7 +74,7 @@ class cmain_node extends cnode
             <script src="../common/tailwind.config.js"></script>
         </head>
 
-        <body class="bg-main">
+        <body class="bg-main flex flex-col min-h-screen">
             <div class="p-6 max-w-3xl mx-auto mt-20 mb-20">
                 <h1 class="text-3xl font-bold text-gray-900 mb-4">よくあるお問い合わせ（FAQ）</h1>
                 <p class="mb-6">当ページでは、お客様からよく寄せられる質問とその回答を掲載しています。必要な情報が見つからない場合は、お気軽にお問い合わせください。</p>

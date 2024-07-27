@@ -20,7 +20,7 @@ class cmain_node extends cnode
     public $error_message = "";
     public $plan;
     public $plan_id;
-    public $payment_complete = false;
+    public $new_room = false;
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -58,11 +58,9 @@ class cmain_node extends cnode
                 $room = new croom();
                 $room_name = isset($_POST['name']) ? $_POST['name'] : 'デフォルトルーム';
                 $client_id = isset($_SESSION['client']['id']) ? $_SESSION['client']['id'] : 1;
-                $new_room_id = $room->create_room(false, $user_id, $client_id, $result, $room_name);
+                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name);
 
-                if ($new_room_id) {
-                    $this->payment_complete = true;
-                } else {
+                if (!$new_room) {
                     $this->error_message = "ルームの作成に失敗しました。";
                 }
             } else {
@@ -102,7 +100,7 @@ class cmain_node extends cnode
 
         <body class="bg-main flex flex-col min-h-screen">
 
-            <?php if ($this->payment_complete) :
+            <?php if ($this->new_room) :
                 $this->display_completion();
             else :
                 $this->display_payment_form();
@@ -189,26 +187,18 @@ class cmain_node extends cnode
     {
     ?>
         <div class="max-w-4xl mx-auto bg-whitecolor shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
-            <?php if ($this->payment_complete) : ?>
-                <h1 class="text-3xl font-bold mb-6 text-gray-800">購入完了</h1>
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
-                    <p class="font-bold">購入が完了しました！</p>
-                    <p>ご購入ありがとうございます。</p>
-                </div>
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-800">購入内容</h2>
-                    <p>プラン名: <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
-                    <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
-                    <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
-                </div>
-            <?php else : ?>
-                <h1 class="">購入エラー</h1>
-                <div>
-                    <p><?php echo htmlspecialchars($this->error_message, ENT_QUOTES, 'UTF-8'); ?></p>
-                </div>
-            <?php endif; ?>
+            <h1 class="text-3xl font-bold mb-6 text-gray-800">購入完了</h1>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+                <p class="font-bold">購入が完了しました！</p>
+                <p>ご購入ありがとうございます。</p>
+            </div>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">購入内容</h2>
+                <p>プラン名: <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
+                <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
+            </div>
             <a href="../index.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                メッセージ一覧へ
             </a>
         </div>
 <?php

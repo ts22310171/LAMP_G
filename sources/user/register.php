@@ -69,6 +69,7 @@ class cmain_node extends cnode
 
     public function register()
     {
+        global $ERR_STR;
         $register_obj = new crecord();
         $dataarr = array();
 
@@ -77,15 +78,16 @@ class cmain_node extends cnode
         $dataarr['email'] = $_POST['email'];
         $dataarr['password'] = cutil::pw_encode($_POST['password']);
 
-        // その他の必要なフィールドを追加（例：prefecture_id, member_address など）
-        // $dataarr['prefecture_id'] = 1; // デフォルト値または別のフォームフィールドから取得
-        // $dataarr['member_address'] = ''; // デフォルト値または別のフォームフィールドから取得
-
         // 新規登録の実行
         $mid = $register_obj->insert_core(false, 'users', $dataarr, false);
 
         if ($mid) {
-            $_SESSION['user']['name'] = $dataarr['name']; // ユーザー名をセッションに保存
+            // 登録成功時にセッションを設定
+            $_SESSION['user'] = array(
+                'id' => $mid,
+                'name' => $dataarr['name'],
+                'email' => $dataarr['email']
+            );
             cutil::redirect_exit(ABSOLUTE_URL . "/sources/index.php");
         } else {
             $ERR_STR = "登録に失敗しました。もう一度お試しください。";
@@ -122,12 +124,11 @@ class cmain_node extends cnode
             <script src="../common/tailwind.config.js"></script>
         </head>
 
-        <body>
-
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <body class="bg-main flex flex-col min-h-screen">
+            <div class="flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
                 <div class="w-full bg-white rounded-lg border border-graycolor md:mt-4 sm:max-w-md xl:p-0">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="flex justify-center text-xl font-bold text-blackcolor md:text-2xl">
+                        <h1 class="flex justify-center text-xl font-bold leading-tight tracking-tight text-blackcolor md:text-2xl">
                             会員登録
                         </h1>
                         <?php if (!empty($ERR_STR)) : ?>
@@ -135,32 +136,30 @@ class cmain_node extends cnode
                                 <span class="block sm:inline"><?php echo htmlspecialchars($ERR_STR); ?></span>
                             </div>
                         <?php endif; ?>
-                        <form class="space-y-4 md:space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <form class="space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="px-6">
-                                <label class="block mb-2 text-base font-bold text-blackcolor">ユーザー名</label>
-                                <input type="text" name="name" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="garbageさん" required>
+                                <label class="block mb-2 text-sm font-bold text-blackcolor">ユーザー名</label>
+                                <input type="text" name="name" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" placeholder="garbageさん" required>
                             </div>
                             <div class="px-6">
-                                <label class="block mb-2 text-base font-bold text-blackcolor">メールアドレス</label>
-                                <input type="email" name="email" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
+                                <label class="block mb-2 text-sm font-bold text-blackcolor">メールアドレス</label>
+                                <input type="email" name="email" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
                             </div>
                             <div class="px-6">
-                                <label class="block mb-2 text-base font-bold text-blackcolor">パスワード</label>
-                                <label class="block mb-2 text-xs text-explain"></label>
-                                <input type="password" name="password" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none  focus:border-explain block w-full p-2" required>
+                                <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
+                                <input type="password" name="password" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
                             </div>
                             <div class="px-6">
                                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">登録</button>
                             </div>
                             <div class="border-t border-graycolor my-4"></div>
-                            <p class="flex justify-center text-sm font-light text-gray-500 ">
+                            <p class="flex justify-center text-sm font-light text-gray-500">
                                 <a href="login.php" class="font-medium text-primary-600 underline hover:text-explain">ログイン</a>
                             </p>
                         </form>
                     </div>
                 </div>
             </div>
-
         </body>
 
         </html>
