@@ -136,47 +136,23 @@ END_BLOCK;
             return false;
         }
 
-        $product = $this->get_product($debug, $product_id);
-        if (!$product) {
-            return false;
-        }
-
         $purchase_date = date('Y-m-d');
-        $expiry_date = date('Y-m-d', strtotime("+{$product['duration']} days -1 day"));
 
         $dataarr = array(
             'user_id' => (int)$user_id,
             'product_id' => (int)$product_id,
             'purchase_date' => $purchase_date,
-            'expiry_date' => $expiry_date,
             'status' => 'active',
             'created_at' => date('Y-m-d H:i:s'),
         );
 
         $table = 'orders';
 
-        return $this->insert_core($debug, $table, $dataarr);
-    }
-    //--------------------------------------------------------------------------------------
-    /*!
-    @brief  商品情報を取得する
-    @param[in]  $debug      デバッグ出力をするかどうか
-    @param[in]  $product_id 商品ID
-    @return 商品情報の配列、存在しない場合はfalse
-    */
-    //--------------------------------------------------------------------------------------
-    public function get_product($debug, $product_id)
-    {
-        if (!cutil::is_number($product_id) || $product_id < 1) {
-            return false;
+        if ($this->insert_core($debug, $table, $dataarr)) {
+            return;
         }
-
-        $query = "SELECT * FROM products WHERE id = :product_id";
-        $prep_arr = array(':product_id' => (int)$product_id);
-
-        $this->select_query($debug, $query, $prep_arr);
-        return $this->fetch_assoc();
     }
+
     //--------------------------------------------------------------------------------------
     /*!
 	@brief	デストラクタ

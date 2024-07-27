@@ -27,7 +27,7 @@ class croom extends crecord
     @return 作成されたルームのID、失敗時はfalse
     */
     //--------------------------------------------------------------------------------------
-    public function create_room($debug, $user_id, $client_id, $order_id, $name,$product_id)
+    public function create_room($debug, $user_id, $client_id, $order_id, $name, $product_id)
     {
         if (
             !cutil::is_number($user_id) || $user_id < 1 ||
@@ -53,7 +53,6 @@ class croom extends crecord
             'status' => 'active',
             'expiry_date' => $expiry_date,
             'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
         );
 
         $table = 'rooms';

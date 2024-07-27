@@ -10,7 +10,9 @@ $err_flag = 0;
 $page_obj = null;
 
 // クエリパラメータからplan_idを取得
-$plan_id = isset($_GET['plan_id']) ? intval($_GET['plan_id']) : 0;
+if (isset($_GET['plan_id'])) {
+    $_SESSION['user']['plan_id'] = $_GET['plan_id'];
+}
 
 //--------------------------------------------------------------------------------------
 /// 本体ノード
@@ -27,11 +29,10 @@ class cmain_node extends cnode
     @brief  コンストラクタ
     */
     //--------------------------------------------------------------------------------------
-    public function __construct($plan_id)
+    public function __construct()
     {
         //親クラスのコンストラクタを呼ぶ
         parent::__construct();
-        $this->plan_id = $plan_id;
     }
 
     //--------------------------------------------------------------------------------------
@@ -44,21 +45,21 @@ class cmain_node extends cnode
     {
         // プラン情報を取得
         $plan = new cplan();
-        $this->plan = $plan->get_tgt(false, $this->plan_id);
+        $this->plan = $plan->get_tgt(false, $_SESSION['user']['plan_id']);
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user_id = $_SESSION['user']['id'];
 
             //注文管理
             $order = new corder();
-            $result = $order->process_purchase(false, $user_id, $this->plan_id);
+            $result = $order->process_purchase(false, $user_id, $_SESSION['user']['plan_id']);
 
             if ($result) {
                 // ルーム作成
                 $room = new croom();
                 $room_name = isset($_POST['name']) ? $_POST['name'] : 'デフォルトルーム';
                 $client_id = isset($_SESSION['client']['id']) ? $_SESSION['client']['id'] : 1;
-                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name,$this->plan_id);
+                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name, $_SESSION['user']['plan_id']);
 
                 if (!$new_room) {
                     $this->error_message = "ルームの作成に失敗しました。";
@@ -117,6 +118,12 @@ class cmain_node extends cnode
     {
     ?>
         <div class="max-w-4xl mx-auto bg-whitecolor shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
+            <?php if ($this->error_message) : ?>
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                    <p class="font-bold">エラー</p>
+                    <p><?php echo htmlspecialchars($this->error_message, ENT_QUOTES, 'UTF-8'); ?></p>
+                </div>
+            <?php endif; ?>
             <div class="flex flex-wrap -mx-4">
                 <!-- プラン詳細 -->
                 <div class="w-full md:w-1/2 px-4 mb-6 md:mb-0">
@@ -171,7 +178,7 @@ class cmain_node extends cnode
                                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123">
                             </div>
                         </div>
-                        <form class="flex items-center justify-between" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?plan_id=' . $this->plan_id); ?>" method="post">
+                        <form class="flex items-center justify-between" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?plan_id=' . $_SESSION['user']['plan_id']); ?>" method="post">
                             <button type="submit" form="room" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 支払う
                             </button>
@@ -187,19 +194,27 @@ class cmain_node extends cnode
     {
     ?>
         <div class="max-w-4xl mx-auto bg-whitecolor shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
-            <h1 class="text-3xl font-bold mb-6 text-gray-800">購入完了</h1>
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
-                <p class="font-bold">購入が完了しました！</p>
-                <p>ご購入ありがとうございます。</p>
-            </div>
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">購入内容</h2>
-                <p>プラン名: <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
-                <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
-            </div>
-            <a href="../index.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            </a>
+            <?php if ($this->error_message) : ?>
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                    <p class="font-bold">エラー</p>
+                    <p><?php echo htmlspecialchars($this->error_message, ENT_QUOTES, 'UTF-8'); ?></p>
+                </div>
+            <?php else : ?>
+                <h1 class="text-3xl font-bold mb-6 text-gray-800">購入完了</h1>
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+                    <p class="font-bold">購入が完了しました！</p>
+                    <p>ご購入ありがとうございます。</p>
+                </div>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">購入内容</h2>
+                    <p>プラン名: <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
+                    <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
+                </div>
+                <a href="../index.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                </a>
+            <?php endif; ?>
+
         </div>
 <?php
     }
@@ -221,7 +236,7 @@ $page_obj = new cnode();
 //ヘッダ追加
 $page_obj->add_child(cutil::create('cmain_header'));
 //本体追加
-$page_obj->add_child($main_obj = new cmain_node($plan_id));
+$page_obj->add_child($main_obj = new cmain_node());
 //フッタ追加
 $page_obj->add_child(cutil::create('cmain_footer'));
 //構築時処理
