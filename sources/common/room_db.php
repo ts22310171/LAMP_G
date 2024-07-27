@@ -27,19 +27,19 @@ class croom extends crecord
     @return 作成されたルームのID、失敗時はfalse
     */
     //--------------------------------------------------------------------------------------
-    public function create_room($debug, $user_id, $client_id, $order_id, $name, $product_id)
+    public function create_room($debug, $user_id, $client_id, $order_result, $name, $product_id)
     {
         if (
             !cutil::is_number($user_id) || $user_id < 1 ||
             !cutil::is_number($client_id) || $client_id < 1 ||
-            !cutil::is_number($order_id) || $order_id < 1 ||
             empty($name)
         ) {
             return false;
         }
-
+        $order_arr = $this->get_order_id($debug, $order_result);
+        
         $product = $this->get_product($debug, $product_id);
-        if (!$product) {
+        if (!$product || !$order_arr) {
             return false;
         }
 
@@ -48,9 +48,9 @@ class croom extends crecord
         $dataarr = array(
             'user_id' => (int)$user_id,
             'client_id' => (int)$client_id,
-            'order_id' => (int)$order_id,
+            'order_id' => (int)$order_arr['id'],
             'name' => $name,
-            'status' => 'active',
+            'status' => 'open',
             'expiry_date' => $expiry_date,
             'created_at' => date('Y-m-d H:i:s'),
         );
@@ -80,6 +80,26 @@ class croom extends crecord
 
         $query = "SELECT * FROM products WHERE id = :product_id";
         $prep_arr = array(':product_id' => (int)$product_id);
+
+        $this->select_query($debug, $query, $prep_arr);
+        return $this->fetch_assoc();
+    }
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief  商品情報を取得する
+    @param[in]  $debug      デバッグ出力をするかどうか
+    @param[in]  $product_id 商品ID
+    @return 商品情報の配列、存在しない場合はfalse
+    */
+    //--------------------------------------------------------------------------------------
+    public function get_order_id($debug, $order_result)
+    {
+        if (!$order_result) {
+            return false;
+        }
+
+        $query = "select id from orders order by id desc limit 1";
+        $prep_arr = array();
 
         $this->select_query($debug, $query, $prep_arr);
         return $this->fetch_assoc();
