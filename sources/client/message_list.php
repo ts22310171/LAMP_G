@@ -136,7 +136,7 @@ class cmain_node extends cnode
 // ページを作成
 $page_obj = new cnode();
 // サイドバー追加
-$page_obj->add_child(cutil::create('cmain_header'));
+$page_obj->add_child(cutil::create('cclient_header'));
 // 本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 // フッタ追加

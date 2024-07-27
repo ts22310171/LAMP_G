@@ -152,7 +152,7 @@ class cmain_node extends cnode
             <form class="space-y-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">ログインID</label>
-                <input type="login" name="login" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" placeholder="mail@example.com" required>
+                <input type="login" name="login" value="" class="bg-lightsub border border-graycolor text-blackcolor sm:text-base rounded hover:border-explain focus:outline-none focus:border-explain block w-full p-2" required>
               </div>
               <div class="px-6">
                 <label class="block mb-2 text-sm font-bold text-blackcolor">パスワード</label>
@@ -160,6 +160,7 @@ class cmain_node extends cnode
               </div>
               <div class="px-6">
                 <button type="submit" class="w-full text-whitecolor bg-sub hover:bg-subhover rounded-lg py-2.5 text-center">ログイン</button>
+              </div>
             </form>
           </div>
         </div>
@@ -187,7 +188,7 @@ class cmain_node extends cnode
 //ページを作成
 $page_obj = new cnode();
 //ヘッダ追加(ログイン用)
-$page_obj->add_child(cutil::create('cmain_header'));
+$page_obj->add_child(cutil::create('cclient_header'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
