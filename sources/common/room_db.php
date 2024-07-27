@@ -202,7 +202,7 @@ class croom extends crecord
         $result = $this->select_query($debug, $sql, $params);
 
         if ($result) {
-            return $result[0];
+            return $result;
         } else {
             return false;
         }
