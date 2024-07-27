@@ -172,7 +172,7 @@ class cmain_node extends cnode
                 </form>
 
                 <!-- パスワード更新セクション -->
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                     <div class="bg-white shadow-lg rounded-lg p-8 mb-8">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">パスワード更新</h2>
                         <div class="mb-6">

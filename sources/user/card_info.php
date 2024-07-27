@@ -137,7 +137,7 @@ class cmain_node extends cnode
                 <div>
                     <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" id="room" class="">
                         <label class="">ルーム名を入力してください</label>
-                        <input type="text" name="name" value="<?php echo $_POST['name'] ?>" class="">
+                        <input type="text" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" class="">
                     </form>
                 </div>
 
