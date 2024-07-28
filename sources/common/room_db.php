@@ -37,7 +37,7 @@ class croom extends crecord
             return false;
         }
         $order_arr = $this->get_order_id($debug, $order_result);
-        
+
         $product = $this->get_product($debug, $product_id);
         if (!$product || !$order_arr) {
             return false;

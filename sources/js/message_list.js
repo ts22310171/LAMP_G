@@ -29,3 +29,54 @@ expiredTabBtn.addEventListener("click", () => {
   newConsultationBtn.classList.add("hidden");
   renewPlanBtn.classList.remove("hidden");
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const activeTabBtn = document.getElementById("activeTabBtn");
+  const expiredTabBtn = document.getElementById("expiredTabBtn");
+  const activeMessages = document.getElementById("activeMessages");
+  const expiredMessages = document.getElementById("expiredMessages");
+
+  activeTabBtn.addEventListener("click", function () {
+    activeMessages.classList.remove("hidden");
+    expiredMessages.classList.add("hidden");
+    activeTabBtn.classList.add("bg-blue-500", "text-white");
+    activeTabBtn.classList.remove("bg-gray-300", "text-gray-700");
+    expiredTabBtn.classList.add("bg-gray-300", "text-gray-700");
+    expiredTabBtn.classList.remove("bg-blue-500", "text-white");
+  });
+
+  expiredTabBtn.addEventListener("click", function () {
+    activeMessages.classList.add("hidden");
+    expiredMessages.classList.remove("hidden");
+    expiredTabBtn.classList.add("bg-blue-500", "text-white");
+    expiredTabBtn.classList.remove("bg-gray-300", "text-gray-700");
+    activeTabBtn.classList.add("bg-gray-300", "text-gray-700");
+    activeTabBtn.classList.remove("bg-blue-500", "text-white");
+  });
+
+  document.querySelectorAll(".close-room-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const roomId = this.getAttribute("data-room-id");
+      fetch("close_room.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_id: roomId,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            location.reload();
+          } else {
+            alert("ルームを閉じることができませんでした。");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("ルームを閉じることができませんでした。");
+        });
+    });
+  });
+});
