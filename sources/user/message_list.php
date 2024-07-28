@@ -53,7 +53,7 @@ class cmain_node extends cnode
 
         foreach ($all_rooms as $room) {
             // ルームの有効期限をチェック
-            if ($room['expiry_date'] < $current_date) {
+            if ($room['expiry_date'] <= $current_date) {
                 // 期限が切れている場合、ステータスを "expired" に更新
                 if ($room['status'] !== 'closed') {
                     $room_obj->update_room_status(false, $room['id'], 'closed');

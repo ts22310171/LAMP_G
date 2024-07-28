@@ -197,15 +197,10 @@ class croom extends crecord
             return false;
         }
 
-        $sql = 'SELECT * FROM rooms WHERE user_id = :user_id AND status = "active"';
+        $sql = 'SELECT * FROM rooms WHERE user_id = :user_id AND status = "open"';
         $params = array(':user_id' => $user_id);
-        $result = $this->select_query($debug, $sql, $params);
-
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
+        $this->select_query($debug, $sql, $params);
+        return $this->fetch_assoc();
     }
 
     //--------------------------------------------------------------------------------------

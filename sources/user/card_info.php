@@ -4,6 +4,9 @@ if (!isset($_SESSION)) {
 }
 //ライブラリをインクルード
 require_once("../common/libs.php");
+//以下はセッション管理用のインクルード
+require_once("../common/auth_room.php");
+
 
 $err_array = array();
 $err_flag = 0;

@@ -12,7 +12,9 @@ $_SESSIONは多次元配列にする
 
              2024/5/20 Y.YAMANOI
  *********************************/
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 if ((!isset($_SESSION['client']['name']))
     || (!isset($_SESSION['client']['login']))
 ) {
