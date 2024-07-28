@@ -81,6 +81,26 @@ END_BLOCK;
 
     //--------------------------------------------------------------------------------------
     /*!
+    @brief  メッセージを削除する
+    @param[in]  $debug  デバッグ出力をするかどうか
+    @param[in]  $message_id  削除するメッセージのID
+    @return bool 成功時はtrue、失敗時はfalse
+    */
+    //--------------------------------------------------------------------------------------
+    public function delete_message($debug, $message_id)
+    {
+        if (!cutil::is_number($message_id) || $message_id < 1) {
+            return false;
+        }
+
+        $where = "id = :id";
+        $wherearr = array(':id' => (int)$message_id);
+
+        return $this->delete_core($debug, 'messages', $where, $wherearr) > 0;
+    }
+
+    //--------------------------------------------------------------------------------------
+    /*!
     @brief  デストラクタ
     */
     //--------------------------------------------------------------------------------------
