@@ -50,18 +50,17 @@ class cmain_node extends cnode
             return;
         }
 
-        // POSTリクエストの処理（メッセージ送信または削除）
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['delete_message_id'])) {
                 $message_id = (int)$_POST['delete_message_id'];
                 $message_db = new cmessage();
-                if ($message_db->delete_message(false, $message_id)) {
+                $result = $message_db->delete_message(false, $message_id);
+
+                if ($result) {
                     $_SESSION['success_message'] = "メッセージが削除されました。";
                 } else {
                     $_SESSION['error_message'] = "メッセージの削除に失敗しました。";
                 }
-
-                // リダイレクトして再読み込み
                 header("Location: " . $_SERVER['PHP_SELF'] . "?room_id=" . $room_id);
                 exit();
             } else {
@@ -78,26 +77,18 @@ class cmain_node extends cnode
                     $_SESSION['error_message'] = "メッセージまたは画像を入力してください。";
                 }
 
-                // リダイレクトして再読み込み
                 header("Location: " . $_SERVER['PHP_SELF'] . "?room_id=" . $room_id);
                 exit();
             }
         }
 
-        // メッセージの取得
         $message_db = new cmessage();
-        $this->messages = $message_db->get_room_messages(false, $room_id);
+        $this->messages = $message_db->get_room_messages(false, $room_id) ?: [];
 
-        if ($this->messages === false) {
-            $this->messages = [];
-        }
-
-        // セッションからメッセージを取得し、クリア
         $this->error_message = $_SESSION['error_message'] ?? "";
         $this->success_message = $_SESSION['success_message'] ?? "";
         unset($_SESSION['error_message'], $_SESSION['success_message']);
 
-        // アクティブなルームを取得
         $room_db = new croom();
         $this->room = $room_db->get_active_room(false, $user_id);
 
@@ -105,6 +96,7 @@ class cmain_node extends cnode
             $this->error_message = "アクティブなルームがありません。";
         }
     }
+
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -244,14 +236,16 @@ class cmain_node extends cnode
 
             <!-- メッセージ表示エリア -->
             <?php if (empty($this->messages)) : ?>
-                <p>メッセージはありません。</p>
+                <div class="flex items-center justify-center">
+                    <p>メッセージはありません。</p>
+                </div>
             <?php else : ?>
                 <?php foreach (array_reverse($this->messages) as $message) : ?>
                     <?php if ($message['sender_type'] == 'client') : ?>
                         <!-- クライアントのメッセージ -->
                         <div class="mb-4 ml-8 flex justify-start">
                             <div class="w-full md:w-3/4">
-                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?><a>削除</a></p>
+                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?><a> 削除</a></p>
                                 <div class="mt-1 rounded-r-3xl bg-blue-100 p-3">
                                     <p class="text-right text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
@@ -275,7 +269,13 @@ class cmain_node extends cnode
                         <!-- アドバイザー（ユーザー）のメッセージ -->
                         <div class="mb-4 mr-8 flex justify-end">
                             <div class="w-full md:w-3/4">
-                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?><a>削除</a></p>
+                                <p class="text-left text-xs md:text-sm text-gray-600">
+                                    <?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?>
+                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="inline">
+                                    <input type="hidden" name="delete_message_id" value="<?= $message['id'] ?>">
+                                    <button type="submit" class="text-red-500 hover:underline">削除</button>
+                                </form>
+                                </p>
                                 <div class="mt-1 rounded-l-3xl bg-green-100 p-3">
                                     <p class="text-left text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
@@ -287,11 +287,8 @@ class cmain_node extends cnode
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
-
             <script src="../js/message_box.js"></script>
         </body>
-
-
 
         </html>
 <?php
