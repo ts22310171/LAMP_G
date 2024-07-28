@@ -196,7 +196,7 @@ class cmain_node extends cnode
 
         <body class="bg-main flex flex-col min-h-screen">
             <div class="container mx-auto p-4 mt-20">
-                <div class="max-w-full mx-auto rounded-lg bg-white p-6 shadow-md">
+                <div class="max-w-2xl mx-auto rounded-lg bg-white p-6 shadow-md">
                     <h1 class="mb-4 text-2xl font-bold">メッセージボックス</h1>
 
                     <?php if ($this->error_message) : ?>
@@ -220,9 +220,9 @@ class cmain_node extends cnode
                                 <?php if ($message['sender_type'] == 'client') : ?>
                                     <!-- クライアントのメッセージ -->
                                     <div class="mb-4 flex justify-start">
-                                        <div class="max-w-lg md:max-w-xl">
+                                        <div class="max-w-xs md:max-w-md">
                                             <p class="text-xs md:text-sm text-gray-600">From: <?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
-                                            <div class="mt-1 rounded-r-3xl bg-blue-100 p-3">
+                                            <div class="mt-1 rounded-lg bg-blue-100 p-3">
                                                 <p class="text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                                 <?php if (!empty($message['image'])) : ?>
                                                     <img src="<?= htmlspecialchars($message['image']) ?>" alt="添付画像" class="mt-2 max-w-full h-auto">
@@ -233,9 +233,9 @@ class cmain_node extends cnode
                                 <?php else : ?>
                                     <!-- アドバイザー（ユーザー）のメッセージ -->
                                     <div class="mb-4 flex justify-end">
-                                        <div class="max-w-lg md:max-w-xl">
+                                        <div class="max-w-xs md:max-w-md">
                                             <p class="text-right text-xs md:text-sm text-gray-600">From: <?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
-                                            <div class="mt-1 rounded-l-3xl bg-green-100 p-3">
+                                            <div class="mt-1 rounded-lg bg-green-100 p-3">
                                                 <p class="text-right text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                                 <?php if (!empty($message['image'])) : ?>
                                                     <img src="<?= htmlspecialchars($message['image']) ?>" alt="添付画像" class="mt-2 max-w-full h-auto">
@@ -249,30 +249,26 @@ class cmain_node extends cnode
                     </div>
 
                     <!-- メッセージ入力フォーム -->
-                    <div class="flex justify-center items-center">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="w-full max-w-3xl bg-white p-4 rounded-lg shadow">
-                            <input type="hidden" name="room_id" value="<?= htmlspecialchars($_SESSION['user']['room_id']) ?>">
-                            <div class="flex items-center space-x-2">
-                                <!-- カメラアイコンボタン -->
-                                <input type="file" id="image-upload" name="image" accept="image/*" class="hidden" />
-                                <label for="image-upload" class="cursor-pointer p-2 bg-gray-300 rounded-lg text-gray-500 hover:bg-gray-400 flex items-center justify-center w-12 h-12">
-                                    <i class="fa fa-camera"></i>
-                                </label>
-                                <!-- テキストエリア -->
-                                <textarea id="content" name="content" placeholder="メッセージを入力" class="flex-grow rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 h-12"></textarea>
-                                <!-- 送信ボタン -->
-                                <button type="submit" class="rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 h-12">送信</button>
-                            </div>
-                            <!-- 画像プレビュー表示エリア -->
-                            <div id="image-preview" class="mt-4"></div>
-                        </form>
-                    </div>
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="w-full max-w-3xl bg-white p-4 rounded-lg shadow">
+                        <input type="hidden" name="room_id" value="<?= htmlspecialchars($_SESSION['user']['room_id']) ?>">
+                        <div class="flex items-center space-x-2">
+                            <!-- カメラアイコンボタン -->
+                            <input type="file" id="image-upload" name="image" accept="image/*" class="hidden" />
+                            <label for="image-upload" class="cursor-pointer p-2 bg-gray-300 rounded-lg text-gray-500 hover:bg-gray-400 flex items-center justify-center w-12 h-12">
+                                <i class="fa fa-camera"></i>
+                            </label>
+                            <!-- テキストエリア -->
+                            <textarea id="content" name="content" placeholder="メッセージを入力" class="flex-grow rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-lightsub" rows="4"></textarea>
+                            <!-- 送信ボタン -->
+                            <button type="submit" class="rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-not-allowed opacity-50" disabled>送信</button>
+                        </div>
+                        <!-- 画像プレビュー表示エリア -->
+                        <div id="image-preview"></div>
+                    </form>
                 </div>
             </div>
             <script src="../js/message_box.js"></script>
         </body>
-
-
 
         </html>
 <?php

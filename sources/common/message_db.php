@@ -26,37 +26,39 @@ class cmessage extends crecord
     public function get_room_messages($debug, $room_id)
     {
         if (!cutil::is_number($room_id) || $room_id < 1) {
-            //falseを返す
             return false;
         }
-        //プレースホルダつき
+
+        $arr = array(); // 配列を初期化
+
         $query = <<< END_BLOCK
-SELECT m.*, 
-    CASE 
-        WHEN m.sender_type = 'user' THEN u.name 
-        ELSE c.name 
-    END AS sender_name
+SELECT m.*,
+CASE
+WHEN m.sender_type = 'user' THEN u.name
+ELSE c.name
+END AS sender_name
 FROM messages m 
 LEFT JOIN users u ON m.sender_id = u.id AND m.sender_type = 'user'
 LEFT JOIN clients c ON m.sender_id = c.id AND m.sender_type = 'client'
 WHERE m.room_id = :room_id 
 ORDER BY m.created_at ASC
 END_BLOCK;
+
         $prep_arr = array(
             ':room_id' => (int)$room_id
         );
-        //親クラスのselect_query()メンバ関数を呼ぶ
-        $this->select_query(
-            $debug,            //デバッグ表示するかどうか
-            $query,            //プレースホルダつきSQL
-            $prep_arr        //データの配列
-        );
-        //順次取り出す
+
+        // クエリの実行結果をチェック
+        if (!$this->select_query($debug, $query, $prep_arr)) {
+            return false; // クエリが失敗した場合は false を返す
+        }
+
         while ($row = $this->fetch_assoc()) {
             $arr[] = $row;
         }
-        //取得した配列を返す
-        return $arr;
+
+        // メッセージが存在しない場合は空の配列を返す
+        return !empty($arr) ? $arr : array();
     }
 
     //--------------------------------------------------------------------------------------
