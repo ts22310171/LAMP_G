@@ -15,6 +15,8 @@ $_SESSIONは多次元配列にする
 if (!isset($_SESSION)) {
     session_start();
 }
+
+require_once("../common/auth_user.php");
 $user_id = $_SESSION['user']['id'];
 
 $room_obj = new croom();

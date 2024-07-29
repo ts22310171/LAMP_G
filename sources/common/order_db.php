@@ -149,7 +149,7 @@ END_BLOCK;
         $table = 'orders';
 
         if ($this->insert_core($debug, $table, $dataarr)) {
-            return;
+            return true;
         }
     }
 
