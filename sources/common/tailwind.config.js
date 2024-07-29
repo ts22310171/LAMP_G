@@ -11,6 +11,7 @@ tailwind.config = {
         lightaccent: "#FCF5E7",
         alarm: "#BE0A2C",
         alarmhover: "#970404",
+        lightalarm: "#FDE1E7",
         blackcolor: "#333333",
         graycolor: "#ADADAD",
         grayhover: "#919191",

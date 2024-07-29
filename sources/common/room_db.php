@@ -165,7 +165,8 @@ class croom extends crecord
     public function update_room_status($debug, $id, $status)
     {
         if (!cutil::is_number($id) || $id < 1 || empty($status)) {
-            return 0;
+            error_log("Invalid input: id=$id, status=$status");
+            return false;
         }
 
         $table = 'rooms';
@@ -176,7 +177,17 @@ class croom extends crecord
         $where = 'id = :id';
         $wherearr = array(':id' => (int)$id);
 
-        return $this->update_core($debug, $table, $dataarr, $where, $wherearr);
+        try {
+            $result = $this->update_core($debug, $table, $dataarr, $where, $wherearr);
+            if ($debug) {
+                error_log("Update result: " . var_export($result, true));
+            }
+            // update_coreの戻り値に応じて適切に判断
+            return $result > 0;
+        } catch (Exception $e) {
+            error_log("Error updating room status: " . $e->getMessage());
+            return false;
+        }
     }
 
     //--------------------------------------------------------------------------------------
@@ -197,6 +208,33 @@ class croom extends crecord
         $params = array(':user_id' => $user_id);
         $this->select_query($debug, $sql, $params);
         return $this->fetch_assoc();
+    }
+
+    //--------------------------------------------------------------------------------------
+    /*!
+    @brief  クライアントのすべてのルームを取得する
+    @param[in]  $debug      デバッグ出力をするかどうか
+    @param[in]  $client_id  クライアントID
+    @return ルーム情報の配列、存在しない場合は空の配列
+    */
+    //--------------------------------------------------------------------------------------
+    public function get_client_rooms($debug, $client_id)
+    {
+        if (!cutil::is_number($client_id) || $client_id < 1) {
+            return array();
+        }
+
+        $query = "SELECT * FROM rooms WHERE client_id = :client_id ORDER BY created_at DESC";
+        $prep_arr = array(':client_id' => (int)$client_id);
+
+        $this->select_query($debug, $query, $prep_arr);
+        $result = array();
+
+        while ($row = $this->fetch_assoc()) {
+            $result[] = $row;
+        }
+
+        return $result;
     }
 
     //--------------------------------------------------------------------------------------
