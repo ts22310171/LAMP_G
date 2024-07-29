@@ -103,13 +103,11 @@ class cmain_node extends cnode
         </head>
 
         <body class="bg-main flex flex-col min-h-screen">
-
-            <?php if ($this->new_room) :
-                $this->display_completion();
-            else :
-                $this->display_payment_form();
-            endif;
-            ?>
+            <?php if ($this->new_room) : ?>
+                <?php $this->display_completion(); ?>
+            <?php else : ?>
+                <?php $this->display_payment_form(); ?>
+            <?php endif; ?>
         </body>
 
         </html>
@@ -117,6 +115,7 @@ class cmain_node extends cnode
     <?php
         //PHPブロック再開
     }
+
     public function display_payment_form()
     {
     ?>
@@ -193,6 +192,7 @@ class cmain_node extends cnode
     <?php
         //PHPブロック再開
     }
+
     public function display_completion()
     {
     ?>
