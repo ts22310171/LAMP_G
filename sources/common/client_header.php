@@ -80,7 +80,6 @@ class cclient_header extends cnode
                                 </div>
                                 <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
                                     <a href="<?php echo ABSOLUTE_URL; ?>/sources/client/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
-                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
                                     <a href="<?php echo ABSOLUTE_URL; ?>/sources/client/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
                                 </div>
                             </div>
