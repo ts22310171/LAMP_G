@@ -192,7 +192,7 @@ $page_obj->add_child(cutil::create('cclient_header'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
-$page_obj->add_child(cutil::create('cmain_footer'));
+$page_obj->add_child(cutil::create('cclient_footer'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）

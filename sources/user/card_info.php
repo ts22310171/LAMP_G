@@ -119,7 +119,7 @@ class cmain_node extends cnode
     public function display_payment_form()
     {
     ?>
-        <div class="max-w-4xl mx-auto bg-whitecolor shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
+        <div class="max-w-4xl mx-auto bg-whitecolor shadow-lg rounded-lg px-8 pt-6 pb-8 mt-20 mb-4">
             <?php if ($this->error_message) : ?>
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
                     <p class="font-bold">エラー</p>
@@ -128,99 +128,99 @@ class cmain_node extends cnode
             <?php endif; ?>
             <div class="flex flex-wrap -mx-4">
                 <!-- プラン詳細 -->
-                <div class="w-full md:w-1/2 px-4 mb-6 md:mb-0">
+                <div class="w-full lg:w-1/2 px-4 mb-6">
                     <h2 class="text-2xl font-bold mb-4 text-gray-800">選択されたプラン</h2>
-                    <div class="bg-whitehover p-4 rounded">
+                    <div class="bg-whitehover p-6 rounded-lg shadow">
                         <?php if ($this->plan) : ?>
                             <h3 class="text-xl font-semibold mb-2"><?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                            <p class="mb-4"><?php echo htmlspecialchars($this->plan['description'], ENT_QUOTES, 'UTF-8'); ?></p>
-                            <p class="text-2xl font-bold text-blue-600">料金：<span class="font-bold"><?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?></span>円</p>
-                            <p>期間：<span class="font-bold"><?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?></span>日間</p>
+                            <p class="mb-4 text-gray-600"><?php echo htmlspecialchars($this->plan['description'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p class="text-2xl font-bold text-blue-600 mb-2">料金：<span><?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?></span>円</p>
+                            <p class="text-gray-700">期間：<span class="font-bold"><?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?></span>日間</p>
                         <?php else : ?>
-                            <p>プラン情報が見つかりません。</p>
+                            <p class="text-red-500">プラン情報が見つかりません。</p>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <!-- ルーム名 -->
-                <div>
-                    <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" id="room" class="">
-                        <label class="">ルーム名を入力してください</label>
-                        <input type="text" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" class="">
-                    </form>
-                </div>
+                <!-- ルーム名とクレジットカード情報 -->
+                <div class="w-full lg:w-1/2 px-4">
+                    <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" id="payment-form" class="bg-whitehover p-6 rounded-lg shadow">
+                        <h2 class="text-2xl font-bold mb-6 text-gray-800">支払い情報</h2>
 
-                <!-- クレジットカード情報 -->
-                <div class="w-full md:w-1/2 px-4 mb-6 md:mb-0">
-                    <h2 class="text-2xl font-bold mb-6 text-gray-800">クレジットカード情報</h2>
-                    <div class="bg-whitehover p-4 rounded">
+                        <!-- ルーム名 -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="room-name">
+                                ルーム名
+                            </label>
+                            <input type="text" id="room-name" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        </div>
+
+                        <!-- クレジットカード情報 -->
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="card-number">
                                 カード番号
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="1234 5678 9012 3456">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="1234 5678 9012 3456" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="card-name">
                                 カード名義人
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-name" type="text" placeholder="TARO YAMADA">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="card-name" type="text" placeholder="TARO YAMADA" required>
                         </div>
-                        <div class="flex mb-4">
+                        <div class="flex mb-6">
                             <div class="w-1/2 pr-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="expiry-date">
                                     有効期限
                                 </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry-date" type="text" placeholder="MM / YY">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry-date" type="text" placeholder="MM / YY" required>
                             </div>
                             <div class="w-1/2 pl-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="cvv">
                                     セキュリティコード
                                 </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="123" required>
                             </div>
                         </div>
-                        <form class="flex items-center justify-between" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?plan_id=' . $_SESSION['user']['plan_id']); ?>" method="post">
-                            <button type="submit" form="room" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <div class="flex items-center justify-center">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
                                 支払う
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     <?php
-        //PHPブロック再開
     }
 
     public function display_completion()
     {
     ?>
-        <div class="max-w-4xl mx-auto bg-whitecolor shadow-md rounded px-8 pt-6 pb-8 mt-20 mb-4">
+        <div class="max-w-4xl mx-auto bg-whitecolor shadow-lg rounded-lg px-8 pt-6 pb-8 mt-20 mb-4">
             <?php if ($this->error_message) : ?>
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
                     <p class="font-bold">エラー</p>
                     <p><?php echo htmlspecialchars($this->error_message, ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
             <?php else : ?>
-                <h1 class="text-3xl font-bold mb-6 text-gray-800">購入完了</h1>
+                <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">購入完了</h1>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
                     <p class="font-bold">購入が完了しました！</p>
                     <p>ご購入ありがとうございます。</p>
                 </div>
-                <div class="mb-6">
+                <div class="mb-6 bg-whitehover p-6 rounded-lg shadow">
                     <h2 class="text-2xl font-bold mb-4 text-gray-800">購入内容</h2>
-                    <p>プラン名: <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
-                    <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
-                    <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
+                    <p class="mb-2"><span class="font-semibold">プラン名:</span> <?php echo htmlspecialchars($this->plan['name'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p class="mb-2"><span class="font-semibold">金額:</span> <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
+                    <p><span class="font-semibold">期間:</span> <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
                 </div>
-                <button type="button" onclick="location.href='<?php echo ABSOLUTE_URL . '/sources/user/message_list.php'; ?>'" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out">
-                    チャット
-                </button>
-
-                </form>
+                <div class="text-center">
+                    <button type="button" onclick="location.href='<?php echo ABSOLUTE_URL . '/sources/user/message_list.php'; ?>'" class="bg-blue-500 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                        チャットを始める
+                    </button>
+                </div>
             <?php endif; ?>
-
         </div>
 <?php
     }

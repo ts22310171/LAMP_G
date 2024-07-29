@@ -48,11 +48,12 @@ class cmain_node extends cnode
         // POSTリクエストで閉じるボタンが押された場合の処理
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close_room_id'])) {
             $close_room_id = $_POST['close_room_id'];
-            $result = $room_obj->update_room_status(false, $close_room_id, 'closed');
-            if ($result) {
+            $result = $room_obj->update_room_status(true, $close_room_id, 'closed');  // デバッグを有効に
+            if ($result === true) {
                 $_SESSION['success_message'] = "ルームを閉じました。";
             } else {
                 $_SESSION['error_message'] = "ルームを閉じることができませんでした。";
+                error_log("Failed to close room: $close_room_id");  // エラーをログに記録
             }
             // リダイレクトして再度ページを読み込む
             header("Location: " . $_SERVER['PHP_SELF']);
@@ -90,6 +91,7 @@ class cmain_node extends cnode
         $this->error_message = $_SESSION['error_message'] ?? '';
         unset($_SESSION['success_message'], $_SESSION['error_message']);
     }
+
     //--------------------------------------------------------------------------------------
     /*!
 	@brief	構築時の処理(継承して使用)
@@ -128,7 +130,7 @@ class cmain_node extends cnode
         </head>
 
         <body class="bg-main flex flex-col min-h-screen">
-            <div class="container mx-auto p-4">
+            <div class="container mx-auto p-4 mt-20">
                 <h1 class="text-2xl font-bold mb-4">断捨離相談メッセージ</h1>
                 <?php if ($this->success_message) : ?>
                     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -137,7 +139,7 @@ class cmain_node extends cnode
                 <?php endif; ?>
 
                 <?php if ($this->error_message) : ?>
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <div class="bg-red-100 border border-lightalarm text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                         <?php echo htmlspecialchars($this->error_message); ?>
                     </div>
                 <?php endif; ?>
@@ -145,36 +147,36 @@ class cmain_node extends cnode
                     <button id="activeTabBtn" class="bg-blue-500 text-white px-4 py-2 rounded-l-lg focus:outline-none">有効なプラン</button>
                     <button id="expiredTabBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-r-lg focus:outline-none">期限切れのプラン</button>
                 </div>
-                <div class="bg-white rounded-lg shadow-md overflow-y-auto" style="height: 70vh;">
-                    <div id="activeMessages" class="divide-y divide-gray-200">
-                        <?php foreach ($this->active_rooms as $room) : ?>
-                            <div class="flex justify-between items-center p-4 hover:bg-gray-50">
-                                <a href="message_box.php?room_id=<?php echo $room['id']; ?>" class="block w-full">
-                                    <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
-                                    <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
-                                    <p class="text-xs text-green-600">有効期限: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
-                                </a>
-                                <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="inline">
-                                    <input type="hidden" name="close_room_id" value="<?php echo $room['id']; ?>">
-                                    <button type="submit" class="close-room-btn bg-red-500 text-white px-3 py-1 rounded-lg ml-4 hover:bg-red-600" onclick="return confirm('本当にこのルームを閉じますか？');">閉じる</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                        <?php if (empty($this->active_rooms)) : ?>
-                            <a href="../index.php" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" id="renewPlanBtn">ルームの作成</a>
-                        <?php endif; ?>
-                    </div>
-                    <div id="expiredMessages" class="hidden divide-y divide-gray-200">
-                        <?php foreach ($this->expired_rooms as $room) : ?>
-                            <div class="flex justify-between items-center p-4 hover:bg-gray-50 opacity-50">
-                                <a href="message_box.php?room_id=<?php echo $room['id']; ?>" class="block w-full">
-                                    <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
-                                    <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
-                                    <p class="text-xs text-red-600">期限切れ: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
-                                </a>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+                <div id="activeMessages" class="divide-y divide-gray-200">
+                    <?php foreach ($this->active_rooms as $room) : ?>
+                        <div class="flex justify-between items-center p-4 bg-whitecolor hover:bg-whitehover">
+                            <a href="message_box.php?room_id=<?php echo $room['id']; ?>" class="block w-full">
+                                <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
+                                <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
+                                <p class="text-xs text-green-600">有効期限: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
+                            </a>
+                            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="inline">
+                                <input type="hidden" name="close_room_id" value="<?php echo $room['id']; ?>">
+                                <button type="submit" class="close-room-btn bg-red-500 text-white px-3 py-1 rounded-lg ml-4 hover:bg-red-600 whitespace-nowrap w-20" onclick="return confirm('本当にこのルームを閉じますか？');">
+                                    閉じる
+                                </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php if (empty($this->active_rooms)) : ?>
+                        <a href="../index.php" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" id="renewPlanBtn">ルームの作成</a>
+                    <?php endif; ?>
+                </div>
+                <div id="expiredMessages" class="hidden divide-y divide-gray-200">
+                    <?php foreach ($this->expired_rooms as $room) : ?>
+                        <div class="flex justify-between items-center p-4 bg-whitecolor  hover:bg-whitehover opacity-50">
+                            <a href="message_box.php?room_id=<?php echo $room['id']; ?>" class="block w-full">
+                                <p class="font-semibold"><?php echo htmlspecialchars($room['name']); ?></p>
+                                <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
+                                <p class="text-xs text-red-600">期限切れ: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <script src="../js/message_list.js"></script>

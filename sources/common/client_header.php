@@ -62,14 +62,14 @@ class cclient_header extends cnode
             <header>
                 <div class="bg-main h-20 flex justify-between items-center fixed top-0 left-0 w-full z-50 h-16">
                     <div class="flex items-center">
-                        <a href="<?php echo ABSOLUTE_URL; ?>/sources/index.php" class="flex items-center mr-10">
+                        <a href="<?php echo ABSOLUTE_URL; ?>/sources/client/message_list.php" class="flex items-center mr-10">
                             <img src="<?php echo ABSOLUTE_URL; ?>/sources/images/GarbaGe favicon2.png" width="60" height="60" class="ml-4" />
                             <div class="-ml-2 text-2xl text-black font-bold">
                                 Garba<span class="text-sub">Ge</span>
                             </div>
                         </a>
                     </div>
-                    <div class="flex">
+                    <div class="flex mr-10">
                         <?php if (isset($_SESSION['client']['name'])) : ?>
                             <div class="relative">
                                 <div class="rounded shadow bg-whitecolor p-2">
@@ -79,8 +79,7 @@ class cclient_header extends cnode
                                     </button>
                                 </div>
                                 <div class="dropdown hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl" id="dropdown">
-                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/mypage.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-0"><i class="fa-solid fa-user"></i>マイページ</a>
-                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
+                                    <a href="<?php echo ABSOLUTE_URL; ?>/sources/client/message_list.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-1"><i class="fa-solid fa-comment"></i>チャットルーム</a>
                                     <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/settings.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>設定</a>
                                     <a href="<?php echo ABSOLUTE_URL; ?>/sources/client/logout.php" class="block px-4 py-2 text-sm text-explain" role="menuitem" tabindex="-1" id="menu-item-2"><i class="fa-solid fa-gear"></i>ログアウト</a>
                                 </div>

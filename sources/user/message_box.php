@@ -113,7 +113,7 @@ class cmain_node extends cnode
 
         if (in_array($file_type, $allowed_types)) {
             if (!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0755, true);
+                mkdir($upload_dir, 0777, true);
             }
             $file_extension = pathinfo($image['name'], PATHINFO_EXTENSION);
             $file_name = uniqid() . '.' . $file_extension;
@@ -215,8 +215,15 @@ class cmain_node extends cnode
                 <?php endif; ?>
 
                 <?php if ($this->is_room_closed) : ?>
-                    <div class="flex items-center justify-center">
-                        <p>期限切れのルームです。</p>
+                    <div class="flex items-center justify-center p-4">
+                        <div class="bg-gradient-to-r from-[#fccc62] via-[#004434] to-[#e3ece9] rounded-lg shadow-lg p-1">
+                            <div class="bg-whitecolor rounded-lg p-4 flex items-center space-x-3">
+                                <svg class="w-6 h-6 text-[#004434]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-[#004434] font-semibold">このルームは閉じられています。新しいメッセージを送信できません。</p>
+                            </div>
+                        </div>
                     </div>
                 <?php else : ?>
                     <!-- メッセージ入力フォーム -->
@@ -253,8 +260,8 @@ class cmain_node extends cnode
                         <!-- クライアントのメッセージ -->
                         <div class="mb-4 ml-8 flex justify-start">
                             <div class="w-full md:w-3/4">
-                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
-                                <div class="mt-1 rounded-r-3xl bg-blue-100 p-3">
+                                <p class="text-right text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
+                                <div class="mt-1 rounded-r-3xl bg-lightaccent p-3">
                                     <p class="text-right text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
                                         <?php
@@ -288,7 +295,7 @@ class cmain_node extends cnode
                                     </form>
                                     </p>
                                 <?php endif; ?>
-                                <div class="mt-1 rounded-l-3xl bg-green-100 p-3">
+                                <div class="mt-1 rounded-l-3xl bg-lightsub p-3">
                                     <p class="text-left text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
                                         <img src="<?= htmlspecialchars($message['image']) ?>" alt="添付画像" class="mt-2 max-w-full h-auto">
