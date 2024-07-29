@@ -261,7 +261,7 @@ class cmain_node extends cnode
                         <div class="mb-4 ml-8 flex justify-start">
                             <div class="w-full md:w-3/4">
                                 <p class="text-right text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
-                                <div class="mt-1 rounded-r-3xl bg-lightsub p-3">
+                                <div class="mt-1 rounded-r-3xl bg-green-100 p-3">
                                     <p class="text-right text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
                                         <img src="<?= htmlspecialchars($message['image']) ?>" alt="添付画像" class="mt-2 max-w-full h-auto">
@@ -284,7 +284,7 @@ class cmain_node extends cnode
                                     </form>
                                     </p>
                                 <?php endif; ?>
-                                <div class="mt-1 rounded-l-3xl bg-lightaccent p-3">
+                                <div class="mt-1 rounded-l-3xl bg-blue-100 p-3">
                                     <p class="text-left text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
                                         <?php
