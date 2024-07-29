@@ -7,6 +7,8 @@
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
+//以下はセッション管理用のインクルード
+require_once("../common/auth_client.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -73,6 +75,11 @@ class cmain_node extends cnode
         // セッションメッセージの取得と削除
         $this->success_message = $_SESSION['success_message'] ?? '';
         $this->error_message = $_SESSION['error_message'] ?? '';
+
+        if (isset($_SESSION['error_message']) && $_SESSION['error_message'] == "ユーザーIDまたはルームIDが設定されていません。") {
+            $this->error_message = "" ?? '';
+        }
+
         unset($_SESSION['success_message'], $_SESSION['error_message']);
     }
 
