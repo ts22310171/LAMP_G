@@ -62,9 +62,9 @@ class cmain_node extends cnode
                 $room = new croom();
                 $room_name = isset($_POST['name']) ? $_POST['name'] : 'デフォルトルーム';
                 $client_id = isset($_SESSION['client']['id']) ? $_SESSION['client']['id'] : 1;
-                $new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name, $_SESSION['user']['plan_id']);
+                $this->new_room = $room->create_room(false, $user_id, $client_id, $result, $room_name, $_SESSION['user']['plan_id']);
 
-                if (!$new_room) {
+                if (!$this->new_room) {
                     $this->error_message = "ルームの作成に失敗しました。";
                 }
             } else {
@@ -214,8 +214,11 @@ class cmain_node extends cnode
                     <p>金額: <?php echo htmlspecialchars($this->plan['price'], ENT_QUOTES, 'UTF-8'); ?>円</p>
                     <p>期間: <?php echo htmlspecialchars($this->plan['duration'], ENT_QUOTES, 'UTF-8'); ?>日間</p>
                 </div>
-                <a href="../index.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                </a>
+                <button type="button" onclick="location.href='<?php echo ABSOLUTE_URL . '/sources/user/message_list.php'; ?>'" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                    チャット
+                </button>
+
+                </form>
             <?php endif; ?>
 
         </div>
