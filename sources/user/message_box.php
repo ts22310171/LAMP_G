@@ -259,7 +259,7 @@ class cmain_node extends cnode
                                     <?php if (!empty($message['image'])) : ?>
                                         <?php
                                         // 画像のフルパスを構築
-                                        $image_path = $_SERVER['DOCUMENT_ROOT'] . $message['image'];
+                                        $image_path = $message['image'];
                                         // 画像ファイルが存在するか確認
                                         if (file_exists($image_path)) :
                                         ?>
@@ -268,7 +268,7 @@ class cmain_node extends cnode
                                             <p class="text-red-500">画像が見つかりません</p>
                                         <?php endif; ?>
                                         <!-- デバッグ情報 -->
-                                        <p class="text-xs text-gray-500">画像パス: <?= htmlspecialchars($image_path) ?></p>
+                                        <!-- <p class="text-xs text-gray-500">画像パス: <?= htmlspecialchars($image_path) ?></p> -->
                                     <?php endif; ?>
                                 </div>
                             </div>
