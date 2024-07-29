@@ -5,6 +5,8 @@ if (!isset($_SESSION)) {
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
+//以下はセッション管理用のインクルード
+require_once("../common/auth_user.php");
 
 $page_obj = null;
 if (isset($_GET['room_id'])) {
