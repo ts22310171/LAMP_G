@@ -69,7 +69,7 @@ class cmain_footer extends cnode
           <div class="mx-auto w-full max-w-screen-xl flex-col p-4 md:flex md:items-center md:justify-between">
             <ul class="mt-3 flex flex-wrap items-center text-base sm:mb-10 text-explain">
               <li>
-                <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/privacy.html" class="hover:underline"> プライバシーポリシー</a>
+                <a href="<?php echo ABSOLUTE_URL; ?>/sources/user/privacy.php" class="hover:underline"> プライバシーポリシー</a>
               </li>
               <li>
               <li>

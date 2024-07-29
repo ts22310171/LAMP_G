@@ -45,16 +45,33 @@ class cmain_node extends cnode
 
         $room_obj = new croom();
 
+        // POSTリクエストで閉じるボタンが押された場合の処理
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close_room_id'])) {
+            $close_room_id = $_POST['close_room_id'];
+            $result = $room_obj->update_room_status(false, $close_room_id, 'closed');
+            if ($result) {
+                $_SESSION['success_message'] = "ルームを閉じました。";
+            } else {
+                $_SESSION['error_message'] = "ルームを閉じることができませんでした。";
+            }
+            // リダイレクトして再度ページを読み込む
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        }
+
         // ユーザーのすべてのルームを取得
         $all_rooms = $room_obj->get_user_rooms(false, $user_id);
 
         // 現在の日時を取得
         $current_date = date('Y-m-d');
 
+        $this->active_rooms = array();
+        $this->expired_rooms = array();
+
         foreach ($all_rooms as $room) {
             // ルームの有効期限をチェック
             if ($room['expiry_date'] <= $current_date) {
-                // 期限が切れている場合、ステータスを "expired" に更新
+                // 期限が切れている場合、ステータスを "closed" に更新
                 if ($room['status'] !== 'closed') {
                     $room_obj->update_room_status(false, $room['id'], 'closed');
                     $room['status'] = 'closed'; // 更新後のステータスを反映
@@ -67,6 +84,11 @@ class cmain_node extends cnode
                 $this->expired_rooms[] = $room;
             }
         }
+
+        // セッションメッセージの取得と削除
+        $this->success_message = $_SESSION['success_message'] ?? '';
+        $this->error_message = $_SESSION['error_message'] ?? '';
+        unset($_SESSION['success_message'], $_SESSION['error_message']);
     }
     //--------------------------------------------------------------------------------------
     /*!
@@ -108,6 +130,17 @@ class cmain_node extends cnode
         <body class="bg-main flex flex-col min-h-screen">
             <div class="container mx-auto p-4">
                 <h1 class="text-2xl font-bold mb-4">断捨離相談メッセージ</h1>
+                <?php if ($this->success_message) : ?>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <?php echo htmlspecialchars($this->success_message); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($this->error_message) : ?>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <?php echo htmlspecialchars($this->error_message); ?>
+                    </div>
+                <?php endif; ?>
                 <div class="mb-4">
                     <button id="activeTabBtn" class="bg-blue-500 text-white px-4 py-2 rounded-l-lg focus:outline-none">有効なプラン</button>
                     <button id="expiredTabBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-r-lg focus:outline-none">期限切れのプラン</button>
@@ -121,9 +154,15 @@ class cmain_node extends cnode
                                     <p class="text-sm text-gray-500"><?php echo htmlspecialchars($room['created_at']); ?></p>
                                     <p class="text-xs text-green-600">有効期限: <?php echo htmlspecialchars($room['expiry_date']); ?></p>
                                 </a>
-                                <button data-room-id="<?php echo $room['id']; ?>" class="close-room-btn bg-red-500 text-white px-3 py-1 rounded-lg ml-4 hover:bg-red-600">閉じる</button>
+                                <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="inline">
+                                    <input type="hidden" name="close_room_id" value="<?php echo $room['id']; ?>">
+                                    <button type="submit" class="close-room-btn bg-red-500 text-white px-3 py-1 rounded-lg ml-4 hover:bg-red-600" onclick="return confirm('本当にこのルームを閉じますか？');">閉じる</button>
+                                </form>
                             </div>
                         <?php endforeach; ?>
+                        <?php if (empty($this->active_rooms)) : ?>
+                            <a href="../index.php" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" id="renewPlanBtn">ルームの作成</a>
+                        <?php endif; ?>
                     </div>
                     <div id="expiredMessages" class="hidden divide-y divide-gray-200">
                         <?php foreach ($this->expired_rooms as $room) : ?>
@@ -137,12 +176,6 @@ class cmain_node extends cnode
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <?php if (!empty($this->active_rooms)) : ?>
-                    <a href="message_detail.php?new=1" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">新しい相談を始める</a>
-                <?php endif; ?>
-                <?php if (empty($this->active_rooms)) : ?>
-                    <a href="renew_plan.php" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" id="renewPlanBtn">プランを更新する</a>
-                <?php endif; ?>
             </div>
             <script src="../js/message_list.js"></script>
         </body>

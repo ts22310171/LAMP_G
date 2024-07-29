@@ -79,4 +79,31 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
   });
+  document.querySelectorAll(".close-room-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const roomId = this.getAttribute("data-room-id");
+      if (confirm("本当にこのルームを閉じますか？")) {
+        fetch("close_room.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: "room_id=" + roomId,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              alert("ルームを閉じました。");
+              location.reload();
+            } else {
+              alert("ルームを閉じることができませんでした。");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("ルームを閉じることができませんでした。");
+          });
+      }
+    });
+  });
 });

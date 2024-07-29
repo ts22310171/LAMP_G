@@ -20,6 +20,7 @@ class cmain_node extends cnode
     public $messages;
     public $error_message = "";
     public $success_message = "";
+    public $is_room_closed = false;
 
     //--------------------------------------------------------------------------------------
     /*!
@@ -48,6 +49,13 @@ class cmain_node extends cnode
         if (!$user_id || !$room_id) {
             $_SESSION['error_message'] = "ユーザーIDまたはルームIDが設定されていません。";
             return;
+        }
+
+        $room_db = new croom();
+        $this->room = $room_db->get_room(false, $room_id);
+
+        if ($this->room['status'] === 'closed') {
+            $this->is_room_closed = true;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -88,13 +96,6 @@ class cmain_node extends cnode
         $this->error_message = $_SESSION['error_message'] ?? "";
         $this->success_message = $_SESSION['success_message'] ?? "";
         unset($_SESSION['error_message'], $_SESSION['success_message']);
-
-        $room_db = new croom();
-        $this->room = $room_db->get_active_room(false, $user_id);
-
-        if (!$this->room) {
-            $this->error_message = "アクティブなルームがありません。";
-        }
     }
 
 
@@ -213,25 +214,32 @@ class cmain_node extends cnode
                     </div>
                 <?php endif; ?>
 
-                <!-- メッセージ入力フォーム -->
-                <div class="flex justify-center items-center">
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="w-full max-w-3xl bg-white p-4 rounded-lg shadow">
-                        <input type="hidden" name="room_id" value="<?= htmlspecialchars($_SESSION['user']['room_id']) ?>">
-                        <div class="flex items-center space-x-2">
-                            <!-- カメラアイコンボタン -->
-                            <input type="file" id="image-upload" name="image" accept="image/*" class="hidden" />
-                            <label for="image-upload" class="cursor-pointer p-2 bg-gray-300 rounded-lg text-gray-500 hover:bg-gray-400 flex items-center justify-center w-12 h-12">
-                                <i class="fa fa-camera"></i>
-                            </label>
-                            <!-- テキストエリア -->
-                            <textarea id="content" name="content" placeholder="メッセージを入力" class="flex-grow rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 h-12"></textarea>
-                            <!-- 送信ボタン -->
-                            <button type="submit" class="rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 h-12">送信</button>
-                        </div>
-                        <!-- 画像プレビュー表示エリア -->
-                        <div id="image-preview" class="mt-4"></div>
-                    </form>
-                </div>
+                <?php if ($this->is_room_closed) : ?>
+                    <div class="flex items-center justify-center">
+                        <p>期限切れのルームです。</p>
+                    </div>
+                <?php else : ?>
+                    <!-- メッセージ入力フォーム -->
+                    <div class="flex justify-center items-center">
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="w-full max-w-3xl bg-white p-4 rounded-lg shadow">
+                            <input type="hidden" name="room_id" value="<?= htmlspecialchars($_SESSION['user']['room_id']) ?>">
+                            <div class="flex items-center space-x-2">
+                                <!-- カメラアイコンボタン -->
+                                <input type="file" id="image-upload" name="image" accept="image/*" class="hidden" />
+                                <label for="image-upload" class="cursor-pointer p-2 bg-gray-300 rounded-lg text-gray-500 hover:bg-gray-400 flex items-center justify-center w-12 h-12">
+                                    <i class="fa fa-camera"></i>
+                                </label>
+                                <!-- テキストエリア -->
+                                <textarea id="content" name="content" placeholder="メッセージを入力" class="flex-grow rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 h-12"></textarea>
+                                <!-- 送信ボタン -->
+                                <button type="submit" class="rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 h-12">送信</button>
+                            </div>
+                            <!-- 画像プレビュー表示エリア -->
+                            <div id="image-preview" class="mt-4"></div>
+                        </form>
+                    </div>
+                <?php endif; ?>
+
             </div>
 
             <!-- メッセージ表示エリア -->
@@ -245,7 +253,7 @@ class cmain_node extends cnode
                         <!-- クライアントのメッセージ -->
                         <div class="mb-4 ml-8 flex justify-start">
                             <div class="w-full md:w-3/4">
-                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?><a> 削除</a></p>
+                                <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
                                 <div class="mt-1 rounded-r-3xl bg-blue-100 p-3">
                                     <p class="text-right text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>
@@ -269,13 +277,17 @@ class cmain_node extends cnode
                         <!-- アドバイザー（ユーザー）のメッセージ -->
                         <div class="mb-4 mr-8 flex justify-end">
                             <div class="w-full md:w-3/4">
-                                <p class="text-left text-xs md:text-sm text-gray-600">
-                                    <?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?>
-                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="inline">
-                                    <input type="hidden" name="delete_message_id" value="<?= $message['id'] ?>">
-                                    <button type="submit" class="text-red-500 hover:underline">削除</button>
-                                </form>
-                                </p>
+                                <?php if ($this->is_room_closed) : ?>
+                                    <p class="text-left text-xs md:text-sm text-gray-600"><?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?></p>
+                                <?php else : ?>
+                                    <p class="text-left text-xs md:text-sm text-gray-600">
+                                        <?= htmlspecialchars($message['sender_name']) ?> | <?= $message['created_at'] ?>
+                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="inline">
+                                        <input type="hidden" name="delete_message_id" value="<?= $message['id'] ?>">
+                                        <button type="submit" class="text-red-500 hover:underline">削除</button>
+                                    </form>
+                                    </p>
+                                <?php endif; ?>
                                 <div class="mt-1 rounded-l-3xl bg-green-100 p-3">
                                     <p class="text-left text-xs md:text-sm"><?= htmlspecialchars($message['content']) ?></p>
                                     <?php if (!empty($message['image'])) : ?>

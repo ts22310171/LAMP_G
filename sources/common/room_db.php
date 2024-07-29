@@ -121,13 +121,9 @@ class croom extends crecord
 
         $sql = 'SELECT * FROM rooms WHERE id = :room_id';
         $params = array(':room_id' => $room_id);
-        $result = $this->select_query($debug, $sql, $params);
+        $this->select_query($debug, $sql, $params);
 
-        if ($result) {
-            return $result[0];
-        } else {
-            return false;
-        }
+        return $this->fetch_assoc();
     }
 
     //--------------------------------------------------------------------------------------
